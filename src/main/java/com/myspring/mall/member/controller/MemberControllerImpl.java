@@ -36,6 +36,23 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	@Autowired
 	private MemberVO memberVO;
 	
+	@RequestMapping(value= {"/", "/main.do"}, method=RequestMethod.GET)
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		//String viewName = getViewName(request);
+		System.out.println("viewName : "+viewName);
+		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+	
+	@RequestMapping(value= {"/member/membershipForm.do"}, method=RequestMethod.GET)
+	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		System.out.println("viewName : "+viewName);
+		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+	
 	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName"); 
@@ -47,17 +64,6 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		
 		return mav;
 	}
-	
-	
-	@RequestMapping(value= {"/", "/main.do"}, method=RequestMethod.GET)
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String)request.getAttribute("viewName");
-		//String viewName = getViewName(request);
-		System.out.println("viewName : "+viewName);
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
-	}
-	
 	
 	private String getViewName(HttpServletRequest request)  throws Exception{
 		String contextPath = request.getContextPath();
