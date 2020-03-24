@@ -1,4 +1,4 @@
-package com.myspring.mall.member.dao;
+package com.myspring.mall.admin.member.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import com.myspring.mall.member.vo.MemberVO;
 
 
 
-@Repository("memberDAO")
+@Repository("adminMemberDAO")
 public class MemberDAOImpl implements MemberDAO{
 	@Autowired
 	private SqlSession sqlSession;
@@ -35,7 +35,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public List selectMemberById(String userId) {
 		List<MemberVO> membersList = null;
-		membersList = sqlSession.selectList("mapper.member.selectMemberById");
+		membersList = sqlSession.selectList("mapper.member.selectMemberById", userId);
 		return membersList;
 	}
 

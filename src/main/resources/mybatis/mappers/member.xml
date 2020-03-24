@@ -4,11 +4,20 @@
 
 <mapper namespace="mapper.member">
 	<resultMap id="memResult" type="memberVO">
-		<result property="id" column="id"></result>
-		<result property="pw" column="pw"></result>
-		<result property="name" column="name"></result>
-		<result property="email" column="email"></result>
-		<result property="joinDate" column="joinDate"></result>
+		<result property="userId" column="userId"></result>
+		<result property="userId" column="userPw"></result>
+		<result property="userId" column="userName"></result>
+		<result property="userId" column="userEmail"></result>
+		<result property="userId" column="userBirth"></result>
+		<result property="userId" column="userTel1"></result>
+		<result property="userId" column="userTel2"></result>
+		<result property="userId" column="userTel3"></result>
+		<result property="userId" column="userAdd1"></result>
+		<result property="userId" column="userAdd2"></result>
+		<result property="userId" column="userAdd3"></result>
+		<result property="userId" column="userjoinDate"></result>
+		<result property="userId" column="adminMode"></result>
+				
 	</resultMap>
 	
 	<select id="selectAllMemberList" resultMap="memResult">
@@ -16,6 +25,22 @@
 			select * from t_member order by joinDate desc
 		]]>
 	</select>
+	
+	<select id="selectMemberById" parameterType="String" resultMap="memResult">
+		<![CDATA[
+			select * from Study_Member where userId = #{userId}
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+		<![CDATA[
+			insert into Study_Member
+			(userId, userPw, userName, userEmail, userBirth, userTel1, userTel2, userTel3, 
+			userAdd1, userAdd2, userAdd3, joinDate, adminMode)  
+			values(#{userId},#{userPw},#{userName},#{userEmail},#{userBirth},#{userTel1},#{userTel2},#{userTel3},
+			#{userAdd1},#{userAdd2},#{userAdd3},sysdate,#{adminMode})
+		]]>
+	</insert>
 </mapper>
 
 

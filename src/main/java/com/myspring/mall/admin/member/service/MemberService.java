@@ -1,4 +1,4 @@
-package com.myspring.mall.member.service;
+package com.myspring.mall.admin.member.service;
 
 import java.util.List;
 

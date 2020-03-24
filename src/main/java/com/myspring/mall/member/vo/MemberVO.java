@@ -2,6 +2,7 @@ package com.myspring.mall.member.vo;
 
 import java.sql.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component("memberVO")
@@ -17,7 +18,9 @@ public class MemberVO {
 	private String userAdd1;
 	private String userAdd2;
 	private String userAdd3;
+	@DateTimeFormat(pattern = "yyyyMMdd")
 	private Date joinDate;
+	private int adminMode;
 	
 	// Setter & Getter
 	public String getUserId() {
@@ -91,5 +94,26 @@ public class MemberVO {
 	}
 	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
+	}
+	public int getAdminMode() {
+		return adminMode;
+	}
+	public void setAdminMode(int adminMode) {
+		this.adminMode = adminMode;
+	}
+	
+	@Override
+	public String toString() {
+		String out = "";
+		out += "1. userId : " + userId + "\n";
+		out += "2. userPw : " + userPw + "\n";
+		out += "3. userName : " + userName + "\n";
+		out += "4. userEmail : " + userEmail + "\n";
+		out += "5. userBirth : " + userBirth.toString() + "\n";
+		out += "6. userTel : " + userTel1 + " - " + userTel2 + " - " + userTel3 + "\n";
+		out += "7. userAdd : " + userAdd1 + " - " + userAdd2 + " - " + userAdd3 + "\n";
+		out += "8. joinDate : " + joinDate.toString() + "\n";
+		out += "9. adminMode : " + adminMode + "\n";
+		return out;
 	}
 }

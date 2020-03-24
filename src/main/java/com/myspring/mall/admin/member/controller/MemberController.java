@@ -1,4 +1,4 @@
-package com.myspring.mall.member.controller;
+package com.myspring.mall.admin.member.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

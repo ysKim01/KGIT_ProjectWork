@@ -1,4 +1,4 @@
-package com.myspring.mall.member.dao;
+package com.myspring.mall.admin.member.dao;
 
 import java.util.List;
 

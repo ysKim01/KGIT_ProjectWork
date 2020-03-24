@@ -1,4 +1,4 @@
-package com.myspring.mall.member.service;
+package com.myspring.mall.admin.member.service;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myspring.mall.member.dao.MemberDAO;
+import com.myspring.mall.admin.member.dao.MemberDAO;
 import com.myspring.mall.member.vo.MemberVO;
 
 
-@Service("memberService")
+@Service("adminMemberService")
 @Transactional(propagation=Propagation.REQUIRED)
 public class MemberServiceImpl implements MemberService{
 	@Autowired

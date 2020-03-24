@@ -1,4 +1,4 @@
-package com.myspring.mall.member.controller;
+package com.myspring.mall.admin.member.controller;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -24,19 +24,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myspring.mall.common.ControllData;
-import com.myspring.mall.member.service.MemberService;
+import com.myspring.mall.admin.member.service.MemberService;
 import com.myspring.mall.member.vo.MemberVO;
 
 import oracle.jdbc.proxy.annotation.GetProxy;
 
-@Controller("memberController")
+@RestController
+@Controller("adminMemberController")
 @EnableAspectJAutoProxy
+@RequestMapping("/admin")
 public class MemberControllerImpl extends MultiActionController implements MemberController{
 	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
 	@Autowired
@@ -47,7 +50,7 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	private static ControllData conData = new ControllData();
 	
 	// 메인 화면
-	@RequestMapping(value= {"/", "/main.do"}, method=RequestMethod.GET)
+	@RequestMapping(value= {"", "/main.do"}, method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
 		//String viewName = getViewName(request);
@@ -58,7 +61,7 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	
 	// ================================== 회원가입 ==================================
 	// 회원가입 창
-	@RequestMapping(value= {"/member/membershipForm.do"}, method=RequestMethod.GET)
+	@RequestMapping(value= {"/membershipForm.do"}, method=RequestMethod.GET)
 	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("viewName : "+viewName);
@@ -71,10 +74,12 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		return mav;
 	}
 	// 아이디 중복확인
-	@RequestMapping(value= {"/member/isValidId.do"}, method=RequestMethod.POST)
+	@RequestMapping(value= {"/overlapped.do"}, method=RequestMethod.POST)
 	public ResponseEntity<Boolean> isValidId(@RequestBody String userId) throws Exception {
+		System.out.println("isValidId Call");
 		ResponseEntity<Boolean> resEntity = null;
-		boolean isValidId = memberService.isValidId(userId);
+		System.out.println("userId는 이거 " + userId);
+		boolean isValidId = memberService.isValidId("aa");
 		
 		try {
 			resEntity = new ResponseEntity<Boolean>(isValidId, HttpStatus.OK);
@@ -85,7 +90,7 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		return resEntity;
 	}
 	// 회원 추가
-	@RequestMapping(value= {"/member/addMember.do"}, method=RequestMethod.POST)
+	@RequestMapping(value= {"/addMember.do"}, method=RequestMethod.POST)
 	public ModelAndView addMember(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody MemberVO member) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -100,7 +105,7 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		return mav;
 	}
 	// 회원조회
-	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
+	@RequestMapping(value="/listMembers.do", method=RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName"); 
 		System.out.println("viewName : "+viewName);
