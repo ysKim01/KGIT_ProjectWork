@@ -132,8 +132,8 @@
         $.ajax({
             type:"post",
             async:false,
-            url:"${contextPath}/member/addMember.do",
-            dataType:"text",
+            url:"${contextPath}/admin/addMember.do",
+            contentType:"application/json",
             data:JSON.stringify(adminAddMemberInfo),
             success:function(data, textStatus){
                 alert(userName+"님의 가입을 환영합니다.");

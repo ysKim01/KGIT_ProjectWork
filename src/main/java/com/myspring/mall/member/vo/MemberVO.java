@@ -109,10 +109,12 @@ public class MemberVO {
 		out += "2. userPw : " + userPw + "\n";
 		out += "3. userName : " + userName + "\n";
 		out += "4. userEmail : " + userEmail + "\n";
-		out += "5. userBirth : " + userBirth.toString() + "\n";
+		if(userBirth != null)
+			out += "5. userBirth : " + userBirth.toString() + "\n";
 		out += "6. userTel : " + userTel1 + " - " + userTel2 + " - " + userTel3 + "\n";
 		out += "7. userAdd : " + userAdd1 + " - " + userAdd2 + " - " + userAdd3 + "\n";
-		out += "8. joinDate : " + joinDate.toString() + "\n";
+		if(joinDate != null)
+			out += "8. joinDate : " + joinDate.toString() + "\n";
 		out += "9. adminMode : " + adminMode + "\n";
 		return out;
 	}

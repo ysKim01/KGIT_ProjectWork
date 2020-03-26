@@ -20,12 +20,6 @@
 				
 	</resultMap>
 	
-	<select id="selectAllMemberList" resultMap="memResult">
-		<![CDATA[
-			select * from t_member order by joinDate desc
-		]]>
-	</select>
-	
 	<select id="selectMemberById" parameterType="String" resultMap="memResult">
 		<![CDATA[
 			select * from Study_Member where userId = #{userId}
@@ -41,6 +35,137 @@
 			#{userAdd1},#{userAdd2},#{userAdd3},sysdate,#{adminMode})
 		]]>
 	</insert>
+	
+	<select id="selectAllMemberList" resultMap="memResult">
+		<![CDATA[
+			select * from t_member order by joinDate desc
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Id" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, joinDate, adminMode 
+		from Study_Member where userId = #{userId} 
+		]]>
+		<where>
+		<choose>
+			<when test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+			</when>
+			<when test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]> 
+			</when>
+			<when test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]> 
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Name" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, joinDate, adminMode 
+		from Study_Member where userName = #{userName} 
+		]]>
+		<where>
+		<choose>
+			<when test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+			</when>
+			<when test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]> 
+			</when>
+			<when test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]> 
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Tel" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, joinDate, adminMode 
+		from Study_Member 
+		where userTel1 = #{userTel.userTel1} 
+		and   userTel2 = #{userTel.userTel2} 
+		and   userTel3 = #{userTel.userTel3} 
+		]]>
+		<where>
+		<choose>
+			<when test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+			</when>
+			<when test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]> 
+			</when>
+			<when test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]> 
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_None" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, joinDate, adminMode 
+		from Study_Member where 1=1  
+		]]>
+		<where>
+		<choose>
+			<when test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+			</when>
+			<when test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]> 
+			</when>
+			<when test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]> 
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		]]>
+	</select>
+	
+	<update id="modMember" parameterType="memberVO">
+		<![CDATA[
+		update Study_Member set 
+		userPw = #{userPw},
+		userName = #{userName},
+		userEmail = #{userEmail},
+		userBirth = #{userBirth},
+		userTel1 = #{userTel1},
+		userTel2 = #{userTel2},
+		userTel3 = #{userTel3},
+		userAdd1 = #{userAdd1},
+		userAdd2 = #{userAdd2},
+		userAdd3 = #{userAdd3},
+		adminMode = #{adminMode}
+		]]>
+	</update>
+	
 </mapper>
 
 
