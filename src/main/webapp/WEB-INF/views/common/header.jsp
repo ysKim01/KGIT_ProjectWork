@@ -13,6 +13,7 @@
 <title>헤더</title>
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/reset.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminTop.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${contextPath }/resources/js/main.js"></script>
 </head>
 <body><header>

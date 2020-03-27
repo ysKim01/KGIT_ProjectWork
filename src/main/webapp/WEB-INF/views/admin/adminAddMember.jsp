@@ -308,8 +308,8 @@
             data:JSON.stringify(adminAddMemberInfo),
             success:function(data, textStatus){
                 console.log(textStatus);
-                alert(userName+"님의 가입을 환영합니다.");
-                window.close();
+                alert(adminAddMemberInfo.userName+"님의 가입을 환영합니다.");
+                window.location.href="${contextPath}/admin/listMembers.do";
             }
 
         })

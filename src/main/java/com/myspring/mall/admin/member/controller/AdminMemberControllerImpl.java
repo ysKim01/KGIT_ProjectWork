@@ -54,7 +54,7 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	private static ControllData conData = new ControllData();
 	
 	// ===========================================================================
-	//                                    메인
+	// 1. 메인
 	// ===========================================================================
 	@RequestMapping(value= {"", "/main.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,9 +66,8 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		return mav;
 	}
 	
-	
 	/* ===========================================================================
-	 *                                   회원등록 창 
+	 * 2. 회원등록 창 
 	 * ---------------------------------------------------------------------------
 	 * > 입력 : -
 	 * > 출력 : List<MemberVO>
@@ -86,8 +85,9 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		System.out.println("[info] admin/controller/membershipForm> End ====================\n");
 		return mav;
 	}
+	
 	/* ===========================================================================
-	 *                                 아이디 중복 확인 
+	 * 3. 아이디 중복 확인 
 	 * ---------------------------------------------------------------------------
 	 * > 입력 : userId
 	 * > 출력 : boolean
@@ -109,8 +109,9 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		System.out.println("[info] admin/controller/isValidId> End ====================\n");
 		return resEntity;
 	}
+	
 	/* ===========================================================================
-	 *                                   회원 등록 
+	 * 4. 회원 등록 
 	 * ---------------------------------------------------------------------------
 	 * > 입력 : userId
 	 * > 출력 : boolean
@@ -133,68 +134,69 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	}
 	
 	/* ===========================================================================
-	 *                                   회원목록 
+	 * 5. 회원목록 
 	 * ---------------------------------------------------------------------------
-	 * > 입력 : SearchInfo
+	 * > 입력 :	/listMembers.do -> -(aTag/get)
+	 * 		 	/searchResult.do -> List<MemberVO>(redirect)
 	 * > 출력 : List<MemberVO>
 	 * > 이동 페이지 : /admin/adminMembers.jsp (회원목록 창 - 실제페이지)
 	 * > 설명 : 
 	 * 		- 회원 목록 전달
 	 ===========================================================================*/
-	@RequestMapping(value="/listMembers.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute SearchInfoVO searchInfo) throws Exception {
-		System.out.println("[info] admin/controll/listMembersForm> Start ==================");
+	@RequestMapping(value={"/listMembers.do", "/searchResult.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("[info] admin/controll/listMembers> Start ==================");
 		String viewName = (String)request.getAttribute("viewName"); 
 		System.out.println("viewName : "+viewName);
-
-		List<MemberVO> membersList = adminMemberService.listMembersByFiltered(searchInfo);
+		
+		List<MemberVO> membersList = new ArrayList<MemberVO>();
+		if(viewName.equals("/admin/listMembers")) {
+			membersList = adminMemberService.listMembers();
+		}else {
+			membersList = (List<MemberVO>)request.getAttribute("membersList");
+		}
+		if(membersList!=null) {
+			for(MemberVO member : membersList){
+			System.out.println(member.toString());
+			}
+		}else {
+			System.out.println("리스트에 값이 없음");
+		}
+		
 		
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("membersList",membersList);
-		System.out.println("[info] admin/controll/listMembersForm> End ====================\n");
+		System.out.println("[info] admin/controll/listMembers> End ====================\n");
 		return mav;
 	}
 	
+	/* ===========================================================================
+	 * 6. 회원검색 
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : SearchInfo (submit/get)
+	 * > 출력 : List<MemberVO>
+	 * > 이동 페이지 : /admin/searchResult.do (회원목록)
+	 * > 설명 : 
+	 * 		- 조건에 맞는 회원 검색 후,회원 목록 전달
+	 ===========================================================================*/
+	@RequestMapping(value={"/searchMembers.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public void searchMembers(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute SearchInfoVO searchInfo) throws Exception {
+		System.out.println("[info] admin/controll/searchMembers> Start ==================");
+		String nextPage = "/admin/searchResult.do";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+		
+		List<MemberVO> membersList = adminMemberService.listMembersByFiltered(searchInfo);
+		request.setAttribute("membersList", membersList);
+		
+		System.out.println("[info] admin/controll/searchMembers> End ====================\n");
+		dispatcher.forward(request, response);
+	}
+	
 //	/* ===========================================================================
-//	 *                                 회원정보 불러오기
+//	 * 6. 회원 정보 수정 창
 //	 * ---------------------------------------------------------------------------
-//	 * > 입력 : MemberVO, Filter값 / submit
-//	 * > 출력 : MemberVO, Filter값
-//	 * > 이동 페이지 : /admin/modMemberForm.do (회원정보 수정창)
-//	 * > 설명 : 
-//	 * 		- 수정할 회원 정보를 전달
-//	 * 		- 이전 검색필터 전달
-//	 ===========================================================================*/
-//	@RequestMapping(value="/showMemberInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public void showMemberInfo(HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam(value="searchFilter", required=false) String searchFilter,
-//			@RequestParam(value="searchContent", required=false) String searchContent,
-//			@RequestParam(value="adminMode", required=false) Integer adminMode,
-//			@RequestParam(value="joinStart", required=false) @DateTimeFormat(pattern="yyyyMMdd") Date joinStart,
-//			@RequestParam(value="joinEnd", required=false) @DateTimeFormat(pattern="yyyyMMdd") Date joinEnd,
-//			@RequestParam(value="page", required=false) Integer page,
-//			@ModelAttribute(value="") MemberVO member) throws Exception 
-//	{
-//		System.out.println("[info] admin/controller/showMemberInfo> Start ==================");
-//		String nextPage = "/admin/modMemberForm.do";
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-//		
-//		request.setAttribute("searchFilter", searchFilter);
-//		request.setAttribute("searchContent", searchContent);
-//		request.setAttribute("adminMode", adminMode);
-//		request.setAttribute("joinStart", joinStart);
-//		request.setAttribute("joinEnd", joinEnd);
-//		request.setAttribute("page", page);
-//		request.setAttribute("member", member);
-//		
-//		dispatcher.forward(request, response);
-//		System.out.println("[info] admin/controller/showMemberInfo> End ====================\n");
-//	}
-//	/* ===========================================================================
-//	 *                                 회원수정 창
-//	 * ---------------------------------------------------------------------------
-//	 * > 입력 : MemberVO, Filter값 
+//	 * > 입력 : MemberVO, Filter값 (post)
 //	 * > 출력 : MemberVO, Filter값
 //	 * > 이동 페이지 : /admin/modMemberForm.jsp (회원정보 수정창 - 실제페이지)
 //	 * > 설명 : 
@@ -227,6 +229,7 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 //		System.out.println("[info] admin/controller/modMember> End ====================\n");
 //		return mav;
 //	}
+//	
 //	/* ===========================================================================
 //	 *                                   회원수정 
 //	 * ---------------------------------------------------------------------------

@@ -17,14 +17,16 @@ import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 public interface AdminMemberController {
-	// admin main
+	// 1. admin main
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	// 회원 등록 창
+	// 2. 회원 등록 창
 	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	// 아이디 중복확인
+	// 3. 아이디 중복확인
 	public ResponseEntity<Boolean> isValidId(@RequestParam("userId") String userId) throws Exception;
-	// 회원 등록
+	// 4. 회원 등록
 	public void addMember(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberVO member) throws Exception;
-	// 회원 목록
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("searchInfo") SearchInfoVO searchInfo) throws Exception;
+	// 5. 회원 목록
+	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public void searchMembers(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute SearchInfoVO searchInfo) throws Exception;
 } 
