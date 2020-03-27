@@ -193,6 +193,36 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		dispatcher.forward(request, response);
 	}
 	
+	/* ===========================================================================
+	 * 7. 다중회원삭제 
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : List<MemberVO>, Filter (ajax/???)
+	 * > 출력 : filter 
+	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
+	 * 
+	 * > 설명 : 삭제할 회원을 받아 삭제
+	 * 		관련 테이블 
+	 *		- Study_Member
+	 *		- Study_Reserve
+	 *		- Study_Favorite
+	 *		- Study_CustomerService
+	 ===========================================================================*/
+	@RequestMapping(value={"/delMembersList.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public void delMembersList(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam Map<String,Object> map) throws Exception {
+		System.out.println("[info] admin/controller/delMember> Start ==================");
+		String nextPage = "/admin/main.do";
+		
+		MemberVO member = (MemberVO)map.get("0");
+		System.out.println(member.toString());
+		
+		//int result = adminMemberService.modMember(member);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+		dispatcher.forward(request, response);
+		System.out.println("[info] admin/controller/delMember> End ====================\n");
+	}
+	
 //	/* ===========================================================================
 //	 * 6. 회원 정보 수정 창
 //	 * ---------------------------------------------------------------------------
@@ -293,36 +323,7 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 //		dispatcher.forward(request, response);
 //		System.out.println("[info] admin/controller/delMember> End ====================\n");
 //	}
-//	/* ===========================================================================
-//	 *                                  다중회원삭제 
-//	 * ---------------------------------------------------------------------------
-//	 * > 입력 : List<MemberVO>(ajax/json)
-//	 * > 출력 : - 
-//	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
-//	 * 
-//	 * > 설명 : 수정할 회원 정보를 받아 해당id와 맞는 column을 수정 
-//	 ===========================================================================*/
-//	// ===========================================================================
-//	//                                 다중회원삭제 
-//	// ---------------------------------------------------------------------------
-//	// 1. 다중삭제
-//	// 2. 관련 테이블 삭제
-//	// 		- Study_Member
-//	// 		- Study_Reserve
-//	// 		- Study_Favorite
-//	// 		- Study_CustomerService
-//	// ===========================================================================
-//	public void delMembersList(HttpServletRequest request, HttpServletResponse response,
-//			@ModelAttribute(value="") List<MemberVO> membersList) throws Exception {
-//		System.out.println("[info] admin/controller/delMember> Start ==================");
-//		String nextPage = "/admin/main.do";
-//		
-//		//int result = adminMemberService.modMember(member);
-//		
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-//		dispatcher.forward(request, response);
-//		System.out.println("[info] admin/controller/delMember> End ====================\n");
-//	}
+
 	
 
 	

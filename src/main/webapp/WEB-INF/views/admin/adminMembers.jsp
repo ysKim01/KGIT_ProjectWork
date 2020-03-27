@@ -69,6 +69,25 @@
 			return;
 		}
 		console.log(delMemberObj);
+		if(!confirm("정말 삭제하시겠습니까?")) return;
+		$.ajax({
+			type:"get",
+			url:"${contextPath}/admin/delMembersList.do",
+			dataType:"text",
+			contentType:"application/JSON",
+			data:JSON.stringify(delMemberObj),
+			success:function(data, status){
+				alert("삭제했습니다.");
+			},
+				
+		})
+		
+	}
+	
+	function editMember(obj){
+		
+	}
+	function delMember(obj){
 		
 	}
 	
@@ -123,18 +142,10 @@
 							<th>휴대전화</th>
 							<th>이메일</th>
 							<th>가입일</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
-					<tr>
-						<td><input type="checkbox" name="memChk01" class="memChk"></td>
-						<td>sample</td>
-						<td>name</td>
-						<td>010-1234-1234</td>
-						<td>test@test.com</td>
-						<td>1994-01-01</td>
-					</tr>
-					
-					
 					<c:choose>
 						<c:when test="${membersList eq '' || empty membersList  }">
 							<tr>
@@ -150,6 +161,8 @@
 									<td>${memTable.userTel1 }-${memTable.userTel2 }-${memTable.userTel3 }</td>
 									<td>${memTable.userEmail }</td>
 									<td>${memTable.joinDate }</td>
+									<td><input type="button" class="btn_type_02" href="#" onclick="editMember(${status.index})" value="수정"></td>
+									<td><input type="button" class="btn_type_02" href="#" onclick="delMember(${status.index})" value="삭제"></td>
 								</tr>
 							</c:forEach> 
 						</c:otherwise>
