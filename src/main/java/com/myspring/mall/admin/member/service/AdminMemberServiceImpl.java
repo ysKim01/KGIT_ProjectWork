@@ -12,13 +12,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.mall.admin.member.dao.AdminMemberDAO;
+import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.common.ControllData;
 import com.myspring.mall.member.vo.MemberVO;
 
 
 @Service("adminMemberService")
 @Transactional(propagation=Propagation.REQUIRED)
-public abstract class AdminMemberServiceImpl implements AdminMemberService{
+public class AdminMemberServiceImpl implements AdminMemberService{
 	@Autowired
 	private AdminMemberDAO adminMemberDAO;
 	
@@ -50,15 +51,15 @@ public abstract class AdminMemberServiceImpl implements AdminMemberService{
 	}
 	
 	@Override
-	public List listMembersByFiltered(Map searchInfo) {
+	public List listMembersByFiltered(SearchInfoVO searchInfo) {
 		List membersList = null;
 		
-		String searchFilter = (String)searchInfo.get("searchInfo");
-		String searchContent = (String)searchInfo.get("searchContent");
-		Integer adminMode = (Integer)searchInfo.get("adminMode");
-		Date joinStart = (Date)searchInfo.get("joinStart");
-		Date joinEnd = (Date)searchInfo.get("joinEnd");
-		Integer page = (Integer)searchInfo.get("page");
+		String searchFilter = searchInfo.getSearchFilter();
+		String searchContent = searchInfo.getSearchContent();
+		Date joinStart = searchInfo.getJoinStart();
+		Date joinEnd = searchInfo.getJoinEnd();
+		Integer adminMode = searchInfo.getAdminMode();
+		Integer page = searchInfo.getPage();
 		if(page==null || page<=0) {
 			page = 1;
 		}

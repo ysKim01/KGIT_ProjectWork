@@ -70,6 +70,7 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 	@Override
 	public List selectMemberByFilter_None(Map searchMap) {
 		List<MemberVO> membersList = null;
+		System.out.println("test");
 		membersList = sqlSession.selectList("mapper.member.selectMemberByFilter_None", searchMap);
 		return membersList;
 	}

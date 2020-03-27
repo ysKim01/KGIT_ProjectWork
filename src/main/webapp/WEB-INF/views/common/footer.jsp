@@ -12,10 +12,7 @@
 <meta charset="UTF-8">
 <title>하단</title>
 <style>
-	p {
-		font-size:20px;
-		text-align:center;
-	}
+
 </style>
 </head>
 <body>

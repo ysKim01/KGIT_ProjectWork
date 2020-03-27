@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+header nav ul{
+		
+	}
+	header nav li {
+		display:inline;
+
+	}
+	header nav li.menu {
+		text-align:center;
+		margin-right:60px;
+		margin-left:60px;
+	}
+	header ul {
+		list-style-type:none;
+		margin:0;
+		padding:13px;	
+	}
+	header #top_menu {
+		float:center;
+		text-align:center;
+		height:50px;
+		background-color:#fcfcf5
+	}
+	header #top_menu a:link {
+		font-size:20px;
+		color:#888888;
+		text-decoration:none;
+	}
+	header #top_menu a:visited {
+		font-size:20px;
+		color:#888888;
+		text-decoration:none;
+	}
+	header #top_menu a:hover {
+		font-size:20px;
+		color: #404a4e;
+	}
+	header #top{
+		background-color:#7a9eb1;
+	}
+	header #top_logo{
+		text-align:left;
+	}
+	header nav img{
+		height:150px;
+	}

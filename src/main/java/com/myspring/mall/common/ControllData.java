@@ -19,7 +19,9 @@ public class ControllData {
 	
 	public boolean isEmpty(String str) {
 		boolean result = false;
-		
+		if(str == null) {
+			return true;
+		}
 		if(str.equals("") || str.length()==0) {
 			result = true;
 		}

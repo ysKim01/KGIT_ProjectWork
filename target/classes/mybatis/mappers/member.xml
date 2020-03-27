@@ -5,19 +5,18 @@
 <mapper namespace="mapper.member">
 	<resultMap id="memResult" type="memberVO">
 		<result property="userId" column="userId"></result>
-		<result property="userId" column="userPw"></result>
-		<result property="userId" column="userName"></result>
-		<result property="userId" column="userEmail"></result>
-		<result property="userId" column="userBirth"></result>
-		<result property="userId" column="userTel1"></result>
-		<result property="userId" column="userTel2"></result>
-		<result property="userId" column="userTel3"></result>
-		<result property="userId" column="userAdd1"></result>
-		<result property="userId" column="userAdd2"></result>
-		<result property="userId" column="userAdd3"></result>
-		<result property="userId" column="userjoinDate"></result>
-		<result property="userId" column="adminMode"></result>
-				
+		<result property="userPw" column="userPw"></result>
+		<result property="userName" column="userName"></result>
+		<result property="userEmail" column="userEmail"></result>
+		<result property="userBirth" column="userBirth"></result>
+		<result property="userTel1" column="userTel1"></result>
+		<result property="userTel2" column="userTel2"></result>
+		<result property="userTel3" column="userTel3"></result>
+		<result property="userAdd1" column="userAdd1"></result>
+		<result property="userAdd2" column="userAdd2"></result>
+		<result property="userAdd3" column="userAdd3"></result>
+		<result property="joinDate" column="joinDate"></result>
+		<result property="adminMode" column="adminMode"></result>
 	</resultMap>
 	
 	<select id="selectMemberById" parameterType="String" resultMap="memResult">
@@ -38,7 +37,7 @@
 	
 	<select id="selectAllMemberList" resultMap="memResult">
 		<![CDATA[
-			select * from t_member order by joinDate desc
+			select * from Study_Member order by joinDate desc
 		]]>
 	</select>
 	
@@ -64,7 +63,7 @@
 		</where>
 		<![CDATA[
 		order by joinDate desc) 
-		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
 	
@@ -90,7 +89,7 @@
 		</where>
 		<![CDATA[
 		order by joinDate desc) 
-		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
 	
@@ -119,7 +118,7 @@
 		</where>
 		<![CDATA[
 		order by joinDate desc) 
-		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
 	
@@ -145,7 +144,7 @@
 		</where>
 		<![CDATA[
 		order by joinDate desc) 
-		where recNum between (#{page}-1)*10+1 and #{page}*10";
+		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
 	

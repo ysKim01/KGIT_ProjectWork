@@ -11,19 +11,31 @@
 <head>
 <meta charset="UTF-8">
 <title>헤더</title>
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/reset.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminTop.css">
+<script src="${contextPath }/resources/js/main.js"></script>
 </head>
-<body>
-	<table border="0" width="100%">
-	<tr>
-		<td>
-			<a href="#">
-				<img src="${contextPath }/resources/image/duke_swing.gif" />
-			</a>
-		</td>
-		<td>	
-			<h1><font size='30'>스프링실습 홈페이지!!</font></h1>
-		</td>
-		<td>
+<body><header>
+	<div id="top">
+		<nav id="top_logo">
+			<img src="${contextPath }/resources/image/Admin_logo.png"></img>
+		</nav>
+	</div>
+	<nav id="top_menu">
+		<ul>
+			<li class="menu"><a href="${contextPath }/admin/listMembers.do">회원관리</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminReservation.do">예약관리</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminQna.do">1:1문의</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminOnedayclass.do">원데이클래스</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminCompany.do">업체관리</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminNotice.do">공지사항</a></li>
+		</ul>
+	</nav>
+	
+</header>
+
+<!-- 
+기존 로그인 소스
 			<c:choose>
 				<c:when test="${isLogon == true && member != null }">
 					<h3>환영합니다. ${member.name }님!</h3>
@@ -33,9 +45,8 @@
 					<a href="#"><h3>로그인</h3></a>
 				</c:otherwise>
 			</c:choose>
-		</td>
-	</tr>
-	</table>
+ -->
+			
 </body>
 </html>
 

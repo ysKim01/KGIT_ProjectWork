@@ -6,24 +6,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 public interface AdminMemberController {
+	// admin main
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	// 회원 등록 창
 	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	// 아이디 중복확인
+	public ResponseEntity<Boolean> isValidId(@RequestParam("userId") String userId) throws Exception;
+	// 회원 등록
 	public void addMember(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberVO member) throws Exception;
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("searchFilter") String searchFilter,
-			@RequestParam("searchContent") String searchContent,
-			@RequestParam("adminMode") Integer adminMode,
-			@RequestParam("joinStart") @DateTimeFormat(pattern="yyyyMMdd") Date joinStart,
-			@RequestParam("joinEnd") @DateTimeFormat(pattern="yyyyMMdd") Date joinEnd,
-			@RequestParam("page") Integer page) throws Exception;
-	public void modMember(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberVO member) throws Exception;
+	// 회원 목록
+	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("searchInfo") SearchInfoVO searchInfo) throws Exception;
 } 
