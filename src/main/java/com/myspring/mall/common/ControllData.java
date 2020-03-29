@@ -52,18 +52,25 @@ public class ControllData {
 	}
 	public Map TelDivThree(String userTel) {
 		Map tel = new HashMap();
-		
-		if(userTel.length() != 10) {
+		if(userTel.length() != 11) {
 			return null;
 		}
-		
 		String userTel1 = userTel.substring(0,3); 	// 0,1,2
-		String userTel2 = userTel.substring(3,6);	// 3,4,5
-		String userTel3 = userTel.substring(6,10);	// 6,7,8,9
+		String userTel2 = userTel.substring(3,7);	// 3,4,5,6
+		String userTel3 = userTel.substring(7,11);	// 7,8,9,10
 		tel.put("userTel1", userTel1);
 		tel.put("userTel2", userTel2);
 		tel.put("userTel3", userTel3);
 		
 		return tel;
+	}
+	
+	public Date Date9999toNull(Date date) {
+		if(date != null) {
+			if(date.toString().equals("9999-09-09")) {
+				date = null;
+			}
+		}
+		return date;
 	}
 }

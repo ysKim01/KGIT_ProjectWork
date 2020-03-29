@@ -1,6 +1,7 @@
 package com.myspring.mall.admin.member.service;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,20 +55,30 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	public List listMembersByFiltered(SearchInfoVO searchInfo) {
 		List membersList = null;
 		
-		String searchFilter = searchInfo.getSearchFilter();
-		String searchContent = searchInfo.getSearchContent();
-		Date joinStart = searchInfo.getJoinStart();
-		Date joinEnd = searchInfo.getJoinEnd();
-		Integer adminMode = searchInfo.getAdminMode();
-		Integer page = searchInfo.getPage();
+		String searchFilter = searchInfo.getSearchFilter();		// not null
+		String searchContent = searchInfo.getSearchContent();	// all
+		Date joinStart = searchInfo.getJoinStart();				// all
+		Date joinEnd = searchInfo.getJoinEnd();					// all
+		Integer adminMode = searchInfo.getAdminMode();			// null, 0, 1
+		Integer page = searchInfo.getPage();					// not null, 양수
+		
+		// 예외처리
+		if(searchFilter==null) {
+			searchFilter = "";
+		}
+		if(adminMode != null) {
+			if(adminMode!=0 && adminMode!=1) {
+				adminMode = null;
+			}
+		}
 		if(page==null || page<=0) {
 			page = 1;
 		}
 		
 		Map searchMap = new HashMap();
-		searchMap.put("adminMode", adminMode);
 		searchMap.put("joinStart", joinStart);
 		searchMap.put("joinEnd", joinEnd);
+		searchMap.put("adminMode", adminMode);
 		searchMap.put("page", page);
 		
 		if(!conData.isEmpty(searchContent)) { // 검색내용 있을 경우
@@ -87,7 +98,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 				}else {
 					System.out.println("[Warning] admin / service / listMembersByFiltered > "
 							+ "전화번호가 10자리가 아닙니다.");
-					membersList = adminMemberDAO.selectMemberByFilter_None(searchMap);
+					membersList = null;
 				}
 			}
 			else {
@@ -106,6 +117,26 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	@Override
 	public int modMember(MemberVO member) {
 		return adminMemberDAO.modMember(member);
+	}
+
+	@Override
+	public int delMembersList(List<MemberVO> membersList) {
+		int result = 0;
+		for(int i=0;i<membersList.size();i++) {
+			String userId = membersList.get(i).getUserId();
+			result += adminMemberDAO.delMemberById(userId);
+		}
+		return result;
+	}
+
+	@Override
+	public int delMembersList(MemberVO member) {
+		int result = 0; 
+		
+		String userId = member.getUserId();
+		result = adminMemberDAO.delMemberById(userId);
+		
+		return result;
 	}
 	
 }

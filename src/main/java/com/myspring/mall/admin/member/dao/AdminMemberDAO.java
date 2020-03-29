@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 
@@ -18,4 +19,5 @@ public interface AdminMemberDAO {
 	public List selectMemberByFilter_Tel(Map searchMap);
 	public List selectMemberByFilter_None(Map searchMap);
 	public int modMember(MemberVO member);
+	public int delMemberById(String userId);
 }

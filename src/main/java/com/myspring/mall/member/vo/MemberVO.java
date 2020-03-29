@@ -5,12 +5,15 @@ import java.sql.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Component("memberVO")
 public class MemberVO {
 	private String userId;
 	private String userPw;
 	private String userName;
 	private String userEmail;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd", timezone = "GMT+9")
 	private Date userBirth;
 	private String userTel1;
 	private String userTel2;
@@ -18,7 +21,7 @@ public class MemberVO {
 	private String userAdd1;
 	private String userAdd2;
 	private String userAdd3;
-	@DateTimeFormat(pattern = "yyyyMMdd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date joinDate;
 	private int adminMode;
 	

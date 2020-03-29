@@ -15,4 +15,6 @@ public interface AdminMemberService {
 	public int addMember(MemberVO member);
 	public List listMembersByFiltered(SearchInfoVO searchInfo);
 	public int modMember(MemberVO member);
+	public int delMembersList(List<MemberVO> membersList);
+	public int delMembersList(MemberVO member);
 }

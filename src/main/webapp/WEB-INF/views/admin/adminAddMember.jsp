@@ -207,7 +207,7 @@
         var userBirth = $('.birthYear').val();
         userBirth += $('.birthMonth').val();
         userBirth += $('.birthDay').val();
-        
+
         if($("#adminMode").prop("checked")){
         	adminModeOk = "1";
         } else{

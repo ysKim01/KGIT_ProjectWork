@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,6 +29,10 @@ public interface AdminMemberController {
 	public void addMember(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberVO member) throws Exception;
 	// 5. 회원 목록
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	// 6. 회원 검색
 	public void searchMembers(HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute SearchInfoVO searchInfo) throws Exception;
+			@RequestParam("searchInfo") String jsonData) throws Exception;
+//	// 7. 다중 회원 삭제
+//	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response,
+//			@RequestParam("list") String jsonData) throws Exception;
 } 

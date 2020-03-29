@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 
@@ -70,7 +71,6 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 	@Override
 	public List selectMemberByFilter_None(Map searchMap) {
 		List<MemberVO> membersList = null;
-		System.out.println("test");
 		membersList = sqlSession.selectList("mapper.member.selectMemberByFilter_None", searchMap);
 		return membersList;
 	}
@@ -80,6 +80,13 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 		int result = 0;
 		result = sqlSession.update("mapper.member.modMember", member);
 		return 0;
+	}
+
+	@Override
+	public int delMemberById(String userId) {
+		int result = 0;
+		result = sqlSession.delete("mapper.member.delMemberById", userId);
+		return result;
 	}
 
 

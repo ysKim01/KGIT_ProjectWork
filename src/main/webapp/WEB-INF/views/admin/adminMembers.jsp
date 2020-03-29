@@ -24,7 +24,7 @@
  	
 
 	function chkDelMember(){
-		var membersList = new Object();
+		var membersList = [];
 		
 		<c:forEach var="item" items="${membersList}" varStatus="status">
 			var list = new Object();
@@ -41,11 +41,11 @@
 			list['userAdd3'] = "${item.userAdd3}";
 			list['joinDate'] = "${item.joinDate}";
 			list['adminMode'] = "${item.adminMode}";
-			membersList[${status.index}] = list;
+			membersList.push(list);
 		</c:forEach>
 		console.log(membersList);
 		var chkObj = new Object();
-		var delMemberObj = new Object();
+		var delMemberObj = [];
 		var targets = document.getElementsByClassName('memChk');
 		$.each(targets, function(index, items){
 			
@@ -70,25 +70,99 @@
 		}
 		console.log(delMemberObj);
 		if(!confirm("정말 삭제하시겠습니까?")) return;
+		
 		$.ajax({
-			type:"get",
+			type:"post",
+			async: false,
 			url:"${contextPath}/admin/delMembersList.do",
 			dataType:"text",
-			contentType:"application/JSON",
-			data:JSON.stringify(delMemberObj),
+			data:{"list" : JSON.stringify(delMemberObj)},
 			success:function(data, status){
 				alert("삭제했습니다.");
 			},
-				
-		})
+			error: function(data, status) {
+				alert("error");
+	        }
+		}) 
 		
+		searchMember();
 	}
-	
+	function searchMember(obj){
+		var form = document.getElementById("frmMembersList");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Post");  //Post 방식
+        form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
+
+        // AdminMode
+        var adminMode = document.createElement("input");
+        adminMode.setAttribute("type", "hidden");
+        adminMode.setAttribute("id", "adminMode");
+        var adminChk = document.getElementById("adminChk");
+        if(adminChk.checked == true){
+        	 adminMode.setAttribute("value", 1);
+		}else{
+			adminMode.setAttribute("value", 0);
+		}
+        form.appendChild(adminMode);
+        
+        // searchInfo
+        var searchInfo = new Object();
+        searchInfo['searchFilter'] = document.getElementById("searchFilter").value;
+        searchInfo['searchContent'] = document.getElementById("searchContent").value;
+        searchInfo['joinStart'] = document.getElementById("joinStart").value;
+        searchInfo['joinEnd'] = document.getElementById("joinEnd").value;
+        searchInfo['adminMode'] = document.getElementById("adminMode").value;
+        searchInfo['page'] = "1";
+        
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "searchInfo");
+        hiddenField.setAttribute("value", encodeURI(JSON.stringify(searchInfo)));
+        form.appendChild(hiddenField);
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
 	function editMember(obj){
-		
 	}
 	function delMember(obj){
+		var mem = new Object();
+		let count = 0;
+		<c:forEach var="item" items="${membersList}" varStatus="status">
+			if(count==obj){
+				mem['userId'] = "${item.userId}";
+				mem['userPw'] = "${item.userPw}";
+				mem['userName'] = "${item.userName}";
+				mem['userEmail'] = "${item.userEmail}";
+				mem['userBirth'] = "${item.userBirth}";
+				mem['userTel1'] = "${item.userTel1}";
+				mem['userTel2'] = "${item.userTel2}";
+				mem['userTel3'] = "${item.userTel3}";
+				mem['userAdd1'] = "${item.userAdd1}";
+				mem['userAdd2'] = "${item.userAdd2}";
+				mem['userAdd3'] = "${item.userAdd3}";
+				mem['joinDate'] = "${item.joinDate}";
+				mem['adminMode'] = "${item.adminMode}";
+			}	
+			count++;
+		</c:forEach>
+		console.log(mem);
 		
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"${contextPath}/admin/delMember.do",
+			dataType:"text",
+			data:{"member" : JSON.stringify(mem)},
+			success:function(data, status){
+				alert("삭제했습니다.");
+			},
+			error: function(data, status) {
+				alert("error");
+	        }
+		})  
+		
+		searchMember();
 	}
 	
 	
@@ -99,30 +173,30 @@
 <div id="container">
 	<div class="width_wrap">
 		<div class="search_wrap">
-			<form method="get" action="#">
+			<form method="post" action="#" id='frmMembersList'>
 				<fieldset>
 					<legend>회원정보 검색창</legend>
 					<ul class="search_list clear_both">
 						<li>
 							<label for="study_member">조회정보</label>
-							<span class="input_wrap"><select id="study_member" name="studyMember"> <!-- select name값 설정 -->
-								<option value="UserId">ID</option>
-								<option value="UserName">이름</option>
-								<option value="UserTel">휴대전화</option>
+							<span class="input_wrap"><select id="searchFilter" name="searchFilter"> <!-- select name값 설정 -->
+								<option value="userId">ID</option>
+								<option value="userName">이름</option>
+								<option value="userTel">휴대전화</option>
                   		  	</select></span>
-                            <span class="input_wrap"><input type="text" name="memberSearch" id="memberSearch"></span> <!-- text name값 설정 -->
+                            <span class="input_wrap"><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"></span> <!-- text name값 설정 -->
 						</li>
 						<li>
                             <label for="startDate">가입일자</label>
-                            <span class="input_wrap"><input type="text" class="searchDate" name="startDate"></span>
+                            <span class="input_wrap"><input type="date" class="joinDate" name="joinStart" id="joinStart" value="${searchInfo.joinStart}"></span>
                             <i>~</i>
-							<span class="input_wrap"><input type="text" class="searchDate" name="endDate"></span>
+							<span class="input_wrap"><input type="date" class="searchDate" name="joinEnd" id="joinEnd" value="${searchInfo.joinEnd}"></span>
 						</li>
 						<li>
                             <span class="search_btn_wrap">
                             <input type="checkbox" name="adminChk" id="adminChk"><label for="adminChk">관리자</label>
                             
-                            <strong class="btn_cover"><i class="icon icon-search"></i><input class="search_btn" type="submit" value="조회"></strong>
+                            <strong class="btn_cover"><i class="icon icon-search"></i><input class="search_btn" type="button" value="조회" onclick="searchMember()"></strong>
                             </span>
 						</li>
 					</ul>

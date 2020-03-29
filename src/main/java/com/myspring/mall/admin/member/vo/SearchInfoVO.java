@@ -5,13 +5,15 @@ import java.sql.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Component("searchInfoVO")
 public class SearchInfoVO {
 	private String searchFilter;
 	private String searchContent;
-	@DateTimeFormat(pattern = "yyyyMMdd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+9")
 	private Date joinStart;
-	@DateTimeFormat(pattern = "yyyyMMdd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+9")
 	private Date joinEnd;
 	private Integer adminMode;
 	private Integer page;
@@ -59,12 +61,12 @@ public class SearchInfoVO {
 		String out = "[SearchInfo]\n";
 		out += "1. searchFilter : " + searchFilter + "\n";
 		out += "2. searchContent : " + searchContent + "\n";
+		out += "3. adminMode : " + adminMode + "\n";
+		out += "4. page : " + page + "\n";
 		if(joinStart != null)
-			out += "3. joinStart : " + joinStart.toString() + "\n";
+			out += "5. joinStart : " + joinStart.toString() + "\n";
 		if(joinEnd != null)	
-			out += "4. joinEnd : " + joinEnd.toString() + "\n";
-		out += "5. adminMode : " + adminMode + "\n";
-		out += "6. page : " + page + "\n";
+			out += "6. joinEnd : " + joinEnd.toString() + "\n";
 		return out;
 	}
 }
