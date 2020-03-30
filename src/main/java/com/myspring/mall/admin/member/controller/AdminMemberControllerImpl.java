@@ -331,6 +331,47 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		return member;
 	}
 	
+	/* ===========================================================================
+	 * 9. 회원수정 창
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : MemberVO, Filter (ajax/???)
+	 * > 출력 : filter 
+	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
+	 * 
+	 * > 설명 : 삭제할 회원을 받아 삭제
+	 * 		관련 테이블 (cascade 제약 자동 연계삭제)
+	 *		- Study_Member
+	 *		- Study_Reserve
+	 *		- Study_Favorite
+	 *		- Study_CustomerService
+	 ===========================================================================*/
+	@RequestMapping(value={"/modMemberForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("member") String jsonDataMem,
+			@RequestParam("searchInfo") String jsonDataSearch) throws Exception {
+		System.out.println("[info] admin/controller/modMemberForm> Start ==================");
+		String viewName = (String)request.getAttribute("viewName"); // 잠시
+		System.out.println("viewName : "+viewName);
+		
+		// Member
+		jsonDataMem = URLDecoder.decode(jsonDataMem,"utf-8");
+		System.out.println(jsonDataMem);
+		JSONObject jsonObjMem = JSONObject.fromObject(jsonDataMem);
+		MemberVO member = JSONtoMember(jsonObjMem);
+		
+		// SearchInfo
+		jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
+		System.out.println(jsonDataSearch);
+		JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
+		SearchInfoVO searchInfo = JSONtoSearchInfo(jsonObjSearch);
+		
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("member",member);
+		mav.addObject("searchInfo",searchInfo);
+		System.out.println("[info] admin/controller/modMemberForm> End ====================\n");
+		return mav;
+	}
+	
 //	/* ===========================================================================
 //	 * 6. 회원 정보 수정 창
 //	 * ---------------------------------------------------------------------------

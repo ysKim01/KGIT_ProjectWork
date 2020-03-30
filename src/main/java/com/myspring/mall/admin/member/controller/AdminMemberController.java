@@ -32,7 +32,11 @@ public interface AdminMemberController {
 	// 6. 회원 검색
 	public void searchMembers(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("searchInfo") String jsonData) throws Exception;
-//	// 7. 다중 회원 삭제
-//	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam("list") String jsonData) throws Exception;
+	// 7. 회원 삭제
+	public ResponseEntity<Boolean> delMember(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("member") String jsonData) throws Exception; 
+	// 8. 다중 회원 삭제
+	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("list") String jsonData) throws Exception;
+	
 } 

@@ -22,7 +22,186 @@
 		}
 	}
  	
+	/* ===========================================================================
+	 * 1. 회원 검색
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : searchInfo
+	 * > 출력 : Member List
+	 * > 이동 페이지 : /admin/searchMembers.do
+	 * > 설명 : 
+		 	- 검색필터 전달 후 회원 검색창으로
+	 ===========================================================================*/
+	function searchMember(obj){
+		var form = document.getElementById("frmMembersList");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Get");  //Get 방식
+        form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
 
+        // AdminMode
+        var adminMode = document.createElement("input");
+        adminMode.setAttribute("type", "hidden");
+        adminMode.setAttribute("id", "adminMode");
+        var adminChk = document.getElementById("adminChk");
+        if(adminChk.checked == true){
+        	 adminMode.setAttribute("value", 1);
+		}else{
+			adminMode.setAttribute("value", 0);
+		}
+        form.appendChild(adminMode);
+        
+        // searchInfo
+        var searchInfo = new Object();
+        searchInfo['searchFilter'] = document.getElementById("searchFilter").value;
+        searchInfo['searchContent'] = document.getElementById("searchContent").value;
+        searchInfo['joinStart'] = document.getElementById("joinStart").value;
+        searchInfo['joinEnd'] = document.getElementById("joinEnd").value;
+        searchInfo['adminMode'] = document.getElementById("adminMode").value;
+        searchInfo['page'] = "1";
+        
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "searchInfo");
+        hiddenField.setAttribute("value", encodeURI(JSON.stringify(searchInfo)));
+        form.appendChild(hiddenField);
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
+	
+	/* ===========================================================================
+	 * 2. 회원 수정
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : MemberInfo, SearchInfo
+	 * > 출력 : - 
+	 * > 이동 페이지 : /admin/modMemberForm.do 
+	 * > 설명 : 
+		 	- 
+	 ===========================================================================*/
+	function editMember(obj){
+		// form 생성
+		var form = document.getElementById("frmMembersList");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Post");  //Post 방식
+        form.setAttribute("action", "${contextPath}/admin/modMemberForm.do"); //요청 보낼 주소
+		
+        // 선택된 Member 정보 
+		var mem = new Object();
+		let count = 0;
+		<c:forEach var="item" items="${membersList}" varStatus="status">
+			if(count==obj){
+				mem['userId'] = "${item.userId}";
+				mem['userPw'] = "${item.userPw}";
+				mem['userName'] = "${item.userName}";
+				mem['userEmail'] = "${item.userEmail}";
+				mem['userBirth'] = "${item.userBirth}";
+				mem['userTel1'] = "${item.userTel1}";
+				mem['userTel2'] = "${item.userTel2}";
+				mem['userTel3'] = "${item.userTel3}";
+				mem['userAdd1'] = "${item.userAdd1}";
+				mem['userAdd2'] = "${item.userAdd2}";
+				mem['userAdd3'] = "${item.userAdd3}";
+				mem['joinDate'] = "${item.joinDate}";
+				mem['adminMode'] = "${item.adminMode}";
+			}	
+			count++;
+		</c:forEach>
+		console.log(mem);
+		var member = document.createElement("input");
+		member.setAttribute("type", "hidden");
+		member.setAttribute("name", "member");
+		member.setAttribute("value", encodeURI(JSON.stringify(mem)));
+        form.appendChild(member);
+		
+
+		// 검색 필터
+        // AdminMode
+        var adminMode = document.createElement("input");
+        adminMode.setAttribute("type", "hidden");
+        adminMode.setAttribute("id", "adminMode");
+        var adminChk = document.getElementById("adminChk");
+        if(adminChk.checked == true){
+        	 adminMode.setAttribute("value", 1);
+		}else{
+			adminMode.setAttribute("value", 0);
+		}
+        form.appendChild(adminMode);
+        
+        // searchInfo
+        var searchObj = new Object();
+        searchObj['searchFilter'] = document.getElementById("searchFilter").value;
+        searchObj['searchContent'] = document.getElementById("searchContent").value;
+        searchObj['joinStart'] = document.getElementById("joinStart").value;
+        searchObj['joinEnd'] = document.getElementById("joinEnd").value;
+        searchObj['adminMode'] = document.getElementById("adminMode").value;
+        searchObj['page'] = "1";
+        
+        var searchInfo = document.createElement("input");
+        searchInfo.setAttribute("type", "hidden");
+        searchInfo.setAttribute("name", "searchInfo");
+        searchInfo.setAttribute("value", encodeURI(JSON.stringify(searchObj)));
+        form.appendChild(searchInfo);
+        
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
+	
+	/* ===========================================================================
+	 * 3. 회원 삭제
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : MemberInfo, SearchInfo
+	 * > 출력 : Member List
+	 * > 이동 페이지 : /admin/delMember.do > /admin/searchMembers.do 
+	 * > 설명 : 
+	 ===========================================================================*/
+	function delMember(obj){
+		var mem = new Object();
+		let count = 0;
+		<c:forEach var="item" items="${membersList}" varStatus="status">
+			if(count==obj){
+				mem['userId'] = "${item.userId}";
+				mem['userPw'] = "${item.userPw}";
+				mem['userName'] = "${item.userName}";
+				mem['userEmail'] = "${item.userEmail}";
+				mem['userBirth'] = "${item.userBirth}";
+				mem['userTel1'] = "${item.userTel1}";
+				mem['userTel2'] = "${item.userTel2}";
+				mem['userTel3'] = "${item.userTel3}";
+				mem['userAdd1'] = "${item.userAdd1}";
+				mem['userAdd2'] = "${item.userAdd2}";
+				mem['userAdd3'] = "${item.userAdd3}";
+				mem['joinDate'] = "${item.joinDate}";
+				mem['adminMode'] = "${item.adminMode}";
+			}	
+			count++;
+		</c:forEach>
+		console.log(mem);
+		
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"${contextPath}/admin/delMember.do",
+			dataType:"text",
+			data:{"member" : JSON.stringify(mem)},
+			success:function(data, status){
+				alert("삭제했습니다.");
+			},
+			error: function(data, status) {
+				alert("error");
+	        }
+		})  
+		
+		searchMember();
+	}
+	
+	/* ===========================================================================
+	 * 4. 회원 다중 삭제
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : MembersList, SearchInfo
+	 * > 출력 : Member List
+	 * > 이동 페이지 : /admin/delMembersList.do > /admin/searchMembers.do 
+	 * > 설명 : 
+	 ===========================================================================*/
 	function chkDelMember(){
 		var membersList = [];
 		
@@ -87,84 +266,6 @@
 		
 		searchMember();
 	}
-	function searchMember(obj){
-		var form = document.getElementById("frmMembersList");
-        form.setAttribute("charset", "UTF-8");
-        form.setAttribute("method", "Post");  //Post 방식
-        form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
-
-        // AdminMode
-        var adminMode = document.createElement("input");
-        adminMode.setAttribute("type", "hidden");
-        adminMode.setAttribute("id", "adminMode");
-        var adminChk = document.getElementById("adminChk");
-        if(adminChk.checked == true){
-        	 adminMode.setAttribute("value", 1);
-		}else{
-			adminMode.setAttribute("value", 0);
-		}
-        form.appendChild(adminMode);
-        
-        // searchInfo
-        var searchInfo = new Object();
-        searchInfo['searchFilter'] = document.getElementById("searchFilter").value;
-        searchInfo['searchContent'] = document.getElementById("searchContent").value;
-        searchInfo['joinStart'] = document.getElementById("joinStart").value;
-        searchInfo['joinEnd'] = document.getElementById("joinEnd").value;
-        searchInfo['adminMode'] = document.getElementById("adminMode").value;
-        searchInfo['page'] = "1";
-        
-        var hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "searchInfo");
-        hiddenField.setAttribute("value", encodeURI(JSON.stringify(searchInfo)));
-        form.appendChild(hiddenField);
-        
-        document.body.appendChild(form);
-        form.submit();
-	}
-	function editMember(obj){
-	}
-	function delMember(obj){
-		var mem = new Object();
-		let count = 0;
-		<c:forEach var="item" items="${membersList}" varStatus="status">
-			if(count==obj){
-				mem['userId'] = "${item.userId}";
-				mem['userPw'] = "${item.userPw}";
-				mem['userName'] = "${item.userName}";
-				mem['userEmail'] = "${item.userEmail}";
-				mem['userBirth'] = "${item.userBirth}";
-				mem['userTel1'] = "${item.userTel1}";
-				mem['userTel2'] = "${item.userTel2}";
-				mem['userTel3'] = "${item.userTel3}";
-				mem['userAdd1'] = "${item.userAdd1}";
-				mem['userAdd2'] = "${item.userAdd2}";
-				mem['userAdd3'] = "${item.userAdd3}";
-				mem['joinDate'] = "${item.joinDate}";
-				mem['adminMode'] = "${item.adminMode}";
-			}	
-			count++;
-		</c:forEach>
-		console.log(mem);
-		
-		$.ajax({
-			type:"post",
-			async: false,
-			url:"${contextPath}/admin/delMember.do",
-			dataType:"text",
-			data:{"member" : JSON.stringify(mem)},
-			success:function(data, status){
-				alert("삭제했습니다.");
-			},
-			error: function(data, status) {
-				alert("error");
-	        }
-		})  
-		
-		searchMember();
-	}
-	
 	
 </script>
 </head>

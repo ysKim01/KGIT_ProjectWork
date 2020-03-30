@@ -25,6 +25,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminAddMember.jsp"></put-attribute>
 	</definition>
 	
+	<definition	name="/admin/modMemberForm" extends="baseLayout">
+		<put-attribute name="title" value="관리자 회원수정"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/adminModMember.jsp"></put-attribute>
+	</definition>
+	
 	<definition	name="/admin/listMembers" extends="baseLayout">
 		<put-attribute name="title" value="관리자 회원목록"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminMembers.jsp"></put-attribute>

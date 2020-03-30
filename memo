@@ -1,12 +1,12 @@
 1. 회원 검색 
 	> admin null 인경우도 만들어 줘야함
-	> admin, filter 값 받아오기
+	> admin, searchFilter 값 받아오기
 del 객체 배열로 줄 것, get으로 줄거면 encodeURI씌워서 줄 것
-json 메이븐 설치
 
-?
-삭제, 다중삭제 후 검색 필터 유지해서 회원조회 > 내부에서 할 경우 redirect에 url로 직접 각각 파라미터 씌워서 보내야된다. 
-등록 후 회원조회 > ajax or submit?
+2. 로그인, 세션관리(관리자, 일반)
+
+3. 예약등록, 관리
+
 
 submit > model, json 동시 가능
 ajax > json array 가능
