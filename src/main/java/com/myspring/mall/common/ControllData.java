@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 public class ControllData {
 	public Integer StringtoInteger(String str) {
 		Integer result = null;
@@ -72,5 +75,34 @@ public class ControllData {
 			}
 		}
 		return date;
+	}
+	
+	public boolean setLastPage(HttpServletRequest request) {
+		boolean result = false;
+		try {
+			HttpSession session=request.getSession();
+			String lastRequest = (String)session.getAttribute("lastRequest");
+			if(isEmpty(lastRequest)) {
+				session.setAttribute("lastPage", "/main.do");
+			}else {
+				session.setAttribute("lastPage", lastRequest);
+			}
+			result = true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public String getLastPage(HttpServletRequest request) {
+		String result = null;
+		try {
+			HttpSession session=request.getSession();
+			String lastPage = (String)session.getAttribute("lastPage");
+			session.removeAttribute("lastPage");
+			result = lastPage;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

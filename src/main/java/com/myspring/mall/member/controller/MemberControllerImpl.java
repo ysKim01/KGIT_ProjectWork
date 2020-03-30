@@ -37,6 +37,7 @@ import oracle.jdbc.proxy.annotation.GetProxy;
 
 @Controller("memberController")
 @EnableAspectJAutoProxy
+@RequestMapping("/member")
 public class MemberControllerImpl extends MultiActionController implements MemberController{
 	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
 	@Autowired
@@ -46,103 +47,58 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	
 	private static ControllData conData = new ControllData();
 	
-	// 메인 화면
-	@RequestMapping(value= {"/", "/main.do"}, method=RequestMethod.GET)
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+	/* ===========================================================================
+	 * 1. 로그인 창
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : -
+	 * > 출력 : -
+	 * > 이동 페이지 : /member/loginForm.do (로그인 창)
+	 * > 설명 : 
+	 * 		- 로그인 창
+	 ===========================================================================*/
+	@RequestMapping(value= {"/loginForm.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
-		//String viewName = getViewName(request);
-		System.out.println("viewName : "+viewName);
+
+		conData.setLastPage(request);
+		
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
 	
-	// ================================== 회원가입 ==================================
-	// 회원가입 창
-	@RequestMapping(value= {"/member/membershipForm.do"}, method=RequestMethod.GET)
-	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	/* ===========================================================================
+	 * 2. 로그인
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : userId, userPw
+	 * > 출력 : -
+	 * > 이동 페이지 : /member/loginForm.do (로그인 창)
+	 * > 설명 : 
+	 * 		- 로그인 창
+	 ===========================================================================*/
+	@RequestMapping(value= {"/login.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> login(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("userId") String userId,
+			@RequestParam("userPw") String userPw ) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("viewName : "+viewName);
-		ModelAndView mav = new ModelAndView(viewName);
-
-		// Object 등록
-		Map mavMap = new HashMap();
-		mav.addAllObjects(mavMap);
-		
-		return mav;
-	}
-	// 아이디 중복확인
-	@RequestMapping(value= {"/member/isValidId.do"}, method=RequestMethod.POST)
-	public ResponseEntity<Boolean> isValidId(@RequestBody String userId) throws Exception {
 		ResponseEntity<Boolean> resEntity = null;
-		boolean isValidId = memberService.isValidId(userId);
+		
+		System.out.println(userId);
+		System.out.println(userPw);
+		
+		//boolean isValidId = memberService.login(userId, userPw);
 		
 		try {
-			resEntity = new ResponseEntity<Boolean>(isValidId, HttpStatus.OK);
+			resEntity = new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}catch(Exception e) {
 			resEntity = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
 		return resEntity;
 	}
-	// 회원 추가
-	@RequestMapping(value= {"/member/addMember.do"}, method=RequestMethod.POST)
-	public ModelAndView addMember(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody MemberVO member) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		String viewName = null;
-		
-		System.out.println(member.toString());
-		int result = memberService.addMember(member);
-		
-		viewName = "/main";
-		System.out.println("viewName : "+viewName);
-		mav.setViewName(viewName);
-		return mav;
-	}
-	// 회원조회
-	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String)request.getAttribute("viewName"); 
-		System.out.println("viewName : "+viewName);
-		List membersList = memberService.listMembers();
-		ModelAndView mav = new ModelAndView(viewName);
-		
-		mav.addObject("membersList",membersList);
-		
-		return mav;
-	}
 	
-	private String getViewName(HttpServletRequest request)  throws Exception{
-		String contextPath = request.getContextPath();
-		String uri = (String)request.getAttribute("javax.servlet.include.request_uri");
-		
-		if (uri == null || uri.trim().equals("")) {
-			uri = request.getRequestURI();
-		}
-		
-		int begin = 0;
-		if(!((contextPath==null)|| ("".equals(contextPath)))) {
-			begin = contextPath.length();
-		}
-		
-		int end;
-		if(uri.indexOf(";") != -1) {
-			end = uri.indexOf(";");
-		} else if (uri.indexOf("?") != -1) {
-			end = uri.indexOf("?");
-		} else {
-			end = uri.length();
-		}
-		
-		String viewName = uri.substring(begin, end);
-		if(viewName.indexOf(".") != -1) {
-			viewName=viewName.substring(0,viewName.lastIndexOf("."));
-		}
-		if(viewName.lastIndexOf("/") != -1) {
-			viewName=viewName.substring(viewName.lastIndexOf("/",1), viewName.length());
-		}
-		
-		//viewName = viewName.replace("/", "");
-		return viewName;
-	}
+	
+	/* ===========================================================================
+	 *                                   기타
+	 ===========================================================================*/
 }

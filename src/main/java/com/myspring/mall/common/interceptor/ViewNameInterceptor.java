@@ -2,7 +2,9 @@ package com.myspring.mall.common.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class ViewNameInterceptor extends HandlerInterceptorAdapter{
@@ -11,14 +13,28 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		try {
-			System.out.println("Interceptor Called");
 			String viewName = getViewName(request);
 			request.setAttribute("viewName", viewName);
+			System.out.println("[info]" + viewName + " > Start =======================");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		return true;
+	}
+	
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		try {
+			String lastRequest = getRequstName(request);
+			HttpSession session=request.getSession();
+			session.setAttribute("lastRequest", lastRequest);
+			
+			String viewName = getViewName(request);
+			System.out.println("[info]" + viewName + " > End =========================");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private String getViewName(HttpServletRequest request)  throws Exception{
@@ -52,5 +68,16 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		return viewName;
+	}
+	
+	private String getRequstName(HttpServletRequest request) throws Exception {
+		String requestName = "";
+		
+		String contextPath = request.getContextPath();
+		String uri = request.getRequestURI();
+		
+		requestName = uri.substring(contextPath.length(), uri.length());
+		
+		return requestName;
 	}
 }

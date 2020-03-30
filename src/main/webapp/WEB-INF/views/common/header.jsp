@@ -15,8 +15,26 @@
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminTop.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${contextPath }/resources/js/main.js"></script>
+<script>
+$(window).on('load',function(){
+	var _isLogOn=document.getElementById("isLogOn");
+	var isLogOn=_isLogOn.value;
+	var loginTag = document.getElementById("loginMember");
+
+ 	if(isLogOn=="false" || isLogOn=='' ){
+ 		loginTag.innerHTML = "로그인";
+ 		loginTag.href="${contextPath}/member/loginForm.do"; 
+ 	}else{
+ 		loginTag.innerHTML = "로그아웃";
+ 		loginTag.href="${contextPath}/member/logoutMember.do";
+ 	}
+});
+</script>
 </head>
 <body><header>
+	<div id="login">
+		<a href="#" id="loginMember"></a>
+	</div>
 	<div id="top">
 		<nav id="top_logo">
 			<img src="${contextPath }/resources/image/Admin_logo.png"></img>
@@ -47,7 +65,9 @@
 				</c:otherwise>
 			</c:choose>
  -->
-			
+
+<!-- Session 값 받아오기 -->
+<input type="hidden" name="isLogOn" id="isLogOn" value="${isLogOn}"/>
 </body>
 </html>
 
