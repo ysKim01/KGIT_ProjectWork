@@ -48,7 +48,7 @@
 		select * from 
 		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
 		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
-		from Study_Member where userId = #{userId} 
+		from Study_Member where userId like '%'||#{userId}||'%' 
 		]]>
 		<if test = "adminMode != null">
 			<![CDATA[ and adminMode = #{adminMode} ]]>
@@ -70,7 +70,7 @@
 		select * from 
 		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
 		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
-		from Study_Member where userName = #{userName} 
+		from Study_Member where userName like '%'||#{userName}||'%' 
 		]]>
 		<if test = "adminMode != null">
 			<![CDATA[ and adminMode = #{adminMode} ]]>

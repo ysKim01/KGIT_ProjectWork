@@ -27,7 +27,6 @@
 
        $(window).on('load',function(){
            
-
            // 생년월일 날짜 option
            var adminAddMember = document.adminAddMember;
            var date = new Date();
@@ -64,8 +63,6 @@
                
                getDay();
            })
-
-
 
            $('#userPw').change(function(){
                pwPattern();
@@ -265,8 +262,15 @@
         }
         console.log("전화번호");
 
+     	// 주소값
         var fullAdd = adminAddMember.userAdd1.value.split(' ');
-        // 주소값
+       	var userAdd1 = fullAdd[0];
+       	var userAdd2 = fullAdd[1];
+       	var userAdd3 = "";
+        for(var i=2;i<fullAdd.length;i++){
+        	userAdd3 += fullAdd[i] + " "; 
+        }
+        
         var adminAddMemberInfo = {
             userId : adminAddMember.userId.value,
             userPw : adminAddMember.userPw.value,
@@ -277,15 +281,16 @@
             userTel2 : adminAddMember.userTel2.value,
             userTel3 : adminAddMember.userTel3.value,
             
-            userAdd1 : fullAdd[0],
-            userAdd2 : fullAdd[1],
-            userAdd3 : adminAddMember.userAdd2.value,
+            userAdd1 : userAdd1,
+            userAdd2 : userAdd2,
+            userAdd3 : userAdd3,
+            userAdd4 : adminAddMember.userAdd2.value,
             adminMode : adminModeOk
         }
         for(var key in adminAddMemberInfo) {
             if(isEmpty(adminAddMemberInfo[key])){
             	var name;
-            	if(key == 'userAdd3'){
+            	if(key == 'userAdd4'){
             		key = 'userAdd2';
             		name = "상세주소"; 
             	}else{
