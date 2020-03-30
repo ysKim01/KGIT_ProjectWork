@@ -315,6 +315,7 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		member.setUserAdd1((String)obj.get("userAdd1"));
 		member.setUserAdd2((String)obj.get("userAdd2"));
 		member.setUserAdd3((String)obj.get("userAdd3"));
+		member.setUserAdd4((String)obj.get("userAdd4"));
 		member.setAdminMode(Integer.parseInt((String)obj.get("adminMode")));
 		try {
 			String strBirth = (String)obj.get("userBirth");

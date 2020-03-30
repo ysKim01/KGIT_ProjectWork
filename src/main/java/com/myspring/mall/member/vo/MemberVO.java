@@ -21,6 +21,7 @@ public class MemberVO {
 	private String userAdd1;
 	private String userAdd2;
 	private String userAdd3;
+	private String userAdd4;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date joinDate;
 	private int adminMode;
@@ -91,6 +92,12 @@ public class MemberVO {
 	}
 	public void setUserAdd3(String userAdd3) {
 		this.userAdd3 = userAdd3;
+	}
+	public String getUserAdd4() {
+		return userAdd4;
+	}
+	public void setUserAdd4(String userAdd4) {
+		this.userAdd4 = userAdd4;
 	}
 	public Date getJoinDate() {
 		return joinDate;
