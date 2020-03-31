@@ -4,33 +4,33 @@
 "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+	<definition name="baseLayoutAdmin" template="/WEB-INF/views/admin/common/layout.jsp">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/admin/common/header.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
-		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/admin/common/footer.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin" extends="baseLayout">
+	<definition	name="/admin" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
 	</definition>
-	<definition	name="/admin/main" extends="baseLayout">
+	<definition	name="/admin/main" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin/membershipForm" extends="baseLayout">
+	<definition	name="/admin/membershipForm" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원등록"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminAddMember.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin/modMemberForm" extends="baseLayout">
+	<definition	name="/admin/modMemberForm" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원수정"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminModMember.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin/listMembers" extends="baseLayout">
+	<definition	name="/admin/listMembers" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원목록"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminMembers.jsp"></put-attribute>
 	</definition>

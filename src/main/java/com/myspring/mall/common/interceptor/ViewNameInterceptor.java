@@ -1,5 +1,9 @@
 package com.myspring.mall.common.interceptor;
 
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +19,7 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 		try {
 			String viewName = getViewName(request);
 			request.setAttribute("viewName", viewName);
-			System.out.println("[info]" + viewName + " > Start =======================");
+			System.out.println("\n[info]" + viewName + " > Start =======================");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -29,9 +33,10 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 			String lastRequest = getRequstName(request);
 			HttpSession session=request.getSession();
 			session.setAttribute("lastRequest", lastRequest);
+			System.out.println("lastRequest : " + lastRequest);
 			
 			String viewName = getViewName(request);
-			System.out.println("[info]" + viewName + " > End =========================");
+			System.out.println("[info]" + viewName + " > End =========================\n");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -71,13 +76,25 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 	}
 	
 	private String getRequstName(HttpServletRequest request) throws Exception {
-		String requestName = "";
+		String lastRequest = "";
 		
+		// request name
 		String contextPath = request.getContextPath();
 		String uri = request.getRequestURI();
+		lastRequest = uri.substring(contextPath.length(), uri.length());
 		
-		requestName = uri.substring(contextPath.length(), uri.length());
+		// request param
+		if(request.getMethod().equals("GET")) {
+			String requestParam = "?";
+			List<String> names = Collections.list(request.getParameterNames());
+			for(String name : names) {
+				String param = request.getParameter(name);
+				requestParam += name + "=" + param + "&";
+			}
+			lastRequest += requestParam;
+		}
 		
-		return requestName;
+		return lastRequest;
 	}
+	
 }

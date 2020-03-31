@@ -68,11 +68,9 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	// ===========================================================================
 	@RequestMapping(value= {"", "/main.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("[info] admin/controller/main> Start ==================");
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("[info] viewName : " + viewName);
 		ModelAndView mav = new ModelAndView(viewName);
-		System.out.println("[info] admin/controller/main> End ====================\n");
 		return mav;
 	}
 	
@@ -87,12 +85,10 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 ===========================================================================*/
 	@RequestMapping(value= {"/membershipForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("[info] admin/controller/membershipForm> Start ==================");
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("[info] viewName : " + viewName);
 		ModelAndView mav = new ModelAndView(viewName);
 
-		System.out.println("[info] admin/controller/membershipForm> End ====================\n");
 		return mav;
 	}
 	
@@ -106,17 +102,20 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 * 		- 입력받은 아이디 중복여부 확인 
 	 ===========================================================================*/
 	@RequestMapping(value= {"/overlapped.do"}, method=RequestMethod.POST)
-	public ResponseEntity<Boolean> isValidId(@RequestParam("userId") String userId) throws Exception {
-		System.out.println("[info] admin/controller/isValidId> Start ==================");
+	public ResponseEntity<Boolean> isValidId(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity<Boolean> resEntity = null;
-		boolean isValidId = adminMemberService.overlapped(userId);
+		String userId = request.getParameter("userId");
+		boolean isValidId = false;
+		
+		if(!conData.isEmpty(userId)) {
+			isValidId = adminMemberService.overlapped(userId);
+		}
 		
 		try {
 			resEntity = new ResponseEntity<Boolean>(isValidId, HttpStatus.OK);
 		}catch(Exception e) {
 			resEntity = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		System.out.println("[info] admin/controller/isValidId> End ====================\n");
 		return resEntity;
 	}
 	
@@ -132,7 +131,6 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	@RequestMapping(value= {"/addMember.do"}, method=RequestMethod.POST)
 	public void addMember(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody MemberVO member) throws Exception {
-		System.out.println("[info] admin/controller/addMember> Start ==================");
 		String nextPage = "/admin/listMembers.do";
 		
 		System.out.println("[등록회원정보] \n" + member.toString());
@@ -140,7 +138,6 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 		dispatcher.forward(request, response);
-		System.out.println("[info] admin/controller/addMember> End ====================\n");
 	}
 	
 	/* ===========================================================================
@@ -155,7 +152,6 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 ===========================================================================*/
 	@RequestMapping(value={"/listMembers.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("[info] admin/controll/listMembers> Start ==================");
 		String viewName = (String)request.getAttribute("viewName"); 
 		System.out.println("viewName : "+viewName);
 		
@@ -180,7 +176,6 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("membersList",membersList);
 		mav.addObject("searchInfo",searchInfo);
-		System.out.println("[info] admin/controll/listMembers> End ====================\n");
 		return mav;
 	}
 	
@@ -194,46 +189,22 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 * 		- 조건에 맞는 회원 검색 후,회원 목록 전달
 	 ===========================================================================*/
 	@RequestMapping(value={"/searchMembers.do"}, method= {RequestMethod.GET, RequestMethod.POST})
-	public void searchMembers(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("searchInfo") String jsonData) throws Exception {
-		System.out.println("[info] admin/controll/searchMembers> Start ==================");
+	public void searchMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String nextPage = "/admin/listMembers.do";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 		
-		jsonData = URLDecoder.decode(jsonData,"utf-8");
-		System.out.println(jsonData);
-		JSONObject jsonObj = JSONObject.fromObject(jsonData);
-		
-		SearchInfoVO searchInfo = JSONtoSearchInfo(jsonObj);
-		request.setAttribute("searchInfo", searchInfo);
-		
-		System.out.println("[info] admin/controll/searchMembers> End ====================\n");
-		dispatcher.forward(request, response);
-	}
-	private SearchInfoVO JSONtoSearchInfo(JSONObject obj) {
-		SearchInfoVO info = new SearchInfoVO();
+		SearchInfoVO searchInfo = new SearchInfoVO();
+		String jsonData = request.getParameter("searchInfo");
 
-		info.setSearchFilter((String)obj.get("searchFilter"));
-		info.setSearchContent((String)obj.get("searchContent"));
-		info.setAdminMode(conData.StringtoInteger((String)obj.get("adminMode")));
-		info.setPage(conData.StringtoInteger((String)obj.get("page")));
-		try {
-			String strJoinStart = (String)obj.get("joinStart");
-			String strJoinEnd = (String)obj.get("joinEnd");
-			SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
-			Date joinStart = null;
-			Date joinEnd = null;
-			if(!conData.isEmpty(strJoinStart))
-				joinStart = new Date(dateForm.parse(strJoinStart).getTime());
-			if(!conData.isEmpty(strJoinEnd))
-				joinEnd = new Date(dateForm.parse(strJoinEnd).getTime());
-			info.setJoinStart(joinStart);
-			info.setJoinEnd(joinEnd);
-		} catch(Exception e) {
-			e.printStackTrace();
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			System.out.println(jsonData);
+			JSONObject jsonObj = JSONObject.fromObject(jsonData);
+			searchInfo = JSONtoSearchInfo(jsonObj);
 		}
 		
-		return info;
+		request.setAttribute("searchInfo", searchInfo);
+		dispatcher.forward(request, response);
 	}
 	
 	/* ===========================================================================
@@ -251,19 +222,18 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 *		- Study_CustomerService
 	 ===========================================================================*/
 	@RequestMapping(value={"/delMember.do"}, method= {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<Boolean> delMember(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("member") String jsonData) throws Exception {
-		System.out.println("[info] admin/controller/delMember> Start ==================");
-		List<MemberVO> membersList = new ArrayList<MemberVO>();
+	public ResponseEntity<Boolean> delMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String jsonData = request.getParameter("member");
 		
-		jsonData = URLDecoder.decode(jsonData,"utf-8");
-		System.out.println(jsonData);
-		JSONObject jsonObj = JSONObject.fromObject(jsonData);
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			System.out.println(jsonData);
+			JSONObject jsonObj = JSONObject.fromObject(jsonData);
+			
+			MemberVO member = JSONtoMember(jsonObj);
+			int result = adminMemberService.delMembersList(member);
+		}
 		
-		MemberVO member = JSONtoMember(jsonObj);
-		int result = adminMemberService.delMembersList(member);
-		
-		System.out.println("[info] admin/controller/delMember> End ====================\n");
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
@@ -282,26 +252,78 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	 *		- Study_CustomerService
 	 ===========================================================================*/
 	@RequestMapping(value={"/delMembersList.do"}, method= {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("list") String jsonData) throws Exception {
-		System.out.println("[info] admin/controller/delMembersList> Start ==================");
+	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<MemberVO> membersList = new ArrayList<MemberVO>();
-
-		jsonData = URLDecoder.decode(jsonData,"utf-8");
-		JSONArray array = JSONArray.fromObject(jsonData);
-		for(int i=0;i<array.size();i++) {
-			JSONObject obj = (JSONObject)array.get(i);
-			MemberVO member = JSONtoMember(obj);
-			System.out.println(member.toString());
-			membersList.add(member);
+		
+		String jsonData = request.getParameter("list");
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			JSONArray array = JSONArray.fromObject(jsonData);
+			for(int i=0;i<array.size();i++) {
+				JSONObject obj = (JSONObject)array.get(i);
+				MemberVO member = JSONtoMember(obj);
+				System.out.println(member.toString());
+				membersList.add(member);
+			}
+			int result = adminMemberService.delMembersList(membersList);
+			System.out.println("삭제된 열 : " + result);
 		}
 		
-		int result = adminMemberService.delMembersList(membersList);
-		System.out.println("삭제된 열 : " + result);
-		
-		System.out.println("[info] admin/controller/delMembersList> End ====================\n");
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+	
+	
+	/* ===========================================================================
+	 * 9. 회원수정 창
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : MemberVO, Filter (ajax/???)
+	 * > 출력 : filter 
+	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
+	 * 
+	 * > 설명 : 삭제할 회원을 받아 삭제
+	 * 		관련 테이블 (cascade 제약 자동 연계삭제)
+	 *		- Study_Member
+	 *		- Study_Reserve
+	 *		- Study_Favorite
+	 *		- Study_CustomerService
+	 ===========================================================================*/
+	@RequestMapping(value={"/modMemberForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName"); // 잠시
+		System.out.println("viewName : "+viewName);
+		
+		// Member
+		MemberVO member = new MemberVO();
+		String jsonDataMem = request.getParameter("member");
+		if(jsonDataMem != null) {
+			jsonDataMem = URLDecoder.decode(jsonDataMem,"utf-8");
+			System.out.println(jsonDataMem);
+			JSONObject jsonObjMem = JSONObject.fromObject(jsonDataMem);
+			member = JSONtoMember(jsonObjMem);
+		}
+		
+		// SearchInfo
+		SearchInfoVO searchInfo = new SearchInfoVO();
+		String jsonDataSearch = request.getParameter("searchInfo");
+		if(jsonDataSearch != null) {
+			jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
+			System.out.println(jsonDataSearch);
+			JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
+			searchInfo = JSONtoSearchInfo(jsonObjSearch);
+		}
+		
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("member",member);
+		mav.addObject("searchInfo",searchInfo);
+		return mav;
+	}
+	
+	
+	// ===========================================================================
+	//                                    기타 
+	// ===========================================================================
+	
+	// JSONObject to MemberVO
 	private MemberVO JSONtoMember(JSONObject obj) {
 		MemberVO member = new MemberVO();
 		
@@ -332,187 +354,30 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		return member;
 	}
 	
-	/* ===========================================================================
-	 * 9. 회원수정 창
-	 * ---------------------------------------------------------------------------
-	 * > 입력 : MemberVO, Filter (ajax/???)
-	 * > 출력 : filter 
-	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
-	 * 
-	 * > 설명 : 삭제할 회원을 받아 삭제
-	 * 		관련 테이블 (cascade 제약 자동 연계삭제)
-	 *		- Study_Member
-	 *		- Study_Reserve
-	 *		- Study_Favorite
-	 *		- Study_CustomerService
-	 ===========================================================================*/
-	@RequestMapping(value={"/modMemberForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("member") String jsonDataMem,
-			@RequestParam("searchInfo") String jsonDataSearch) throws Exception {
-		System.out.println("[info] admin/controller/modMemberForm> Start ==================");
-		String viewName = (String)request.getAttribute("viewName"); // 잠시
-		System.out.println("viewName : "+viewName);
-		
-		// Member
-		jsonDataMem = URLDecoder.decode(jsonDataMem,"utf-8");
-		System.out.println(jsonDataMem);
-		JSONObject jsonObjMem = JSONObject.fromObject(jsonDataMem);
-		MemberVO member = JSONtoMember(jsonObjMem);
-		
-		// SearchInfo
-		jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
-		System.out.println(jsonDataSearch);
-		JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
-		SearchInfoVO searchInfo = JSONtoSearchInfo(jsonObjSearch);
-		
-		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("member",member);
-		mav.addObject("searchInfo",searchInfo);
-		System.out.println("[info] admin/controller/modMemberForm> End ====================\n");
-		return mav;
-	}
-	
-//	/* ===========================================================================
-//	 * 6. 회원 정보 수정 창
-//	 * ---------------------------------------------------------------------------
-//	 * > 입력 : MemberVO, Filter값 (post)
-//	 * > 출력 : MemberVO, Filter값
-//	 * > 이동 페이지 : /admin/modMemberForm.jsp (회원정보 수정창 - 실제페이지)
-//	 * > 설명 : 
-//	 * 		- 수정할 회원 정보를 전달
-//	 * 		- 이전 검색필터 전달
-//	 ===========================================================================*/
-//	@RequestMapping(value="/modMemberForm.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		System.out.println("[info] admin/controller/modMemberForm> Start ==================");
-//		String viewName = (String)request.getAttribute("viewName"); 
-//		System.out.println("viewName : "+viewName);
-//
-//		String searchFilter = (String)request.getAttribute("searchFilter");
-//		String searchContent = (String)request.getAttribute("searchContent");
-//		Integer adminMode = (Integer)request.getAttribute("adminMode");
-//		Date joinStart = (Date)request.getAttribute("joinStart");
-//		Date joinEnd = (Date)request.getAttribute("joinEnd");
-//		Integer page = (Integer)request.getAttribute("page");
-//		MemberVO member = (MemberVO)request.getAttribute("member");
-//		
-//		ModelAndView mav = new ModelAndView(viewName);
-//		mav.addObject("searchFilter", searchFilter);
-//		mav.addObject("searchContent", searchContent);
-//		mav.addObject("adminMod", adminMode);
-//		mav.addObject("joinStart", joinStart);
-//		mav.addObject("joinEnd", joinEnd);
-//		mav.addObject("page", page);
-//		mav.addObject("member", member);
-//		
-//		System.out.println("[info] admin/controller/modMember> End ====================\n");
-//		return mav;
-//	}
-//	
-//	/* ===========================================================================
-//	 *                                   회원수정 
-//	 * ---------------------------------------------------------------------------
-//	 * > 입력 : MemberVO, Filter값 / submit
-//	 * > 출력 : List<MemberVO>
-//	 * > 이동 페이지 : /admin/listMembersForm.do (회원목록창)
-//	 * > 설명 : 
-//	 * 		- 수정할 회원 정보를 받아 해당id와 맞는 column을 수정 
-//	 * 		- 조건에 맞는 회원 목록 불러오기 
-//	 ===========================================================================*/
-//	@RequestMapping(value="/modMembers.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public void modMember(HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam(value="searchFilter", required=false) String searchFilter,
-//			@RequestParam(value="searchContent", required=false) String searchContent,
-//			@RequestParam(value="adminMode", required=false) Integer adminMode,
-//			@RequestParam(value="joinStart", required=false) @DateTimeFormat(pattern="yyyyMMdd") Date joinStart,
-//			@RequestParam(value="joinEnd", required=false) @DateTimeFormat(pattern="yyyyMMdd") Date joinEnd,
-//			@RequestParam(value="page", required=false) Integer page,
-//			@ModelAttribute(value="") MemberVO member) throws Exception 
-//	{
-//		System.out.println("[info] admin/controller/modMember> Start ==================");
-//		String nextPage = "/admin/listMembers.do";
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-//		
-//		// 회원 정보 수정
-//		System.out.println("(수정된 회원 정보)\n" + member.toString());
-//		int result = adminMemberService.modMember(member);
-//		
-//		// 조건에 맞는 회원리스트 재 검색
-//		Map map = new HashMap();
-//		map.put("searchFilter", searchFilter);
-//		map.put("searchContent", searchContent);
-//		map.put("adminMode", adminMode);
-//		map.put("joinStart", joinStart);
-//		map.put("joinEnd", joinEnd);
-//		map.put("page", page);
-//		List membersList = adminMemberService.listMembersByFiltered(map);
-//		request.setAttribute("membersList", membersList);
-//		
-//		dispatcher.forward(request, response);
-//		System.out.println("[info] admin/controller/modMember> End ====================\n");
-//	}
-//	
-//	/* ===========================================================================
-//	 *                                   회원삭제 
-//	 * ---------------------------------------------------------------------------
-//	 * > 입력 : MemberVO(ajax/json)
-//	 * > 출력 : - 
-//	 * > 이동 페이지 : 회원 리스트(/admin/listMembers.do))
-//	 * 
-//	 * > 설명 : 수정할 회원 정보를 받아 해당id와 맞는 column을 수정 
-//	 ===========================================================================*/
-//	public void delMember(HttpServletRequest request, HttpServletResponse response,
-//			@ModelAttribute(value="") MemberVO member) throws Exception {
-//		System.out.println("[info] admin/controller/delMember> Start ==================");
-//		String nextPage = "/admin/main.do";
-//		
-//		int result = adminMemberService.modMember(member);
-//		
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-//		dispatcher.forward(request, response);
-//		System.out.println("[info] admin/controller/delMember> End ====================\n");
-//	}
+	// JSONObject to SearchInfoVO
+	private SearchInfoVO JSONtoSearchInfo(JSONObject obj) {
+		SearchInfoVO info = new SearchInfoVO();
 
-	
-
-	
-	
-	// ===========================================================================
-	//                                    기타 
-	// ===========================================================================
-	// view 이름 불러오기
-	private String getViewName(HttpServletRequest request)  throws Exception{
-		String contextPath = request.getContextPath();
-		String uri = (String)request.getAttribute("javax.servlet.include.request_uri");
-		
-		if (uri == null || uri.trim().equals("")) {
-			uri = request.getRequestURI();
+		info.setSearchFilter((String)obj.get("searchFilter"));
+		info.setSearchContent((String)obj.get("searchContent"));
+		info.setAdminMode(conData.StringtoInteger((String)obj.get("adminMode")));
+		info.setPage(conData.StringtoInteger((String)obj.get("page")));
+		try {
+			String strJoinStart = (String)obj.get("joinStart");
+			String strJoinEnd = (String)obj.get("joinEnd");
+			SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
+			Date joinStart = null;
+			Date joinEnd = null;
+			if(!conData.isEmpty(strJoinStart))
+				joinStart = new Date(dateForm.parse(strJoinStart).getTime());
+			if(!conData.isEmpty(strJoinEnd))
+				joinEnd = new Date(dateForm.parse(strJoinEnd).getTime());
+			info.setJoinStart(joinStart);
+			info.setJoinEnd(joinEnd);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
-		int begin = 0;
-		if(!((contextPath==null)|| ("".equals(contextPath)))) {
-			begin = contextPath.length();
-		}
-		
-		int end;
-		if(uri.indexOf(";") != -1) {
-			end = uri.indexOf(";");
-		} else if (uri.indexOf("?") != -1) {
-			end = uri.indexOf("?");
-		} else {
-			end = uri.length();
-		}
-		
-		String viewName = uri.substring(begin, end);
-		if(viewName.indexOf(".") != -1) {
-			viewName=viewName.substring(0,viewName.lastIndexOf("."));
-		}
-		if(viewName.lastIndexOf("/") != -1) {
-			viewName=viewName.substring(viewName.lastIndexOf("/",1), viewName.length());
-		}
-		
-		//viewName = viewName.replace("/", "");
-		return viewName;
+		return info;
 	}
 }

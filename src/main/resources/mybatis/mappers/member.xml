@@ -27,6 +27,12 @@
 		]]>
 	</select>
 	
+	<select id="selectMemberByIdPw" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+			select * from Study_Member where userId = #{userId} and userPw = #{userPw}
+		]]>
+	</select>
+	
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
 			insert into Study_Member

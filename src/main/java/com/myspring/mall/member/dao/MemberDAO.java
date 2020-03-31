@@ -8,7 +8,5 @@ import com.myspring.mall.member.vo.MemberVO;
 
 
 public interface MemberDAO {
-	public List selectAllMembers() throws DataAccessException;
-	public List selectMemberById(String userId);
-	public int insertMember(MemberVO member);
+	public MemberVO login(String userId, String userPw);
 }

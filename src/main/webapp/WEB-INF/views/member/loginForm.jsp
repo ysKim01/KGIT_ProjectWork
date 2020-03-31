@@ -35,7 +35,7 @@
                     document.frmLogin.userPw.focus();
                 }else{
                     alert(userId + "님 환영합니다.");
-                    location.href="${contextPath}/toLastPage.do";
+                    location.href="${contextPath}/lastPage.do";
                 }
             }
         })

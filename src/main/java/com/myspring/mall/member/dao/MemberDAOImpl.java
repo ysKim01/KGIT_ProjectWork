@@ -3,7 +3,9 @@ package com.myspring.mall.member.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Repository;
 
 import com.myspring.mall.member.vo.MemberVO;
 
+import net.sf.json.JSONObject;
+
 
 
 @Repository("memberDAO")
@@ -26,24 +30,13 @@ public class MemberDAOImpl implements MemberDAO{
 	private SqlSession sqlSession;
 
 	@Override
-	public List selectAllMembers() throws DataAccessException {
-		List<MemberVO> membersList = null;
-		membersList = sqlSession.selectList("mapper.member.selectAllMemberList");
-		return membersList;
-	}
-
-	@Override
-	public List selectMemberById(String userId) {
-		List<MemberVO> membersList = null;
-		membersList = sqlSession.selectList("mapper.member.selectMemberById");
-		return membersList;
-	}
-
-	@Override
-	public int insertMember(MemberVO member) {
-		int result = 0;
-		result = sqlSession.insert("mapper.member.insertMember");
-		return 0;
+	public MemberVO login(String userId, String userPw) {
+		Map loginInfo = new HashMap();
+		loginInfo.put("userId", userId);
+		loginInfo.put("userPw", userPw);
+		
+		MemberVO member = (MemberVO)sqlSession.selectOne("mapper.member.selectMemberByIdPw", loginInfo);
+		return member;
 	}
 
 }

@@ -100,6 +100,9 @@ public class ControllData {
 			String lastPage = (String)session.getAttribute("lastPage");
 			session.removeAttribute("lastPage");
 			result = lastPage;
+			if(result == null) {
+				result = "/main.do";
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

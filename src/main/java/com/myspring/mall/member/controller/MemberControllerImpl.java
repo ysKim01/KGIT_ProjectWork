@@ -77,24 +77,51 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	 * 		- 로그인 창
 	 ===========================================================================*/
 	@RequestMapping(value= {"/login.do"}, method={RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<Boolean> login(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("userId") String userId,
-			@RequestParam("userPw") String userPw ) throws Exception {
+	public ResponseEntity<Boolean> login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("viewName : "+viewName);
 		ResponseEntity<Boolean> resEntity = null;
+		boolean logon = false;
 		
-		System.out.println(userId);
-		System.out.println(userPw);
-		
-		//boolean isValidId = memberService.login(userId, userPw);
+		String userId = request.getParameter("userId");
+		String userPw = request.getParameter("userPw");
+		if(!conData.isEmpty(userId) && !conData.isEmpty(userPw)) {
+			MemberVO member = memberService.login(userId, userPw);
+			if(member != null) {
+				logon = true;
+				HttpSession session = request.getSession();
+				session.setAttribute("logon", true);
+				session.setAttribute("logonMember", member);
+			}
+		}
 		
 		try {
-			resEntity = new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			resEntity = new ResponseEntity<Boolean>(logon, HttpStatus.OK);
 		}catch(Exception e) {
 			resEntity = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return resEntity;
+	}
+	
+	/* ===========================================================================
+	 * 2. 로그아웃
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : userId, userPw
+	 * > 출력 : -
+	 * > 이동 페이지 : /member/loginForm.do (로그인 창)
+	 * > 설명 : 
+	 * 		- 로그인 창
+	 ===========================================================================*/
+	@RequestMapping(value= {"/logout.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		conData.setLastPage(request);
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("logon");
+		session.removeAttribute("logonMember");
+		
+		ModelAndView mav = new ModelAndView("redirect:/lastPage.do");
+		return mav;
 	}
 	
 	

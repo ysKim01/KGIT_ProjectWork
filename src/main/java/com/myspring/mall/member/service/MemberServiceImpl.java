@@ -17,26 +17,11 @@ import com.myspring.mall.member.vo.MemberVO;
 public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberDAO memberDAO;
+
+	@Override
+	public MemberVO login(String userId, String userPw) {
+		MemberVO member = memberDAO.login(userId,userPw);
+		return member;
+	}
 	
-	public List listMembers() throws DataAccessException {
-		List membersList = null;
-		membersList = memberDAO.selectAllMembers();
-		
-		return membersList;
-	}
-	@Override
-	public boolean isValidId(String userId) {
-		boolean result = false;
-		List membersList = null;
-		membersList = memberDAO.selectMemberById(userId);
-		if(membersList==null || membersList.size()==0) {
-			result = true;
-		}
-		
-		return result;
-	}
-	@Override
-	public int addMember(MemberVO member) {
-		return memberDAO.insertMember(member);
-	}
 }

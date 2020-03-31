@@ -32,7 +32,7 @@
 		 	- 검색필터 전달 후 회원 검색창으로
 	 ===========================================================================*/
 	function searchMember(obj){
-		var form = document.getElementById("frmMembersList");
+		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Get");  //Get 방식
         form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
@@ -55,7 +55,7 @@
         searchInfo['searchContent'] = document.getElementById("searchContent").value;
         searchInfo['joinStart'] = document.getElementById("joinStart").value;
         searchInfo['joinEnd'] = document.getElementById("joinEnd").value;
-        searchInfo['adminMode'] = document.getElementById("adminMode").value;
+        searchInfo['adminMode'] = adminMode.value;
         searchInfo['page'] = "1";
         
         var hiddenField = document.createElement("input");
