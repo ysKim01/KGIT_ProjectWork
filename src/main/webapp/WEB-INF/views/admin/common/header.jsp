@@ -17,13 +17,18 @@
 <script src="${contextPath }/resources/js/main.js"></script>
 <script>
 $(window).on('load',function(){
-	var isAdmin = document.getElementById("isAdmin").value;
-	
-	if(isAdmin != 1){
-		alert("관리자가 아니므로 접근하실수 없습니다.");
-		location.href="${contextPath}/main.do";
-	}
-	
+	//test
+	var _isLogOn=document.getElementById("logon");
+	var isLogOn=_isLogOn.value;
+	var loginTag = document.getElementById("loginMember");
+
+ 	if(isLogOn=="false" || isLogOn=='' ){
+ 		loginTag.innerHTML = "로그인";
+ 		loginTag.href="${contextPath}/member/loginForm.do"; 
+ 	}else{
+ 		loginTag.innerHTML = "로그아웃";
+ 		loginTag.href="${contextPath}/member/logout.do";
+ 	}
 });
 </script>
 </head>
@@ -42,7 +47,7 @@ $(window).on('load',function(){
 			<li class="menu"><a href="${contextPath }/admin/adminReservation.do">예약관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminQna.do">1:1문의</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminOnedayclass.do">원데이클래스</a></li>
-			<li class="menu"><a href="${contextPath }/admin/adminCompany.do">업체관리</a></li>
+			<li class="menu"><a href="${contextPath }/admin/adminCenter.do">업체관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminNotice.do">공지사항</a></li>
 		</ul>
 	</nav>
@@ -64,7 +69,6 @@ $(window).on('load',function(){
 
 <!-- Session 값 받아오기 -->
 <input type="hidden" name="logon" id="logon" value="${logon}"/>
-<input type="hidden" name="isAdmin" id="isAdmin" value="${logonMember.adminMode}"/>
 </body>
 </html>
 

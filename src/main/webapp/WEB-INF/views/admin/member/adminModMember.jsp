@@ -23,11 +23,26 @@
    	var idOverLap = false;
    	// 아이디 중복확인
    	var adminModeOk = false;
-       
-
+   
+   	
+   	
+   	
+	var userAdd = '${member.userAdd1}' + ' ' + '${member.userAdd2}' + ' ' + '${member.userAdd3}'; 
+   	var userSubAdd = '${member.userAdd4}';
+   	var userTel1 = '${member.userTel1}';
+   	var userTel2 = '${member.userTel2}';
+   	var userTel3 = '${member.userTel3}';
+   	var userDate = '${member.userBirth}';
+   	var userBirth = userDate.split('-');
+   	var userbirthYear = userBirth[0];
+   	var userbirthMonth = userBirth[1];
+   	var userbirthDay = userBirth[2];
+   	
        $(window).on('load',function(){
-           
-
+		   $('#userAdd1').val(userAdd);
+		   $('#userAdd2').val(userSubAdd);
+		   
+		   
            // 생년월일 날짜 option
            var adminAddMember = document.adminAddMember;
            var date = new Date();
@@ -39,6 +54,7 @@
                    "<option value="+i+">"+i+"년</option>"
                );
            };
+           $('.birthYear option[value='+userbirthYear+']').attr('selected',true);
            for(var i = 1; i<=12; i++){
                var count = i;
                if(i < 10){
@@ -48,6 +64,7 @@
                    "<option value="+count+">"+count+"월</option>"
                )
            }
+           $('.birthMonth > option[value='+userbirthMonth+']').attr('selected',true);
            for(var i=1; i<=day; i++){
                var count = i;
                if(i < 10){
@@ -57,6 +74,7 @@
                    "<option value="+count+">"+count+"일</option>"
                )
            }
+           $('.birthDay > option[value='+userbirthDay+']').attr('selected',true);
            $('.birthYear option:last').attr('selected','select');
            $('.birthMonth option:eq('+month+')').attr('selected','select');
            // 날짜 end\

@@ -13,26 +13,26 @@
 	
 	<definition	name="/admin" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminMain.jsp"></put-attribute>
 	</definition>
 	<definition	name="/admin/main" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminMain.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/membershipForm" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원등록"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminAddMember.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminAddMember.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/modMemberForm" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원수정"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminModMember.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminModMember.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/listMembers" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 회원목록"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminMembers.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminMembers.jsp"></put-attribute>
 	</definition>
 	
 </tiles-definitions>

@@ -21,6 +21,20 @@
 			return false;
 		}
 	}
+	var searchFilter = '${searchInfo.searchFilter}';
+	var adminChk = '${searchInfo.adminMode}';
+	$(document).on('ready',function(){
+		if(searchFilter != ''){
+			console.log($('#searchFilter option[value='+searchFilter+']').attr('selected',true));
+			$('#searchFilter option[value='+searchFilter+']').attr('selected',true);
+		}
+		if(adminChk == 1){
+			$('#adminChk').attr('checked',true);
+		}else{
+			$('#adminChk').attr('checked',false);
+		}
+		
+	})
  	
 	/* ===========================================================================
 	 * 1. 회원 검색
@@ -31,12 +45,14 @@
 	 * > 설명 : 
 		 	- 검색필터 전달 후 회원 검색창으로
 	 ===========================================================================*/
-	function searchMember(obj){
+	function searchMember(paginate){
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Get");  //Get 방식
         form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
-
+		if(paginate == null || paginate == '' || paginate == 'undefined'){
+			paginate = '1';
+		}
         // AdminMode
         var adminMode = document.createElement("input");
         adminMode.setAttribute("type", "hidden");
@@ -56,7 +72,7 @@
         searchInfo['joinStart'] = document.getElementById("joinStart").value;
         searchInfo['joinEnd'] = document.getElementById("joinEnd").value;
         searchInfo['adminMode'] = adminMode.value;
-        searchInfo['page'] = "1";
+        searchInfo['page'] = paginate;
         
         var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
@@ -266,6 +282,94 @@
 		
 		searchMember();
 	}
+	 // ==================================== //
+	// ========== pagination ============== //
+	// ==================================== //
+	let page = <c:out value="${searchInfo.page}" default="1" />
+	let pagingGroup = 1;
+	let maxPaging = 1;
+	$("document").ready(function(){
+		
+		
+	 	var currentPage = page;	// 현재 보고있는 페이지
+		paging(currentPage);
+	 	
+	 	$('#prev').on('click',function(){
+	 		clickPaging($(this));
+	 	});
+	 	$('#next').on('click',function(){
+	 		clickPaging($(this));
+	 	});
+	 	$('.pageCover > a').on('click',function(){
+	 		clickPaging($(this));
+	 	})
+	 	
+	 	// 검색창 enter키 이벤트
+	 	$('#searchContent').on('keydown',function(event){
+	 		if(event.keyCode == 13)
+	   	     {
+	 			console.log('1');
+	 			searchMember();
+	 			return;
+	   	     }
+	 		
+	 	})
+	});
+	
+	function paging(currentPage){
+		var html = "";
+		
+		/* if(prev > 0){
+			html += "<a href=# id='one'>&lt;&lt;</a> ";
+			html += "<a href=# id='prev'>&lt;</a> ";
+			
+		} */
+		pagingGroup = Math.ceil(currentPage / 10);
+		console.log(pagingGroup);
+		let firstPage = pagingGroup * 10 - 9;
+		let lastPage = firstPage + 9;
+		
+		html += "<span class='pagePrev'><button  id='prev'><i class='larr'></i>prev</button></span><span class='pageCover'>";
+		
+		for(var i=firstPage; i <= lastPage; i++){
+			if(i == page){
+				html += "<a href='#' id=" + i + " class='select'>" + i + "</a> ";
+			}else{
+				html += "<a href='#' id=" + i + ">" + i + "</a> ";
+			}
+		}
+		html += "</span><span class='pageNext'><button  id='next'><i class='rarr'></i>next</button></span>";
+		
+		$("#paginate").html(html);
+		
+	}
+	function clickPaging(event){
+		
+		if(event.context.id == 'prev'){
+			if(pagingGroup == 1){
+				return;
+			}
+			
+			var setPage = (pagingGroup - 1) * 10 ;
+			console.log(String(setPage));
+			searchMember(String(setPage));
+			return;
+			
+		}
+		if(event.context.id == 'next'){
+			if(maxPaging < 1){
+				return;
+			}
+			var setPage = pagingGroup * 10 + 1;
+			console.log(String(setPage));
+			searchMember(String(setPage));
+			return;
+		}
+		
+		searchMember(String(event.context.id));
+		return;
+        
+	}
 	
 </script>
 </head>
@@ -274,7 +378,7 @@
 <div id="container">
 	<div class="width_wrap">
 		<div class="search_wrap">
-			<form method="post" action="#" id='frmMembersList'>
+			<form method="post" action="#" id='frmMembersList' onsubmit="return false;">
 				<fieldset>
 					<legend>회원정보 검색창</legend>
 					<ul class="search_list clear_both">
@@ -285,7 +389,7 @@
 								<option value="userName">이름</option>
 								<option value="userTel">휴대전화</option>
                   		  	</select></span>
-                            <span class="input_wrap"><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"></span> <!-- text name값 설정 -->
+                            <span class="input_wrap"><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
 						</li>
 						<li>
                             <label for="startDate">가입일자</label>
@@ -324,7 +428,7 @@
 					<c:choose>
 						<c:when test="${membersList eq '' || empty membersList  }">
 							<tr>
-								<th colspan="6">현재 등록된 회원 정보가 없습니다.</th>
+								<th colspan="8" style="padding:30px 0;">현재 등록된 회원 정보가 없습니다.</th>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -348,6 +452,8 @@
 					<a href="${contextPath }/admin/membershipForm.do" class="memAdd"><strong>등록</strong></a>
 					<a href="#" onclick="chkDelMember()" class="memDel"><strong>탈퇴</strong></a>
 				</p>
+				<div id="paginate">
+				</div>
 			</div>
 			<!-- content end-->
 		</div>

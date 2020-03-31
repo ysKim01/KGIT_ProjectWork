@@ -125,13 +125,14 @@
         for(var j=0; j<count; j++){
             var select = $('.trRoomInfo').eq(j);
             var childObj = {
+            	centerCode : centerInfo.centerCode,
                 roomCode : '',
                 roomName : '',
                 scale : '',
             };
             
             var max = select.children('td').length-1;
-            for(var i = 0; i<max ; i++){
+            for(var i = 1; i<max ; i++){
                 thisVal = select.children('td').eq(i).children('input').val();
                 if(isEmpty(thisVal)){
                     console.log(childObj[i]);
@@ -149,8 +150,10 @@
         // ========== studyFacility =========== //
         // ======= 체크시 1 , 미체크시 0 =========//
         // ==================================== //
-        var studyFacility = new Object();
-
+        var studyFacility = {
+        	centerCode : centerInfo.centerCode
+        }
+		
         var facility = document.getElementsByClassName('facility');
         for(var i = 0; i < facility.length; i++){
             console.log(facility[i].checked);
@@ -185,14 +188,9 @@
             }
         }
         
-        $('.selector').on('keyup', function() {
-            if($(this).val().length > 50) {
-                alert("글자수는 50자로 이내로 제한됩니다.");
-                $(this).val($(this).val().substring(0, 50));
-            }
-        });
         var centerMain = $('#foomMain').get(0).files;
-        if(isEmpty(centerMain)){
+        console.log(centerMain);
+        if(centerMain.length == 0){
             alert('센터 메인사진을 첨부해주세요.');
             $('#centerMain').focus();
             return;
@@ -208,6 +206,7 @@
         }
         
         var centerContents = {
+       		centerCode : centerInfo.centerCode,
             centerIntroduce : centerIntroduce,
             centerFareInfo : centerFareInfo,
             centerUseInfo : centerUseInfo,
@@ -224,7 +223,7 @@
             dataType : 'text',
             contentType : 'application/JSON',
             data:{
-                centerInfo : JSON.stringify(centerContents),
+                centerInfo : JSON.stringify(centerInfo),
                 roomInfo : JSON.stringify(roomInfo),
                 studyFacility : JSON.stringify(studyFacility),
                 centerContents : JSON.stringify(centerContents)
