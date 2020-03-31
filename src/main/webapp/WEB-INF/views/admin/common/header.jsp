@@ -18,17 +18,11 @@
 <script>
 $(window).on('load',function(){
 	//test
-	var _isLogOn=document.getElementById("logon");
-	var isLogOn=_isLogOn.value;
-	var loginTag = document.getElementById("loginMember");
-
- 	if(isLogOn=="false" || isLogOn=='' ){
- 		loginTag.innerHTML = "로그인";
- 		loginTag.href="${contextPath}/member/loginForm.do"; 
- 	}else{
- 		loginTag.innerHTML = "로그아웃";
- 		loginTag.href="${contextPath}/member/logout.do";
- 	}
+	var isAdmin = document.getElementById("isAdmin").value;
+	if(isAdmin != 1){
+		alert("관리자가 아니면 접근하실 수 없습니다.");
+		location.href = "${contextPath}/main.do";
+	}
 });
 </script>
 </head>
@@ -69,6 +63,7 @@ $(window).on('load',function(){
 
 <!-- Session 값 받아오기 -->
 <input type="hidden" name="logon" id="logon" value="${logon}"/>
+<input type="hidden" name="isAdmin" id="isAdmin" value="${logonMember.adminMode}"/>
 </body>
 </html>
 

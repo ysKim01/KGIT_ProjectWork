@@ -93,42 +93,21 @@
 	 * > 설명 : 
 		 	- 
 	 ===========================================================================*/
-	function editMember(obj){
+	function editMember(userId){
 		// form 생성
 		var form = document.getElementById("frmMembersList");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Post");  //Post 방식
         form.setAttribute("action", "${contextPath}/admin/modMemberForm.do"); //요청 보낼 주소
 		
-        // 선택된 Member 정보 
-		var mem = new Object();
-		let count = 0;
-		<c:forEach var="item" items="${membersList}" varStatus="status">
-			if(count==obj){
-				mem['userId'] = "${item.userId}";
-				mem['userPw'] = "${item.userPw}";
-				mem['userName'] = "${item.userName}";
-				mem['userEmail'] = "${item.userEmail}";
-				mem['userBirth'] = "${item.userBirth}";
-				mem['userTel1'] = "${item.userTel1}";
-				mem['userTel2'] = "${item.userTel2}";
-				mem['userTel3'] = "${item.userTel3}";
-				mem['userAdd1'] = "${item.userAdd1}";
-				mem['userAdd2'] = "${item.userAdd2}";
-				mem['userAdd3'] = "${item.userAdd3}";
-				mem['joinDate'] = "${item.joinDate}";
-				mem['adminMode'] = "${item.adminMode}";
-			}	
-			count++;
-		</c:forEach>
-		console.log(mem);
+        // 선택된 Member userId
 		var member = document.createElement("input");
 		member.setAttribute("type", "hidden");
-		member.setAttribute("name", "member");
-		member.setAttribute("value", encodeURI(JSON.stringify(mem)));
+		member.setAttribute("name", "userId");
+		member.setAttribute("value", userId);
         form.appendChild(member);
-		
 
+        
 		// 검색 필터
         // AdminMode
         var adminMode = document.createElement("input");
@@ -440,7 +419,7 @@
 									<td>${memTable.userTel1 }-${memTable.userTel2 }-${memTable.userTel3 }</td>
 									<td>${memTable.userEmail }</td>
 									<td>${memTable.joinDate }</td>
-									<td><input type="button" class="btn_type_02" href="#" onclick="editMember(${status.index})" value="수정"></td>
+									<td><input type="button" class="btn_type_02" href="#" onclick="editMember('${memTable.userId}')" value="수정"></td>
 									<td><input type="button" class="btn_type_02" href="#" onclick="delMember(${status.index})" value="삭제"></td>
 								</tr>
 							</c:forEach> 

@@ -21,7 +21,12 @@ $(window).on('load',function(){
 	var _isLogOn=document.getElementById("logon");
 	var isLogOn=_isLogOn.value;
 	var loginTag = document.getElementById("loginMember");
-
+	
+	console.log(isLogOn);
+	console.log(document.getElementById("userId").value);
+	console.log(document.getElementById("isAdmin").value);
+	console.log(document.getElementById("test").value);
+	
  	if(isLogOn=="false" || isLogOn=='' ){
  		loginTag.innerHTML = "로그인";
  		loginTag.href="${contextPath}/member/loginForm.do"; 
@@ -69,6 +74,9 @@ $(window).on('load',function(){
 
 <!-- Session 값 받아오기 -->
 <input type="hidden" name="logon" id="logon" value="${logon}"/>
+<input type="hidden" name="userId" id="userId" value="${logonMember.userId}"/>
+<input type="hidden" name="isAdmin" id="isAdmin" value="${logonMember.adminMode}"/>
+<input type="hidden" name="test" id="test" value="${test}"/>
 </body>
 </html>
 

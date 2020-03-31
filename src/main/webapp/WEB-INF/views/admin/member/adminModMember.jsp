@@ -42,7 +42,6 @@
 		   $('#userAdd1').val(userAdd);
 		   $('#userAdd2').val(userSubAdd);
 		   
-		   
            // 생년월일 날짜 option
            var adminAddMember = document.adminAddMember;
            var date = new Date();

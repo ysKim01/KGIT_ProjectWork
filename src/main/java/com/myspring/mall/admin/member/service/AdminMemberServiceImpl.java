@@ -199,5 +199,11 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		
 		return result;
 	}
+
+	@Override
+	public MemberVO getMemberById(String userId) {
+		MemberVO member = (MemberVO) adminMemberDAO.selectMemberById(userId).get(0);
+		return member;
+	}
 	
 }

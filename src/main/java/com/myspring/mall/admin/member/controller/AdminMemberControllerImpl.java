@@ -291,25 +291,28 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName"); // 잠시
 		System.out.println("viewName : "+viewName);
+		boolean result = true;
 		
 		// Member
-		MemberVO member = new MemberVO();
-		String jsonDataMem = request.getParameter("member");
-		if(jsonDataMem != null) {
-			jsonDataMem = URLDecoder.decode(jsonDataMem,"utf-8");
-			System.out.println(jsonDataMem);
-			JSONObject jsonObjMem = JSONObject.fromObject(jsonDataMem);
-			member = JSONtoMember(jsonObjMem);
+		MemberVO member = null;
+		String userId = request.getParameter("userId");
+		if(!conData.isEmpty(userId)) {
+			member = adminMemberService.getMemberById(userId);
+			if(member==null) {result = false;}
+		}else {
+			result = false;
 		}
 		
 		// SearchInfo
 		SearchInfoVO searchInfo = new SearchInfoVO();
 		String jsonDataSearch = request.getParameter("searchInfo");
-		if(jsonDataSearch != null) {
+		if(!conData.isEmpty(jsonDataSearch)) {
 			jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
 			System.out.println(jsonDataSearch);
 			JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
 			searchInfo = JSONtoSearchInfo(jsonObjSearch);
+		}else {
+			result = false;
 		}
 		
 		ModelAndView mav = new ModelAndView(viewName);

@@ -87,11 +87,13 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		String userPw = request.getParameter("userPw");
 		if(!conData.isEmpty(userId) && !conData.isEmpty(userPw)) {
 			MemberVO member = memberService.login(userId, userPw);
+			//System.out.println(member.toString());
 			if(member != null) {
 				logon = true;
 				HttpSession session = request.getSession();
 				session.setAttribute("logon", true);
 				session.setAttribute("logonMember", member);
+				session.setAttribute("test", "test");
 			}
 		}
 		
