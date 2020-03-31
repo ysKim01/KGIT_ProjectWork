@@ -1,0 +1,36 @@
+1. 회원 검색, 회원 수정
+	> admin null 인경우도 만들어 줘야함
+	> 회원 수정 콤보박스 체크박스 값 받아오기	
+
+3. 예약 등록, 관리
+
+완료 >
+ - 로그인, 로그아웃 및 이전 페이지 이동.
+ - 관리자 페이지 전용 레이아웃 분리
+ - 관리자 페이지 로그인 세션 컨트롤
+		> 뷰파일 충돌 : AdminMembers.jsp : 검색 시 전송 form 변경, 및 진호씨 작업 파일들
+
+submit > model, json 동시 가능
+ajax > json array 가능
+ModelAttribute ->date타입으로 보낼 경우 format 필요없음, @JsonFormat 둬도 상관은 없음
+requestbody ->string time으로 보낼 경우 @JsonFormat 해야됨
+<where>은 where 1=1 이랑 쓰면 오류난다 씨발
+contentType:"application/JSON" >> RequestBody로 json을 이용한 객체 매핑을 할때 사용. 
+	Requestparam으로 받으려 할 경우 오류
+json Object로 변환시 null값일 경우 오류
+파라미터는 스트링으로 하는게 가장 편함
+
+[삭제 연계]
+create table A(
+serial_no number(11) ,
+constraint pk_serial_no primary key (serial_no)
+);
+create table B(
+serial_no number(11) primary key,
+req_no number(11),
+foreign key (req_no) references A(serial_no)  on delete cascade
+);
+
+세션관리
+ajax controller 페이지 이동
+예약

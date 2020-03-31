@@ -1,0 +1,170 @@
+@charset "UTF-8";
+
+.registerForm table{
+	width:600px;
+}
+.outline thead #info{
+	background-color:#e2eae9;
+}
+.align_center{
+	text-align:center;
+}
+
+.registerForm input{
+	height:27px;
+    padding-left:5px;
+    box-sizing:border-box;
+}
+.registerForm input[type="text"],
+.registerForm select{
+    font-size:17px;
+}
+.registerForm select {
+	width: 120px;
+    padding: .3em .8em;
+    box-sizing:border-box;
+	border: 1px solid #999;
+	font-family: inherit;
+	font-size:15px;
+	background: url('boxarrow.jpg') no-repeat 95% 50%;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+select::-ms-expand {
+	display: none;
+}
+
+.registerForm th,td{
+    padding:5px;
+    box-sizing:border-box;
+    text-align:left;
+}
+
+.outline{
+	border:1px solid black;
+}
+.inputBtn{
+	height:50px;
+	font-size:15px;
+	text-align:center;
+}
+#centerCode, #centerName, #unitPrice, #primiumRate{
+	width: 170px;
+	
+}
+.centerTel{
+	width: 80px;
+}
+
+#unitPrice, #premiumRate{
+	width: 80px;
+}
+/* 편의시설 정보 */
+
+.registerForm input[type=checkbox]
+{
+ 
+  -ms-transform: scale(1.5);
+  -moz-transform: scale(1.5); 
+  -webkit-transform: scale(1.5);
+  -o-transform: scale(1.5); 
+  padding: 5px;
+  vertical-align:-8px;
+  position:relative;
+}
+
+/* 완료&취소 버튼 */
+#okBtn {
+
+    width:150px;
+    height:50px;
+
+    background-color: #63635e;
+
+    border: none;
+
+    color:#fff;
+
+/*    padding: 15px 0;*/
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 20px;
+
+    margin: 4px;
+
+    cursor: pointer;
+
+	border-radius:10px;
+}
+
+#cancelBtn{
+	width:150px;
+    height:50px;
+
+    background-color: white;
+
+    border: 1px solid black;
+
+    color:black;
+
+/*    padding: 15px 0;*/
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 20px;
+
+    margin: 4px;
+
+    cursor: pointer;
+
+	border-radius:10px;
+}
+
+
+.text_center{text-align:center !important;}
+.trRoomInfo td input{
+    max-width:160px;
+}
+
+
+
+#roomInfo tbody tr:first-child th:last-child{min-width:80px;}
+#roomInfo tbody tr th{width:30%;}
+.disp_none{font-size:0 !important; text-indent:-99999999px;}
+
+#roomInfo .trRoomInfo td:nth-child(3){ position:relative;}
+#roomInfo .trRoomInfo td:nth-child(3) .scale{padding-right:25px;}
+#roomInfo .trRoomInfo td:nth-child(3):before{
+    content:'명';
+    display:block;
+    width:10px;
+    position:absolute; right:15px;
+    top:11px;
+    font-size:14px;
+    color:#666;
+}
+.rowAddBtn,
+.rowDelBtn{
+    width:21px; height:21px;
+    box-sizing:border-box;
+    border:0;
+    background-color:#333;
+    color:#fff;
+    float:left;
+    margin-right:5px;
+}
+#centerContents textarea{
+    width:100% ; height:100px; letter-spacing:0; padding:8; border-style:dotted; font-size:13px;
+    resize:none; box-sizing:border-box;
+}
