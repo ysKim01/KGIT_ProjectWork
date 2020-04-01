@@ -12,7 +12,8 @@
 <title>Admin 회원관리</title>
 
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminMemList.css">
-
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/dcalendar.picker.css">
+<script src="${contextPath }/resources/js/dcalendar.picker.js"></script>
 <script>
 	var isEmpty = function(value){
 		if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
@@ -24,8 +25,15 @@
 	var searchFilter = '${searchInfo.searchFilter}';
 	var adminChk = '${searchInfo.adminMode}';
 	$(document).on('ready',function(){
+		$('#joinStart').dcalendarpicker({
+			format:'yyyy-mm-dd'
+		})
+		$('#joinEnd').dcalendarpicker({
+			format:'yyyy-mm-dd'
+		})
+		
 		if(searchFilter != ''){
-			console.log($('#searchFilter option[value='+searchFilter+']').attr('selected',true));
+			
 			$('#searchFilter option[value='+searchFilter+']').attr('selected',true);
 		}
 		if(adminChk == 1){
@@ -170,7 +178,7 @@
 			}	
 			count++;
 		</c:forEach>
-		console.log(mem);
+		
 		
 		$.ajax({
 			type:"post",
@@ -217,7 +225,7 @@
 			list['adminMode'] = "${item.adminMode}";
 			membersList.push(list);
 		</c:forEach>
-		console.log(membersList);
+		
 		var chkObj = new Object();
 		var delMemberObj = [];
 		var targets = document.getElementsByClassName('memChk');
@@ -233,7 +241,7 @@
 		let count = 0;		
 		for(var i in chkObj){
 			if(chkObj[i] === "chk"){
-				console.log();
+				
 				delMemberObj[count++] = membersList[i];
 			}
 		}
@@ -242,7 +250,7 @@
 			alert("체크된 항목이 없습니다. 다시 선택해 주세요.");
 			return;
 		}
-		console.log(delMemberObj);
+		
 		if(!confirm("정말 삭제하시겠습니까?")) return;
 		
 		$.ajax({
@@ -287,7 +295,7 @@
 	 	$('#searchContent').on('keydown',function(event){
 	 		if(event.keyCode == 13)
 	   	     {
-	 			console.log('1');
+	 			
 	 			searchMember();
 	 			return;
 	   	     }
@@ -304,7 +312,7 @@
 			
 		} */
 		pagingGroup = Math.ceil(currentPage / 10);
-		console.log(pagingGroup);
+		
 		let firstPage = pagingGroup * 10 - 9;
 		let lastPage = firstPage + 9;
 		
@@ -330,7 +338,7 @@
 			}
 			
 			var setPage = (pagingGroup - 1) * 10 ;
-			console.log(String(setPage));
+			
 			searchMember(String(setPage));
 			return;
 			
@@ -340,7 +348,7 @@
 				return;
 			}
 			var setPage = pagingGroup * 10 + 1;
-			console.log(String(setPage));
+			
 			searchMember(String(setPage));
 			return;
 		}
@@ -368,13 +376,13 @@
 								<option value="userName">이름</option>
 								<option value="userTel">휴대전화</option>
                   		  	</select></span>
-                            <span class="input_wrap"><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
+                            <span class="input_wrap "><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
 						</li>
 						<li>
                             <label for="startDate">가입일자</label>
-                            <span class="input_wrap"><input type="date" class="joinDate" name="joinStart" id="joinStart" value="${searchInfo.joinStart}"></span>
+                            <span class="input_wrap joinDate"><input type="text" class="" name="joinStart" id="joinStart" value="${searchInfo.joinStart}"></span>
                             <i>~</i>
-							<span class="input_wrap"><input type="date" class="searchDate" name="joinEnd" id="joinEnd" value="${searchInfo.joinEnd}"></span>
+							<span class="input_wrap joinDate"><input type="text" class="searchDate" name="joinEnd" id="joinEnd" value="${searchInfo.joinEnd}"></span>
 						</li>
 						<li>
                             <span class="search_btn_wrap">
@@ -419,8 +427,9 @@
 									<td>${memTable.userTel1 }-${memTable.userTel2 }-${memTable.userTel3 }</td>
 									<td>${memTable.userEmail }</td>
 									<td>${memTable.joinDate }</td>
-									<td><input type="button" class="btn_type_02" href="#" onclick="editMember('${memTable.userId}')" value="수정"></td>
-									<td><input type="button" class="btn_type_02" href="#" onclick="delMember(${status.index})" value="삭제"></td>
+									
+									<td><button type="button" class="editBtn" onclick="editMember('${memTable.userId }')" value="수정"><i class="icon icon-checkmark"></i></button></td>
+									<td><button type="button" class="delBtn" onclick="delMember('${status.index}')" value="삭제"><i class="icon icon-cross"></i></button></td>
 								</tr>
 							</c:forEach> 
 						</c:otherwise>

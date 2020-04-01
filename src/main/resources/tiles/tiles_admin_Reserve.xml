@@ -11,9 +11,15 @@
 		<put-attribute name="footer" value="/WEB-INF/views/admin/common/footer.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin" extends="baseAdminReserve">
-		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
+	
+	<definition	name="/admin/listReservesForm" extends="baseAdminReserve">
+		<put-attribute name="title" value="관리자 예약등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminAddReservesList.jsp"></put-attribute>
+	</definition>
+	
+	<definition	name="/admin/addReserveForm" extends="baseAdminReserve">
+		<put-attribute name="title" value="관리자 예약등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminAddReserve.jsp"></put-attribute>
 	</definition>
 	
 </tiles-definitions>

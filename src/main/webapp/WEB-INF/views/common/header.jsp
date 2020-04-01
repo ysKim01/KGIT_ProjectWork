@@ -13,6 +13,7 @@
 <title>헤더</title>
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/reset.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminTop.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/icomoon.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${contextPath }/resources/js/main.js"></script>
 <script>
@@ -21,11 +22,6 @@ $(window).on('load',function(){
 	var _isLogOn=document.getElementById("logon");
 	var isLogOn=_isLogOn.value;
 	var loginTag = document.getElementById("loginMember");
-	
-	console.log(isLogOn);
-	console.log(document.getElementById("userId").value);
-	console.log(document.getElementById("isAdmin").value);
-	console.log(document.getElementById("test").value);
 	
  	if(isLogOn=="false" || isLogOn=='' ){
  		loginTag.innerHTML = "로그인";
@@ -74,9 +70,8 @@ $(window).on('load',function(){
 
 <!-- Session 값 받아오기 -->
 <input type="hidden" name="logon" id="logon" value="${logon}"/>
-<input type="hidden" name="userId" id="userId" value="${logonMember.userId}"/>
-<input type="hidden" name="isAdmin" id="isAdmin" value="${logonMember.adminMode}"/>
-<input type="hidden" name="test" id="test" value="${test}"/>
+<input type="hidden" name="userId" id="userId" value="${logonId}"/>
+<input type="hidden" name="isAdmin" id="isAdmin" value="${isAdmin}"/>
 </body>
 </html>
 

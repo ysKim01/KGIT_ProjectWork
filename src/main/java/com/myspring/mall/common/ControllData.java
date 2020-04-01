@@ -82,6 +82,7 @@ public class ControllData {
 		try {
 			HttpSession session=request.getSession();
 			String lastRequest = (String)session.getAttribute("lastRequest");
+			session.removeAttribute("lastPage");
 			if(isEmpty(lastRequest)) {
 				session.setAttribute("lastPage", "/main.do");
 			}else {
@@ -98,7 +99,6 @@ public class ControllData {
 		try {
 			HttpSession session=request.getSession();
 			String lastPage = (String)session.getAttribute("lastPage");
-			session.removeAttribute("lastPage");
 			result = lastPage;
 			if(result == null) {
 				result = "/main.do";
@@ -108,4 +108,5 @@ public class ControllData {
 		}
 		return result;
 	}
+	
 }

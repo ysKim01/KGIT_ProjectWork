@@ -30,10 +30,17 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		try {
-			String lastRequest = getRequstName(request);
 			HttpSession session=request.getSession();
-			session.setAttribute("lastRequest", lastRequest);
-			System.out.println("lastRequest : " + lastRequest);
+			String lastRequest = (String)session.getAttribute("lastRequest");
+			String presentRequest = getRequestName(request);
+			
+			if(lastRequest!=null) {
+				if(!lastRequest.equals(presentRequest)) {
+					session.removeAttribute("lastRequest");
+					session.setAttribute("lastRequest", presentRequest);
+				}
+			}
+			System.out.println("lastRequest : " + presentRequest);
 			
 			String viewName = getViewName(request);
 			System.out.println("[info]" + viewName + " > End =========================\n");
@@ -75,7 +82,7 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 		return viewName;
 	}
 	
-	private String getRequstName(HttpServletRequest request) throws Exception {
+	private String getRequestName(HttpServletRequest request) throws Exception {
 		String lastRequest = "";
 		
 		// request name

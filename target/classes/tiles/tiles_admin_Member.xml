@@ -13,11 +13,11 @@
 	
 	<definition	name="/admin" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminMain.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
 	</definition>
 	<definition	name="/admin/main" extends="baseLayoutAdmin">
 		<put-attribute name="title" value="관리자 메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/member/adminMain.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/membershipForm" extends="baseLayoutAdmin">

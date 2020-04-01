@@ -79,7 +79,7 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 	public int modMember(MemberVO member) {
 		int result = 0;
 		result = sqlSession.update("mapper.member.modMember", member);
-		return 0;
+		return result;
 	}
 
 	@Override

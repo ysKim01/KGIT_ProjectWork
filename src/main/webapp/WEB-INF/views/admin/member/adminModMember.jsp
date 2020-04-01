@@ -35,10 +35,11 @@
    	var userDate = '${member.userBirth}';
    	var userBirth = userDate.split('-');
    	var userbirthYear = userBirth[0];
-   	var userbirthMonth = userBirth[1];
+   	var userbirthMonth = userBirth[1]-1;
    	var userbirthDay = userBirth[2];
    	
        $(window).on('load',function(){
+    	   
 		   $('#userAdd1').val(userAdd);
 		   $('#userAdd2').val(userSubAdd);
 		   
@@ -74,8 +75,7 @@
                )
            }
            $('.birthDay > option[value='+userbirthDay+']').attr('selected',true);
-           $('.birthYear option:last').attr('selected','select');
-           $('.birthMonth option:eq('+month+')').attr('selected','select');
+           
            // 날짜 end\
            $('.birthDay').focus(function(){
                
@@ -166,8 +166,8 @@
     
     function submitAction(){
         
-        var userBirth = $('.birthYear').val();
-        userBirth += $('.birthMonth').val();
+        var userBirth = $('.birthYear').val() + "-";
+        userBirth += $('.birthMonth').val() + "-";
         userBirth += $('.birthDay').val();
 
         if($("#adminMode").prop("checked")){
@@ -177,12 +177,7 @@
         }
     	
          
-        console.log("중복확인");
-        if(!idOverLap){
-            alert("아이디 중복확인을 해주세요.");
-            $('#btnOverLapped').focus();
-            return;
-        } 
+        
         if(!pwPtnOk){
             alert("패스워드형식이 일치하지 않습니다. 다시 입력해주세요.");
             $('#userPw').text('');
@@ -201,7 +196,7 @@
         var info_box = document.createElement('i');
         info_box.className='info_box';
         $('#userEmail').siblings().remove('.info_box');
-        console.log(adminAddMember.userEmail.value);
+        
         if(!emailPtn.test(adminAddMember.userEmail.value)){
             var info_text = document.createTextNode("이메일 형식을 맞춰주세요.");
             info_box.appendChild(info_text);
@@ -209,7 +204,7 @@
             $('#uesrEmail').focus();
             return;
         }
-        console.log("email");
+        
         // tel 패턴 검사
         if(isNaN(parseInt($("#userTel2").val())) || $('#userTel2').val().length < 3){
             var info_text = document.createTextNode("전화번호 형식에 맞춰주세요.");
@@ -225,11 +220,18 @@
             $('#userTel3').focus();
             return;
         }
-        console.log("전화번호");
+        
 
+     	// 주소값
         var fullAdd = adminAddMember.userAdd1.value.split(' ');
+       	var userAdd1 = fullAdd[0];
+       	var userAdd2 = fullAdd[1];
+       	var userAdd3 = "";
+        for(var i=2;i<fullAdd.length;i++){
+        	userAdd3 += fullAdd[i] + " "; 
+        }
         // 주소값
-        var adminAddMemberInfo = {
+        var member = {
             userId : adminAddMember.userId.value,
             userPw : adminAddMember.userPw.value,
             userName : adminAddMember.userName.value,
@@ -239,13 +241,14 @@
             userTel2 : adminAddMember.userTel2.value,
             userTel3 : adminAddMember.userTel3.value,
             
-            userAdd1 : fullAdd[0],
-            userAdd2 : fullAdd[1],
-            userAdd3 : adminAddMember.userAdd2.value,
+            userAdd1 : userAdd1,
+            userAdd2 : userAdd2,
+            userAdd3 : userAdd3,
+            userAdd4 : adminAddMember.userAdd2.value,
             adminMode : adminModeOk
         }
-        for(var key in adminAddMemberInfo) {
-            if(isEmpty(adminAddMemberInfo[key])){
+        for(var key in member) {
+            if(isEmpty(member[key])){
             	var name;
             	if(key == 'userAdd3'){
             		key = 'userAdd2';
@@ -259,19 +262,18 @@
                 return;
             }
        	}
-        
+        console.log(member);
         //ajxa 수정
         // script로 form만들어서 데이터 저장 후 전송
         $.ajax({
             type:"post",
-            url:"${contextPath}/admin/addMember.do",
+            url:"${contextPath}/admin/modMember.do",
             dataType:"text",
-            contentType:"application/JSON",
-            data:JSON.stringify(adminAddMemberInfo),
+            data:{"member" : JSON.stringify(member)},
             success:function(data, textStatus){
                 console.log(textStatus);
-                alert(adminAddMemberInfo.userName+"님의 가입을 환영합니다.");
-                window.location.href="${contextPath}/admin/listMembers.do";
+                alert(member.userId+"님의 정보가 수정되었습니다..");
+                searchMember();
             }
 
         })
@@ -327,6 +329,40 @@
             }
         }).open();
     }
+    
+    /* ===========================================================================
+	 *  회원 검색
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : searchInfo
+	 * > 출력 : -
+	 * > 이동 페이지 : /admin/searchMembers.do
+	 * > 설명 : 
+		 	- 검색필터 전달 후 회원 검색창으로
+	 ===========================================================================*/
+	function searchMember(){
+		var form = document.createElement("form");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Get");  //Get 방식
+        form.setAttribute("action", "${contextPath}/admin/searchMembers.do"); //요청 보낼 주소
+        
+        // searchInfo
+        var searchInfo = new Object();
+        searchInfo['searchFilter'] = '${searchInfo.searchFilter}';
+        searchInfo['searchContent'] = '${searchInfo.searchContent}';
+        searchInfo['joinStart'] = '${searchInfo.joinStart}';
+        searchInfo['joinEnd'] = '${searchInfo.joinEnd}';
+        searchInfo['adminMode'] = '${searchInfo.adminMode}';
+        searchInfo['page'] = '${searchInfo.page}';
+        
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "searchInfo");
+        hiddenField.setAttribute("value", encodeURI(JSON.stringify(searchInfo)));
+        form.appendChild(hiddenField);
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
 
        
     </script>
@@ -413,7 +449,7 @@
                 <li>
                     <p>
                         <input class="btn_type_01" type="button" onclick="submitAction()" value="가입하기">
-                        <input class="btn_type_01" type="button" value="취소" onclick="windowClose()">
+                        <input class="btn_type_01" type="button" value="취소" onclick="javascript:history.back()">
                     </p>
                 </li>
             </ul>
