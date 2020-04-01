@@ -38,9 +38,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.myspring.mall.common.ControllData;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
+import com.myspring.mall.admin.center.service.AdminCenterService;
 import com.myspring.mall.admin.member.service.AdminMemberService;
 import com.myspring.mall.admin.member.vo.SearchInfoVO;
 import com.myspring.mall.admin.reserve.service.AdminReserveService;
+import com.myspring.mall.center.vo.RoomInfoVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 import net.sf.ezmorph.MorpherRegistry;
@@ -59,6 +61,8 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 	private static final Logger logger = LoggerFactory.getLogger(AdminReserveControllerImpl.class);
 	@Autowired
 	private AdminReserveService adminReserveService;
+	@Autowired
+	private AdminCenterService adminCenterService;
 	
 	private static ControllData conData = new ControllData();
 	
@@ -75,14 +79,23 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 	@RequestMapping(value= {"/addReserveForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
 		// Center Code
 		String centerCode = request.getParameter("centerCode");
+		System.out.println(centerCode);
 		
 		// RoomInfo List
-		
+		List<RoomInfoVO> roomList = new ArrayList<RoomInfoVO>();
+		if(!conData.isEmpty(centerCode)) {
+			roomList = adminCenterService.listRoomsByCenter(centerCode);
+		}
+		if(roomList !=null && roomList.size()>0) {
+			System.out.println(roomList.get(0).getRoomName());
+		}
 		
 		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		mav.addObject("centerCode", centerCode);
+		mav.addObject("roomList", roomList);
 		return mav;
 	}
+	
 }

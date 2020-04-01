@@ -6,5 +6,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.myspring.mall.member.vo.MemberVO" alias="memberVO"/>
+		
+		<typeAlias type="com.myspring.mall.center.vo.CenterInfoVO" alias="CenterInfoVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.CenterContentsVO" alias="CenterContentsVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.CenterFacilityVO" alias="CenterFacilityVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.RoomInfoVO" alias="RoomInfoVO"/>
 	</typeAliases>
 </configuration>

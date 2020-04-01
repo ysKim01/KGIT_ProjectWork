@@ -15,7 +15,17 @@
    <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script>
+$(window).on('load',function(){
+	var centerCode = '${centerCode}';
+	console.log(centerCode);
+	<c:forEach var="item" items="${roomList}" varStatus="status">
+		console.log('${item.roomCode}');
+		console.log('${item.centerCode}');
+		console.log('${item.roomName}');
+		console.log('${item.scale}');
+	</c:forEach>
 	
+});
 </script>
 </head>
 <body>
