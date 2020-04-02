@@ -27,6 +27,12 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 		roomList = sqlSession.selectList("mapper.center.listRoomByCenter", centerCode);
 		return roomList;
 	}
+	@Override
+	public CenterInfoVO selectCenterByCenterCode(String centerCode) {
+		CenterInfoVO centerInfo = null;
+		centerInfo = sqlSession.selectOne("mapper.center.selectCenterByCenterCode", centerCode);
+		return centerInfo;
+	}
 
 
 }

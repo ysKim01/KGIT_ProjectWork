@@ -14,5 +14,6 @@ import com.myspring.mall.center.vo.RoomInfoVO;
 public interface AdminCenterService {
 
 	List<RoomInfoVO> listRoomsByCenter(String centerCode);
+	CenterInfoVO selectCenterByCenterCode(String centerCode);
 
 }

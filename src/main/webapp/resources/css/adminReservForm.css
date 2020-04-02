@@ -1,0 +1,68 @@
+@charset "utf-8";
+
+
+
+/* 임시 */
+.content{
+    padding:80px 0;
+    box-sizing:border-box;
+}
+#adminReservForm{
+    padding:20px 10px;
+}
+#adminReservForm ul{
+    margin:25px 0;
+    padding:25px 0 ;
+    box-sizing:border-box;
+    border-top:2px solid #ccc;
+    border-bottom:2px solid #ccc;;
+}
+#adminReservForm label{
+    display:inline-block;
+    min-width:100px;
+    width:8%;
+    font-size:15px;
+    text-align:left;
+}
+#adminReservForm li{
+    padding:8px 5px;
+    border-bottom:1px dashed #e7e7e7;
+}
+#adminReservForm li:last-child{
+    border-bottom:0;
+}
+
+#adminReservForm input[type=text]{
+    padding:7px 15px; box-sizing:border-box;
+    min-width:240px;
+    font-size:15px;
+}
+
+.reservTimeWrap{
+    display:table;
+    width:100%;
+}
+.reservTimeWrap > *{
+    display:table-cell;
+    vertical-align:middle;
+}
+.reservTimeWrap > dt{
+    
+    width:8%;
+    max-width:100px;
+}
+
+.reservTime p b{
+    display:block;
+    font-size:13px;
+    padding:5px 0;
+    font-weight:normal;
+    color:#666;
+}
+.reservTime > p{box-sizing:border-box; width:auto;}
+.reservTime > p:first-child{
+    padding-right:15px;
+}
+.reservTime > p:last-child{
+    padding-left:15px;
+}

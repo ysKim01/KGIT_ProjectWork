@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.reserve">
+	<resultMap id="reserveResult" type="reserveVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="userId" column="userId"/>
+		<result property="centerCode" column="centerCode"/>
+		<result property="roomCode" column="roomCode"/>
+		<result property="reserveApplyDate" column="reserveApplyDate"/>
+		<result property="reserveDate" column="reserveDate"/>
+		<result property="reservePrice" column="reservePrice"/>
+		<result property="reserveStatus" column="reserveStatus"/>
+		<result property="usingTime" column="usingTime"/>
+		<result property="extraCode" column="extraCode"/>
+	</resultMap>
+
+	
+	<select id="listUsingTimeForUsable" parameterType="hashMap" resultType="String">
+		<![CDATA[
+			select usingTime from Study_Reserve 
+			where centerCode  = #{centerCode}  
+			and   roomCode    = #{roomCode} 
+			and   reserveDate = #{reserveDate} 
+		]]>
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

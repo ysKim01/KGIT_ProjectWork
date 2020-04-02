@@ -8,4 +8,6 @@ import org.springframework.dao.DataAccessException;
 
 public interface AdminReserveService {
 
+	String getUsableTime(String centerCode, String roomCode, Date reserveDate);
+
 }

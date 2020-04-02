@@ -24,6 +24,13 @@ public class AdminReserveDAOImpl implements AdminReserveDAO{
 	@Autowired
 	private SqlSession sqlSession;
 
+	@Override
+	public List<String> listUsingTimeForUsable(Map searchMap) {
+		List<String> usingTimeList = null;
+		usingTimeList = sqlSession.selectList("mapper.reserve.listUsingTimeForUsable", searchMap);
+		return usingTimeList;
+	}
+
 	
 }
 

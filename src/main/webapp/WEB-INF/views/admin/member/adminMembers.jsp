@@ -136,7 +136,7 @@
         searchObj['joinStart'] = document.getElementById("joinStart").value;
         searchObj['joinEnd'] = document.getElementById("joinEnd").value;
         searchObj['adminMode'] = document.getElementById("adminMode").value;
-        searchObj['page'] = "1";
+        searchObj['page'] = $('#paginate .pageCover a.select').val();
         
         var searchInfo = document.createElement("input");
         searchInfo.setAttribute("type", "hidden");
@@ -269,7 +269,7 @@
 		
 		searchMember();
 	}
-	 // ==================================== //
+    // ==================================== //
 	// ========== pagination ============== //
 	// ==================================== //
 	let page = <c:out value="${searchInfo.page}" default="1" />
@@ -316,16 +316,32 @@
 		let firstPage = pagingGroup * 10 - 9;
 		let lastPage = firstPage + 9;
 		
-		html += "<span class='pagePrev'><button  id='prev'><i class='larr'></i>prev</button></span><span class='pageCover'>";
+		let totalList = "${searchInfo.maxPage}";
+		let maxPage = Math.ceil(totalList / 10);
+		console.log(maxPage);
+		if(pagingGroup != 1){
+			html += "<span class='pagePrev'><button  id='prev'><i class='larr'></i>prev</button></span><span class='pageCover'>";
+		}else{
+			html += "<span class='pageCover'>";
+		}
+		
 		
 		for(var i=firstPage; i <= lastPage; i++){
+			if(i > maxPage) break;
 			if(i == page){
 				html += "<a href='#' id=" + i + " class='select'>" + i + "</a> ";
 			}else{
 				html += "<a href='#' id=" + i + ">" + i + "</a> ";
 			}
 		}
-		html += "</span><span class='pageNext'><button  id='next'><i class='rarr'></i>next</button></span>";
+		console.log(pagingGroup);
+		console.log(Math.floor(maxPage / 10));
+		
+		if(!(pagingGroup > (Math.floor(maxPage / 10)))){
+			html += "</span><span class='pageNext'><button  id='next'><i class='rarr'></i>next</button></span>";
+		}else{
+			html += "</span>";
+		}
 		
 		$("#paginate").html(html);
 		

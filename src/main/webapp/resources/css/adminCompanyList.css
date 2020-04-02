@@ -8,7 +8,7 @@
     display:table;
     width:100%;
 }
-.search_list li{
+.search_list li{    
     display:table-cell; vertical-align:middle;
     margin-right:15px; padding-right:15px;
     position:relative;
@@ -77,6 +77,11 @@
     text-align:center; padding:5px 15px;
 }
 
+.companyContent thead tr th:nth-child(6),
+.companyContent thead tr th:nth-child(7),
+.companyContent thead tr th:nth-child(8){
+    width:70px;
+}
 
 #companySearch{min-width:250px;}
 

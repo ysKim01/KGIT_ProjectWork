@@ -104,16 +104,16 @@ img{max-width:100%; vertical-align:top;}
 	color:#333;
 }
 
-.editBtn, .delBtn{
+.editBtn, .delBtn, .reservBtn{
 	background-color:unset;
 	border:0;
 	cursor:pointer;
 }
-.editBtn i, .delBtn i{
+.editBtn i, .delBtn i, .reservBtn i{
 	font-size:18px;
 	
 }
-.editBtn i{
+.editBtn i, .reservBtn i{
 	color:#041328;
 }
 .delBtn .icon-cross{
@@ -121,3 +121,9 @@ img{max-width:100%; vertical-align:top;}
 	color:#DD0101;
 }
 
+
+
+.float_sec > *{
+    float:left;
+    width:50%;
+}

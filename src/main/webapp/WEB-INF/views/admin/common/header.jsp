@@ -33,7 +33,9 @@ $(window).on('load',function(){
 	</div>
 	<div id="top">
 		<nav id="top_logo">
+		<a href="${contextPath }/admin" style="display:block;">
 			<img src="${contextPath }/resources/image/Admin_logo.png"></img>
+			</a>
 		</nav>
 	</div>
 	<nav id="top_menu">

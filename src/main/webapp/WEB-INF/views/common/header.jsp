@@ -22,13 +22,24 @@ $(window).on('load',function(){
 	var _isLogOn=document.getElementById("logon");
 	var isLogOn=_isLogOn.value;
 	var loginTag = document.getElementById("loginMember");
-	
  	if(isLogOn=="false" || isLogOn=='' ){
  		loginTag.innerHTML = "로그인";
  		loginTag.href="${contextPath}/member/loginForm.do"; 
  	}else{
  		loginTag.innerHTML = "로그아웃";
  		loginTag.href="${contextPath}/member/logout.do";
+ 	}
+ 	function activeLogon(){
+ 		
+ 		var setHtml = "<div class='loginForm'><form name='frmlogin' method='post' action='${contextpath}/member/login.do'><ul>";
+		// id 		
+ 		setHtml += "<li><dl><dt><strong><label for='userId'>아이디</label><strong></dt><dd><span><input type='text' name='userId' id='userId' value=''></span></dd></li>";
+ 		//password
+ 		setHtml += "<li><dl><dt><strong><label for='userPw'>비밀번호</label></strong></dt><dd><span><input type='password' name='userPw' id='userPw' value=''></span></dd></li>";
+ 		//loginBtn
+ 		setHtml += "<li class='login_btn'><input type='button' value='로그인' onclick='login()'><input type='reset' value='다시입력'></li>";
+		
+ 		setHtml += "</ul></form></div>"
  	}
 });
 </script>
@@ -39,7 +50,9 @@ $(window).on('load',function(){
 	</div>
 	<div id="top">
 		<nav id="top_logo">
+		<a href="${contextPath }" style="display:block;">
 			<img src="${contextPath }/resources/image/Admin_logo.png"></img>
+			</a>
 		</nav>
 	</div>
 	<nav id="top_menu">

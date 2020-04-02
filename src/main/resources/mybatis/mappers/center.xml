@@ -18,7 +18,7 @@
 		<result property="centerAdd2" column="centeradd2" />
 		<result property="centerAdd3" column="centeradd3" />
 		<result property="minTime" column="minTime" />
-		<result property="premiumRate" column="primiumRate" />
+		<result property="premiumRate" column="premiumRate" />
 		<result property="surchageTime" column="surchageTime" />
 	</resultMap>	
 	<resultMap id="centerContents" type="CenterContentsVO">
@@ -57,8 +57,12 @@
 
 	<select id="listRoomByCenter" parameterType="String" resultMap="roomInfo">
 		<![CDATA[
-			select * from Study_RoomInfo where centerCode = #{centerCode}
+			select * from Study_RoomInfo where centerCode = #{centerCode} order by roomName asc
 		]]>
 	</select>
-	  
+	<select id="selectCenterByCenterCode" parameterType="String" resultMap="centerInfo">
+		<![CDATA[
+			select * from Study_CenterInfo where centerCode = #{centerCode}
+		]]>
+	</select>
 </mapper>

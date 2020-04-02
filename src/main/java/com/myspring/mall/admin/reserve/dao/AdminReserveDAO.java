@@ -11,4 +11,6 @@ import com.myspring.mall.member.vo.MemberVO;
 
 
 public interface AdminReserveDAO {
+
+	List<String> listUsingTimeForUsable(Map searchMap);
 }

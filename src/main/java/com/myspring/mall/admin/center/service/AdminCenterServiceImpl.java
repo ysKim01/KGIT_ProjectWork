@@ -31,6 +31,14 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 		List<RoomInfoVO> roomList = centerDAO.listRoomsByCenter(centerCode);  
 		return roomList;
 	}
+
+
+	@Override
+	public CenterInfoVO selectCenterByCenterCode(String centerCode) {
+		CenterInfoVO centerInfo = null;
+		centerInfo = centerDAO.selectCenterByCenterCode(centerCode);
+		return centerInfo;
+	}
 	
 	
 }

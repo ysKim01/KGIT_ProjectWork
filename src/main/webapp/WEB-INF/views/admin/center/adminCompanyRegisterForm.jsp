@@ -1,9 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8" isELIgnored="false" %>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>업체등록 폼</title>
-<link rel="stylesheet" type="text/css" href="css/adminCompany_registerForm.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resorces/css/adminCompany_registerForm.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
     //추가 버튼
@@ -75,16 +81,13 @@
         //====== centerInfo 기본 정의=============//
         // =================================== //
         
-        if(isNaN(parseInt($('.centerTel').val(), 10))){
-            console.log("전화번호에는 숫자값만 입력해주세요.");
+    	if(isNaN(parseInt($('.centerTel').val(), 10))){
+            alert("전화번호에는 숫자값만 입력해주세요.");
             return;
         }
         var centerInfo = {
             centerCode : $('#centerCode').val(),
             centerName : $('#centerName').val(),
-            centerTel1 : $('#centerTel1').val(),
-            centerTel2 : $('#centerTel2').val(),
-            centerTel3 : $('#centerTel3').val(),
             centerAdd1 : $('#centerAdd1').val(),
             centerAdd2 : $('#centerAdd2').val(),
             centerAdd3 : $('#centerAdd3').val(),
@@ -98,18 +101,27 @@
         }
         for(var key in centerInfo){
             if(isEmpty(centerInfo[key])){
-                // 전화번호 감별
-                if(centerInfo[key].indexOf('Tel') != -1 && isNaN(centerInfo[key])){
-                    alert("전화번호에는 숫자만 입력해주세요.");
-                    $("#"+key).focus();
-                    return;
-                }
                 var targetName = $("#"+key).parent('td').prev().children('label').text();
                 alert("모든 항목을 입력해주세요.");
                 $("#"+key).focus();
                 return;
             }
         }
+        for(var i = 2; i <= 3; i++){
+            if($('#centerTel'+i).val() == ''){
+                alert("전화번호를 입력해주세요.");
+                $("#centerTel"+i).focus();
+                return;
+            }
+            if(isNaN($('#centerTel'+i).val())){
+                alert("전화번호에는 숫자만 입력해주세요.");
+                $("#centerTel"+i).focus();
+                return;
+            }
+        }
+        centerInfo.centerTel = $('#centerTel1').val() + "" + $('#centerTel2').val() +"" + $('#centerTel3').val();
+        
+        
         console.log("centerInfo 객체 저장 성공")
         console.log(centerInfo);
         console.log("====================");

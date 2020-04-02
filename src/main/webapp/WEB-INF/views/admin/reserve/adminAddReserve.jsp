@@ -11,11 +11,21 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
-   <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminAddMember.css">
-   <script src="http://code.jquery.com/jquery-latest.js"></script>
-
+   <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminReservForm.css">
+   <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/dcalendar.picker.css">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="${contextPath }/resources/js/dcalendar.picker.js"></script>
 <script>
+
+const centerCode = "${centerCode}";
+const OperTime_Start = "${OperTime_Start}";
+const OperTime_End = "${OperTime_End}";
+const unitTime = "${conterInfo.unitTime}";
+const minTime = "${conterInfo.minTime}";
+
+
 $(window).on('load',function(){
+	
 	var centerCode = '${centerCode}';
 	console.log(centerCode);
 	<c:forEach var="item" items="${roomList}" varStatus="status">
@@ -26,97 +36,203 @@ $(window).on('load',function(){
 	</c:forEach>
 	
 });
+
+$(function(){
+    $('.dcalendar').dcalendarpicker({
+        // default: mm/dd/yyyy
+        format:'yyyy-mm-dd'
+    });
+
+})
+
+
+
+function getReservTime(){
+    var reservDate = document.adminReservForm.reservDate.value;
+    var reservRoom = document.adminReservForm.reservRoom.value;
+    // ================================================= //
+    // =============== url 수정 ======================== //
+    // ================================================= //
+    
+    $.ajax({
+        type:"post",
+        url:"${contextPath}/admin/usableTime.do",
+        dataType:"text",
+        data:{
+            centerCode : centerCode,
+            reserveDate : reservDate,
+            roomCode : reservRoom
+        },
+        success:function(data, textStatus){
+            setTimeTable(data);
+        },
+        error:function(data, textStatus){
+            alert("값을 불러오는데 실패했습니다.");
+        }
+
+    })
+    serTimeTable();
+}
+
+
+// ============================================== //
+// ============== 시간표 활성화 =================== //
+// ============================================== //
+//
+// OperTime_Start - 운영 시작 시간 10
+// OperTime_End - 운영 종료 시간 22
+// unitTime - 운영 단위 시간(분) 30
+// minTime - 최소 예약시간 1
+//
+// 1440 720
+
+function serTimeTable(){
+    var _operTimeStart = operTimeStart / 60;
+    var _operTimeEnd = operTimeEnd / 60
+    var _unitTime = unitTime / 60; 
+    var _minTime = minTime / 60;
+    var _reservIndex = new Array();
+    console.log(reservIndex.length);
+    for(var i = 0; i < reservIndex.length; i++){
+        console.log()
+        _reservIndex[i] = reservIndex.substr(i,1);
+    }
+    console.log("오픈시간 : " + _operTimeStart); // 10시
+    console.log("종료 시간 : " + _operTimeEnd); // 20시
+    console.log("기준시간 : " + _unitTime); // 30분(0.5);
+    console.log("최소 예약시간 : " + _minTime); // 1시간
+    console.log("room Index Array : " + _reservIndex);
+
+
+    setHtml = "<ul class='timeField'>";
+    var count = 0; // for문 카운트횟수 저장
+    for(var time = _operTimeStart; time <= _operTimeEnd; time += _unitTime){
+        var getHour = Math.floor(time); // 10.5 = 10
+        var getMinute = (time - getHour) * 60;
+        if(getMinute == 0) getMinute = '00';
+        if(_reservIndex[count++] != 0){
+            setHtml += "<li><p><a href='#' data-time-hour="+getHour+" data-time-minute="+getMinute+"><strong>"+getHour + " : " + getMinute+"</strong></a><span class=''>예약불가</span></p></li>";
+        }else{
+            setHtml += "<li><p><a href='#' data-time-hour="+getHour+" data-time-minute="+getMinute+"><strong>"+getHour + " : " + getMinute+"</strong></a><span class=''>예약가능</span></p></li>";
+        }
+        
+    }
+    setHtml += "</ul>";
+    $('#timeTableWrap').append(setHtml);
+
+    createClickEvent()
+    // element 생성 후 click이벤트 추가
+
+}
+
+
+function createClickEvent(){
+    let clickCount = 0;
+    let reservTime = {
+        startTime : '',
+        endTime : ''
+    };
+    $('.timeField a').on('click',function(){
+        console.log('click');
+        console.log($(this).data('time-hour'));
+        console.log($(this).data('time-minute'));
+        event.target.prop('class','checked');
+        
+        clickCount++;
+        if(clickCount > 1){
+            reservTime.endTime = parseInt($(this).data('time-hour')) + parseInt($(this).data('time-minute')) * 60;
+            if(reservTime.startTime >= reservTime.endTime){
+                reservTime.endTime = 0;
+                reservTime.startTime = 0;
+                clickCount = 0;
+            }
+        }
+        reservTime.startTime = parseInt($(this).data('time-hour')) + parseInt($(this).data('time-minute')) * 60;
+
+        
+        return;
+    })
+}
 </script>
 </head>
 <body>
-    <div class="adminaddMemberWrap">
-        <h3 class="content_title">
-       	예약 등록 폼
-        </h3>
-    <form name="adminAddMember" id="adminAddMember"  action="#" method="post">
-        <fieldset>
-            <ul class="adminMemList clear_both">
-                <li>
-                    <p>
-                        <strong>아이디</strong>
-                        <input required type="text" name="userId" id="userId" onchange="idPattern()">
-                        <input class="btn_type_02" type="button" id="btnOverLapped" onclick="idOverlapped()" value="아이디 중복확인">
-                    </p>
-                </li>
-                <li>
-                    <p class="pwLap">
-                        <b>
-                            <strong>패스워드</strong>
-                            <input required type="password" name="userPw" id="userPw" >
-                        </b>
-                        <b>
-                            <strong>패스워드 확인</strong>
-                            <input required type="password" name="userPwOverLapped" id="userPwOverLapped" >
-                        </b>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>이름</strong>
-                        <input required type="text" name="userName" id="userName">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>이메일</strong>
-                        <input required  type="text" name="userEmail" id="userEmail">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>생년월일</strong>
-                        <select name="birthYear" class="birthYear birth" id="birthYear">
-                        </select>
-                        <select name="birthMonth" class="birthMonth birth" id="birthMonth">    
-                        </select>
-                        <select name="birthDay" class="birthDay birth" id="birthDay">    
-                        </select>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>전화번호</strong>
-                        <select name="userTel1" class="telNum firstTelNum" id="userTel1">
-                            <option value="010" selected="select">010</option>
-                            <option value="011">011</option>
-                            <option value="011">017</option>
-                        </select>
-                        <input required type="text" name="userTel2" class="telNum" maxlength="4" minlength="3" id="userTel2">
-                        <input required type="text" name="userTel3" class="telNum" maxlength="4" minlength="4" id="userTel3">
-                    </p>
-                </li>
-                <li>
-                    <p class="addLap">
-                        <b>
-                            <strong>주소</strong>
-                            <input type="text" id="userAdd1" name="userAdd1" disabled="disabled"><input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
-                        </b>
-                        <b>
-                            <input required  type="text" id="userAdd2" name="userAdd2">
-                        </b>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong><label for="addAdminChk">관리자 계정</label></strong>
-                        <input type="checkbox" name="adminMode" id="adminMode">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <input class="btn_type_01" type="button" onclick="submitAction()" value="가입하기">
-                        <input class="btn_type_01" type="button" value="취소" onclick="windowClose()">
-                    </p>
-                </li>
-            </ul>
-        </fieldset>
-    </form>
-</div>
+
+	<div id="container">
+		<div class="width_wrap">
+			<h3 class="content_title">
+	       		예약 등록 폼
+	        </h3>
+			<div class="content_wrap">
+				<div class="content">
+                    <div class="reservFormWrap">
+                        <form action="#" method="post" onsubmit="return false;" name="adminReservForm" id="adminReservForm">
+                            <fieldset>
+                                <ul>
+                                	<li>
+                                        <p>
+                                        <label>센터 코드</label>
+                                        <strong><input type="text" readonliy name="centerCode" class="centerCode" value="${centerCode }"></strong>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                        <label>날짜</label>
+                                        <strong><input type="text" name="reservDate" class="dcalendar"></strong>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            <label>방 선택</label>
+                                            <strong>
+                                                <select name="reservRoom">
+                                                    <!-- ================================================ -->
+                                                    <!-- ======== controller 값 따라 변경할 부분 ========= -->
+                                                    <!-- ================================================ -->
+                                                    <c:forEach var="item" items="${roomList}" varStatus="status">
+                                                        <option value="${item.roomCode}">${item.roomName}</option>
+                                                    </c:forEach>
+                                                    
+                                                </select>
+                                            </strong>
+                                            <input type="button" value="시간 확인" onclick="getReservTime()">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <dl class="reservTimeWrap">
+                                            <dt><label>시간 선택</label></dt>
+                                            <dd>
+                                                <div class="float_sec clear_both reservTime">
+                                                    <p>
+                                                        <b>시작 시간</b>
+                                                        <input type="text" readOnly>
+                                                    </p>
+                                                    <p>
+                                                        <b>끝 시간</b>
+                                                        <input type="text" readOnly>
+                                                    </p>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </li>
+
+                                </ul>
+                                <p class="btnArea">
+                                    <input type="button" value="예약" onclick="onReserv()">
+                                </p>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="getTimeTableWrap">
+
+                    </div>
+				</div>
+				<!-- content end-->
+			</div>
+			
+		</div>
+	</div>
+    
+
 
 </body>
 </html>
