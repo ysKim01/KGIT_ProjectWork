@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 public interface AdminMemberController {

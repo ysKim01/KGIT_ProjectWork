@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 

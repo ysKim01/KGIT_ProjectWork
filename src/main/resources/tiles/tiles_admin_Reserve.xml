@@ -12,13 +12,13 @@
 	</definition>
 	
 	
-	<definition	name="/admin/listReservesForm" extends="baseAdminReserve">
+	<definition	name="/admin/listReserve" extends="baseAdminReserve">
 		<put-attribute name="title" value="관리자 예약등록"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/reserve/adminAddReservesList.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/reserve/adminReserveList.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/addReserveForm" extends="baseAdminReserve">
-		<put-attribute name="title" value="관리자 예약등록"></put-attribute>
+		<put-attribute name="title" value="관리자 예약목록"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin/reserve/adminAddReserve.jsp"></put-attribute>
 	</definition>
 	

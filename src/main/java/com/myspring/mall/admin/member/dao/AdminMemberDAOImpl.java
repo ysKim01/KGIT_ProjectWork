@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 

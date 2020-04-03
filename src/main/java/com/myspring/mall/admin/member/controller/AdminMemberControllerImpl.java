@@ -40,7 +40,7 @@ import com.myspring.mall.common.ControllData;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.myspring.mall.admin.member.service.AdminMemberService;
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 import net.sf.ezmorph.MorpherRegistry;
@@ -157,13 +157,13 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		System.out.println("viewName : "+viewName);
 		
 		List<MemberVO> membersList = new ArrayList<MemberVO>();
-		SearchInfoVO searchInfo = (SearchInfoVO)request.getAttribute("searchInfo");
+		MemberFilterVO searchInfo = (MemberFilterVO)request.getAttribute("searchInfo");
 		if(searchInfo == null)
-			searchInfo = new SearchInfoVO();
+			searchInfo = new MemberFilterVO();
 		
 		membersList = adminMemberService.listMembersByFiltered(searchInfo);
-		int maxPage = adminMemberService.getMaxPageByBiltered(searchInfo);
-		searchInfo.setMaxPage(maxPage);
+		int maxNum = adminMemberService.getMaxPageByBiltered(searchInfo);
+		searchInfo.setMaxNum(maxNum);
 
 //		// Test
 //		if(membersList!=null) {
@@ -194,14 +194,14 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		String nextPage = "/admin/listMembers.do";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 		
-		SearchInfoVO searchInfo = new SearchInfoVO();
+		MemberFilterVO searchInfo = new MemberFilterVO();
 		String jsonData = request.getParameter("searchInfo");
 
 		if(jsonData != null) {
 			jsonData = URLDecoder.decode(jsonData,"utf-8");
 			System.out.println(jsonData);
 			JSONObject jsonObj = JSONObject.fromObject(jsonData);
-			searchInfo = JSONtoSearchInfo(jsonObj);
+			searchInfo = JSONtoMemberFilter(jsonObj);
 		}
 		
 		request.setAttribute("searchInfo", searchInfo);
@@ -299,13 +299,13 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 		}
 		
 		// SearchInfo
-		SearchInfoVO searchInfo = new SearchInfoVO();
+		MemberFilterVO searchInfo = new MemberFilterVO();
 		String jsonDataSearch = request.getParameter("searchInfo");
 		if(!conData.isEmpty(jsonDataSearch)) {
 			jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
 			System.out.println(jsonDataSearch);
 			JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
-			searchInfo = JSONtoSearchInfo(jsonObjSearch);
+			searchInfo = JSONtoMemberFilter(jsonObjSearch);
 		}else {
 			result = false;
 		}
@@ -409,8 +409,8 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	}
 	
 	// JSONObject to SearchInfoVO
-	private SearchInfoVO JSONtoSearchInfo(JSONObject obj) {
-		SearchInfoVO info = new SearchInfoVO();
+	private MemberFilterVO JSONtoMemberFilter(JSONObject obj) {
+		MemberFilterVO info = new MemberFilterVO();
 
 		info.setSearchFilter((String)obj.get("searchFilter"));
 		info.setSearchContent((String)obj.get("searchContent"));

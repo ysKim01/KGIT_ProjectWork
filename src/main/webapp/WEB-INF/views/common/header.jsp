@@ -24,24 +24,50 @@ $(window).on('load',function(){
 	var loginTag = document.getElementById("loginMember");
  	if(isLogOn=="false" || isLogOn=='' ){
  		loginTag.innerHTML = "로그인";
- 		loginTag.href="${contextPath}/member/loginForm.do"; 
+ 		
+ 		//loginTag.href="${contextPath}/member/loginForm.do";
  	}else{
  		loginTag.innerHTML = "로그아웃";
  		loginTag.href="${contextPath}/member/logout.do";
  	}
- 	function activeLogon(){
- 		
- 		var setHtml = "<div class='loginForm'><form name='frmlogin' method='post' action='${contextpath}/member/login.do'><ul>";
-		// id 		
- 		setHtml += "<li><dl><dt><strong><label for='userId'>아이디</label><strong></dt><dd><span><input type='text' name='userId' id='userId' value=''></span></dd></li>";
- 		//password
- 		setHtml += "<li><dl><dt><strong><label for='userPw'>비밀번호</label></strong></dt><dd><span><input type='password' name='userPw' id='userPw' value=''></span></dd></li>";
- 		//loginBtn
- 		setHtml += "<li class='login_btn'><input type='button' value='로그인' onclick='login()'><input type='reset' value='다시입력'></li>";
-		
- 		setHtml += "</ul></form></div>"
- 	}
+ 	
+ 	$('#loginMember').on('click',function(){
+ 		if($(this).text() == '로그인'){
+ 			activeLogon();
+ 		}
+ 	})
 });
+function login(){
+    var userId = document.frmlogin.userId.value;
+	var userPw = document.frmlogin.userPw.value;
+	console.log(userId);
+	console.log(userPw);
+	if(userId == ''){
+        alert("아이디를 입력하세요.");
+        return;
+    }
+	if(userPw == ''){
+        alert("비밀번호를 입력하세요.");
+        return;
+    }
+	$.ajax({
+        type:"post",
+        async:false,
+        url:"${contextPath}/member/login.do",
+        dataType:"text",
+        data:{"userId" : userId, "userPw" : userPw},
+        success:function(data, textStatus){
+            if(data=='false'){
+                alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.");
+                document.frmLogin.userPw.focus();
+            }else{
+                alert(userId + "님 환영합니다.");
+                $('.screenWrap').remove();
+                window.location.reload();
+            }
+        }
+    })
+ }
 </script>
 </head>
 <body><header>
@@ -61,7 +87,7 @@ $(window).on('load',function(){
 			<li class="menu"><a href="${contextPath }/admin/adminReservation.do">예약관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminQna.do">1:1문의</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminOnedayclass.do">원데이클래스</a></li>
-			<li class="menu"><a href="${contextPath }/admin/adminCompany.do">업체관리</a></li>
+			<li class="menu"><a href="${contextPath }/admin/listCenter.do">업체관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminNotice.do">공지사항</a></li>
 		</ul>
 	</nav>

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.mall.admin.member.dao.AdminMemberDAO;
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.common.ControllData;
 import com.myspring.mall.member.vo.MemberVO;
 
@@ -52,7 +52,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	}
 	
 	@Override
-	public List listMembersByFiltered(SearchInfoVO searchInfo) {
+	public List listMembersByFiltered(MemberFilterVO searchInfo) {
 		List membersList = null;
 		
 		String searchFilter = searchInfo.getSearchFilter();		// not null
@@ -140,7 +140,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	}
 
 	@Override
-	public int getMaxPageByBiltered(SearchInfoVO searchInfo) {
+	public int getMaxPageByBiltered(MemberFilterVO searchInfo) {
 		int result = 0;
 		
 		String searchFilter = searchInfo.getSearchFilter();		// not null

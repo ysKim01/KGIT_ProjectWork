@@ -7,8 +7,20 @@
     padding:80px 0;
     box-sizing:border-box;
 }
+
+.reservFormWrap > *{
+	display:table-cell;
+	width:45%;
+	vertical-align:top;
+	max-height:550px;
+}
+.reservFormWrap > div{
+	width:45%;
+	padding:20px 0 20px 15px;
+}
+
 #adminReservForm{
-    padding:20px 10px;
+    padding:20px 15px 20px 0;
 }
 #adminReservForm ul{
     margin:25px 0;
@@ -32,10 +44,15 @@
     border-bottom:0;
 }
 
-#adminReservForm input[type=text]{
+#adminReservForm input[type=text],
+#adminReservForm select{
     padding:7px 15px; box-sizing:border-box;
-    min-width:240px;
-    font-size:15px;
+    min-width:160px;
+    font-size:15px; 
+}
+#adminReservForm .reservTime input{
+	width:100%;
+	min-width:120px;
 }
 
 .reservTimeWrap{
@@ -59,10 +76,122 @@
     font-weight:normal;
     color:#666;
 }
-.reservTime > p{box-sizing:border-box; width:auto;}
+.reservTime > p{box-sizing:border-box; width:50%;}
 .reservTime > p:first-child{
     padding-right:15px;
 }
 .reservTime > p:last-child{
     padding-left:15px;
+}
+
+
+/* timeTable */
+
+
+.timeField{
+	width:100%;
+}
+.timeField thead tr th{
+	font-size:16px;
+	padding:15px 0;
+}
+.timeField td, .timeField th{
+	padding:5px 15px; box-sizing:border-box;
+}
+.timeField thead tr th:nth-child(1){
+	width:15%;
+	min-width:180px;
+}
+.timeField thead tr th:nth-child(2){
+	width:55%;
+	min-width:300px;
+}
+.timeField thead tr th:nth-child(3){
+	width:15%;
+	min-width:150px;
+}
+.timeField > tbody tr:nth-child(even){
+	background-color:#fafafa;	
+}
+
+.timeField > tbody tr{
+	cursor:pointer;
+	border:1px solid #fafafa;
+	width:100%;
+	box-sizing:border-box;
+	padding:15px 15px 15px 50px; box-sizing:border-box;
+	border-bottom:1px dashed #e7e7e7;
+}
+.timeField > tbody tr:hover{
+	border-color:#041328;
+	border-bottom-style:solid;
+}
+
+/*
+.timeField > li a:before{
+	content:''; display:block;
+	width:8px; height:8px;
+	border:4px solid #ccc;
+	border-left:0; border-top:0;
+	transition:all .1s;
+	transform:rotate(-45deg);
+	position:absolute; left:0; top:50%; margin-top:-7px;
+}
+*/
+.timeField > tbody tr.checked,
+.timeField > tbody tr.ing{
+	background-color:#ccc;
+}
+/*
+.timeField > li a.checked:before{
+	
+	border-color:#03C75A;
+	
+	transform: rotate(45deg);
+    margin-top: -14px;
+    left: 10px;
+    height:14px;
+}
+.timeField > li a.ing:before{
+	transform:rotate(0deg);
+	border-color:#03C75A;
+	height: 15px;
+	margin-top:-10px;
+	left:5px;
+    border-bottom: 0;
+}
+.timeField > li a.ing:after{
+	content: '';
+    display: block;
+    width: 8px; height: 15px;
+    margin-top: -14px;
+    border: 4px solid #03C75A;
+    border-left: 0; border-top: 0; border-bottom: 0;
+    transition: all .1s;
+    position: absolute; top: 50%; left: 9px;
+    transform: rotate(90deg);
+}
+*/
+.timeField tbody strong{
+	display:block;
+	font-size:20px;
+	font-weight:normal;
+	letter-spacing:.5px;
+	text-align:center;
+	border-right:1px solid #e7e7e7;
+}
+.timeField tbody span{
+	display:block;
+	text-align:center;
+}
+.timeField tbody b{
+	border-right:1px solid #e7e7e7;
+	display:block;
+	text-align:center;
+}
+.timeField .green{
+	color:#03C75A;
+}
+.timeField .red{
+	color:#EA4335;
 }

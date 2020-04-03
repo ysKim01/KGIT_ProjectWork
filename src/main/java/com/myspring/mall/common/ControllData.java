@@ -68,6 +68,16 @@ public class ControllData {
 		return tel;
 	}
 	
+	public String CenterTelDiv(String centerTel) {
+		String tel = new String();
+		if(centerTel.length() != 10) {
+			return null;
+		}
+		tel = centerTel;
+		
+		return tel;
+	}
+	
 	public Date Date9999toNull(Date date) {
 		if(date != null) {
 			if(date.toString().equals("9999-09-09")) {

@@ -9,23 +9,25 @@
 <meta charset="UTF-8">
 <title>Admin업체관리</title>
 
-<link rel="stylesheet" type="text/css" href="css/reset.css">
-<!-- <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminCompanyList.css"> -->
-<link rel="stylesheet" type="text/css" href="css/adminCompanyList.css">
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" type="text/css" href="${contextPath }/css/reset.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminCompanyList.css">
 <script>
 	
-	
-
-	window.onload = function(){
-		
-
+var isEmpty = function(value){
+	if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
+		return true;
+	}else{
+		return false;
 	}
+}
+var searchFilter = '${centerSearch.searchFilter}';
+$(document).on('ready',function(){
 	
-	$(function(){
-
-
-	})
+	if(searchFilter != ''){
+		
+		$('#searchFilter option[value='+searchFilter+']').attr('selected',true);
+	}	
+})
 
 
 	/* ===========================================================================
@@ -224,25 +226,25 @@
 	 ===========================================================================*/
 
 
-	function searchMember(paginate){
+	function searchCenter(paginate){
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Get");  //Get 방식
-        form.setAttribute("action", "${contextPath}/"); //요청 보낼 주소
+        form.setAttribute("action", "${contextPath}/admin/searchCenter.do"); //요청 보낼 주소
 		if(paginate == null || paginate == '' || paginate == 'undefined'){
 			paginate = '1';
 		}
         
         // searchInfo
-        var searchInfo = new Object();
-        searchInfo['searchFilter'] = document.getElementById("searchFilter").value;
-        searchInfo['searchContent'] = document.getElementById("searchContent").value;
-        searchInfo['page'] = paginate;
+        var centerSearch = new Object();
+        centerSearch['searchFilter'] = document.getElementById("searchFilter").value;
+        centerSearch['searchContent'] = document.getElementById("companySearch").value;
+        centerSearch['page'] = paginate;
         
         var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "searchInfo");
-        hiddenField.setAttribute("value", encodeURI(JSON.stringify(searchInfo)));
+        hiddenField.setAttribute("name", "centerSearch");
+        hiddenField.setAttribute("value", encodeURI(JSON.stringify(centerSearch)));
         form.appendChild(hiddenField);
         
         document.body.appendChild(form);

@@ -14,4 +14,14 @@ public interface AdminCenterDAO {
 
 	List<RoomInfoVO> listRoomsByCenter(String centerCode);
 	CenterInfoVO selectCenterByCenterCode(String centerCode);
+	public List selectAllCenter() throws DataAccessException;
+	public List selectCenterByFilter_Code(Map searchMap);
+	public List selectCenterByFilter_Name(Map searchMap);
+	public List selectCenterByFilter_Tel(Map searchMap);
+	public List selectCenterByFilter_None(Map searchMap);
+	public int countCenterByFilter_Code(Map searchMap);
+	public int countCenterByFilter_Name(Map searchMap);
+	public int countCenterByFilter_Tel(Map searchMap);
+	public int countCenterByFilter_None(Map searchMap);
+	
 }

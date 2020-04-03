@@ -65,4 +65,100 @@
 			select * from Study_CenterInfo where centerCode = #{centerCode}
 		]]>
 	</select>
+	
+	<select id="selectAllCenterList" resultMap="centerInfo">
+		<![CDATA[
+			select * from STUDY_CENTERINFO order by CenterCode desc
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Code" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerCode like '%'||#{centerCode}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Name" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerName like '%'||#{centerName}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Tel" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerTel '%'||#{centerTel}||'%' 
+		]]>
+
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_None" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where 1=1
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Code" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerCode like '%'||#{centerCode}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Name" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerName like '%'||#{centerName}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Tel" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerTel like '%'||#{centerTel}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_None" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where 1=1 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
 </mapper>

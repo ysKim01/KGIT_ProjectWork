@@ -316,9 +316,9 @@
 		let firstPage = pagingGroup * 10 - 9;
 		let lastPage = firstPage + 9;
 		
-		let totalList = "${searchInfo.maxPage}";
-		let maxPage = Math.ceil(totalList / 10);
-		console.log(maxPage);
+		let totalList = "${searchInfo.maxNum}";
+		let maxNum = Math.ceil(totalList / 10);
+		console.log(maxNum);
 		if(pagingGroup != 1){
 			html += "<span class='pagePrev'><button  id='prev'><i class='larr'></i>prev</button></span><span class='pageCover'>";
 		}else{
@@ -327,7 +327,7 @@
 		
 		
 		for(var i=firstPage; i <= lastPage; i++){
-			if(i > maxPage) break;
+			if(i > maxNum) break;
 			if(i == page){
 				html += "<a href='#' id=" + i + " class='select'>" + i + "</a> ";
 			}else{
@@ -335,9 +335,9 @@
 			}
 		}
 		console.log(pagingGroup);
-		console.log(Math.floor(maxPage / 10));
+		console.log(Math.floor(maxNum / 10));
 		
-		if(!(pagingGroup > (Math.floor(maxPage / 10)))){
+		if(!(pagingGroup > (Math.floor(maxNum / 10)))){
 			html += "</span><span class='pageNext'><button  id='next'><i class='rarr'></i>next</button></span>";
 		}else{
 			html += "</span>";

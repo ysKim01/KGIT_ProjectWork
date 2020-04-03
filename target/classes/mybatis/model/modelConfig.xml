@@ -13,5 +13,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.myspring.mall.center.vo.RoomInfoVO" alias="RoomInfoVO"/>
 		
 		<typeAlias type="com.myspring.mall.reserve.vo.ReserveVO" alias="reserveVO"/>
+		<typeAlias type="com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO" alias="adminReserveSearchVO"/>
 	</typeAliases>
 </configuration>

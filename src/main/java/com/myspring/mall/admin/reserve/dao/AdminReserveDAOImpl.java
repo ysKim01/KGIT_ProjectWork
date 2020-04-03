@@ -18,6 +18,10 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
+import com.myspring.mall.member.vo.MemberVO;
+import com.myspring.mall.reserve.vo.ReserveVO;
+
 
 @Repository("adminReserveDAO")
 public class AdminReserveDAOImpl implements AdminReserveDAO{
@@ -31,7 +35,26 @@ public class AdminReserveDAOImpl implements AdminReserveDAO{
 		return usingTimeList;
 	}
 
-	
+	@Override
+	public List<AdminReserveSearchVO> listReserveByFilter_None(Map searchMap) {
+		List<AdminReserveSearchVO> reserveList = null;
+		reserveList = sqlSession.selectList("mapper.reserve.listReserveByFilter_None", searchMap);
+		return reserveList;
+	}
+
+	@Override
+	public int countReserveByFilter_None(Map searchMap) {
+		int result = 0;
+		result = (Integer)sqlSession.selectOne("mapper.reserve.countReserveByFilter_None", searchMap);
+		return result;
+	}
+
+	@Override
+	public int insertReserve(ReserveVO reserve) {
+		int result = 0;
+		result = (Integer)sqlSession.insert("mapper.reserve.insertReserve", reserve);
+		return result;
+	}
 }
 
 

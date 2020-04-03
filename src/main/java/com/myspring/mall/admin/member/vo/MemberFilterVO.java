@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Component("searchInfoVO")
-public class SearchInfoVO {
+@Component("memberFilterVO")
+public class MemberFilterVO {
 	private String searchFilter;
 	private String searchContent;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+9")
@@ -17,7 +17,7 @@ public class SearchInfoVO {
 	private Date joinEnd;
 	private Integer adminMode;
 	private Integer page;
-	private Integer maxPage;
+	private Integer maxNum;
 	
 	// Setter & Getter
 	public String getSearchFilter() {
@@ -56,13 +56,14 @@ public class SearchInfoVO {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-	public Integer getMaxPage() {
-		return maxPage;
+	public Integer getMaxNum() {
+		return maxNum;
 	}
-	public void setMaxPage(Integer maxPage) {
-		this.maxPage = maxPage;
+	public void setMaxNum(Integer maxNum) {
+		this.maxNum = maxNum;
 	}
 
+	
 	@Override
 	public String toString() {
 		String out = "[SearchInfo]\n";
