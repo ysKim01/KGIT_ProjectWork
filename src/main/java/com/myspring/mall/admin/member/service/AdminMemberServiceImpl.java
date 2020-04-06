@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.mall.admin.member.dao.AdminMemberDAO;
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.common.ControllData;
 import com.myspring.mall.member.vo.MemberVO;
 
@@ -52,22 +52,22 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	}
 	
 	@Override
-	public List listMembersByFiltered(SearchInfoVO searchInfo) {
+	public List listMembersByFiltered(MemberFilterVO searchInfo) {
 		List membersList = null;
 		
 		String searchFilter = searchInfo.getSearchFilter();		// not null
 		String searchContent = searchInfo.getSearchContent();	// all
 		Date joinStart = searchInfo.getJoinStart();				// all
 		Date joinEnd = searchInfo.getJoinEnd();					// all
-		Integer adminMode = searchInfo.getAdminMode();			// null, 0, 1
+		Integer adminMode = searchInfo.getAdminMode();			// null, 1
 		Integer page = searchInfo.getPage();					// not null, 양수
 		
 		// 예외처리
 		if(searchFilter==null) {
 			searchFilter = "";
 		}
-		if(adminMode != null) {
-			if(adminMode!=0 && adminMode!=1) {
+		if(adminMode != null) { // 관리자(1) 아니면 필터 x
+			if(adminMode != 1) {
 				adminMode = null;
 			}
 		}
@@ -137,6 +137,73 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		result = adminMemberDAO.delMemberById(userId);
 		
 		return result;
+	}
+
+	@Override
+	public int getMaxPageByBiltered(MemberFilterVO searchInfo) {
+		int result = 0;
+		
+		String searchFilter = searchInfo.getSearchFilter();		// not null
+		String searchContent = searchInfo.getSearchContent();	// all
+		Date joinStart = searchInfo.getJoinStart();				// all
+		Date joinEnd = searchInfo.getJoinEnd();					// all
+		Integer adminMode = searchInfo.getAdminMode();			// null, 1
+		Integer page = searchInfo.getPage();					// not null, 양수
+		// 예외처리
+		if(searchFilter==null) {
+			searchFilter = "";
+		}
+		if(adminMode != null) { // 관리자(1) 아니면 필터 x
+			if(adminMode != 1) {
+				adminMode = null;
+			}
+		}
+		if(page==null || page<=0) {
+			page = 1;
+		}
+		
+		Map searchMap = new HashMap();
+		searchMap.put("joinStart", joinStart);
+		searchMap.put("joinEnd", joinEnd);
+		searchMap.put("adminMode", adminMode);
+		searchMap.put("page", page);
+		
+		if(!conData.isEmpty(searchContent)) { // 검색내용 있을 경우
+			if(searchFilter.equals("userId")) {
+				searchMap.put("userId", searchContent);
+				result = adminMemberDAO.countMemberByFilter_Id(searchMap);
+			}
+			else if(searchFilter.equals("userName")) {
+				searchMap.put("userName", searchContent);
+				result = adminMemberDAO.countMemberByFilter_Name(searchMap);
+			}
+			else if(searchFilter.equals("userTel")) {
+				Map userTel = conData.TelDivThree(searchContent);
+				if(userTel!=null) {
+					searchMap.put("userTel", userTel);
+					result = adminMemberDAO.countMemberByFilter_Tel(searchMap);
+				}else {
+					System.out.println("[Warning] admin / service / listMembersByFiltered > "
+							+ "전화번호가 10자리가 아닙니다.");
+				}
+			}
+			else {
+				System.out.println("[Warning] admin / service / listMembersByFiltered > "
+						+ "계정 검색 필터값이 정확하지 않습니다.");
+				result = adminMemberDAO.countMemberByFilter_None(searchMap);
+			}
+		}
+		else { // 검색내용 없을 경우
+			result = adminMemberDAO.countMemberByFilter_None(searchMap);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public MemberVO getMemberById(String userId) {
+		MemberVO member = (MemberVO) adminMemberDAO.selectMemberById(userId).get(0);
+		return member;
 	}
 	
 }

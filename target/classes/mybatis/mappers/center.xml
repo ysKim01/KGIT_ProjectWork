@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.center" >
+	<resultMap id="centerInfo" type="CenterInfoVO" >
+		<result property="centerCode" column="centercode" />
+		<result property="centerName" column="centername" />
+		<result property="centerTel" column="centertel" />
+		<result property="unitPrice" column="unitprice" />
+		<result property="operTimeStart" column="opertime_start" />
+		<result property="operTimeEnd" column="opertime_End" />
+		<result property="unitTime" column="unittime" />
+		<result property="ratingScore" column="rating_score" />
+		<result property="ratingNum" column="rating_num" />
+		<result property="centerAdd1" column="centeradd1" />
+		<result property="centerAdd2" column="centeradd2" />
+		<result property="centerAdd3" column="centeradd3" />
+		<result property="minTime" column="minTime" />
+		<result property="premiumRate" column="premiumRate" />
+		<result property="surchageTime" column="surchageTime" />
+	</resultMap>	
+	<resultMap id="centerContents" type="CenterContentsVO">
+		<result property="centerCode" column="centercode" />
+		<result property="centerPhoto" column="centerphoto" />
+		<result property="centerIntroduce" column="centerintroduce" />	
+		<result property="centerFareInfo" column="centerFareInfo" />	
+		<result property="centerUseInfo" column="centeruseinfo" />
+		<result property="centerFacility" column="centerfacility" />
+		<result property="roomPhoto1" column="roomphoto1" />
+		<result property="roomPhoto2" column="roomphoto2" />
+		<result property="roomPhoto3" column="roomphoto3" />
+		<result property="roomPhoto4" column="roomphoto4" />
+		<result property="roomPhoto5" column="roomphoto5" />
+		<result property="roomPhoto6" column="roomphoto6" />
+		<result property="roomPhoto7" column="roomphoto7" />
+		<result property="roomPhoto8" column="roomphoto8" />
+		<result property="roomPhoto9" column="roomphoto9" />
+		<result property="roomPhoto10" column="roomphoto10" />
+	</resultMap>	
+	<resultMap id="centerFacility" type="CenterFacilityVO">
+		<result property="centerCode" column="centercode" />
+		<result property="locker" column="locker" />
+		<result property="projector" column="projector" />
+		<result property="printer" column="printer" />
+		<result property="noteBook" column="notoBook" />
+		<result property="whiteBoard" column="whiteboard" />
+	</resultMap>	
+	<resultMap id="roomInfo" type="RoomInfoVO">
+		<result property="roomCode" column="roomcode" />
+		<result property="roomName" column="roomname" />
+		<result property="centerCode" column="centercode" />
+		<result property="scale" column="sacle" />
+	</resultMap>	
+
+
+	<select id="listRoomByCenter" parameterType="String" resultMap="roomInfo">
+		<![CDATA[
+			select * from Study_RoomInfo where centerCode = #{centerCode} order by roomName asc
+		]]>
+	</select>
+	<select id="selectCenterByCenterCode" parameterType="String" resultMap="centerInfo">
+		<![CDATA[
+			select * from Study_CenterInfo where centerCode = #{centerCode}
+		]]>
+	</select>
+	
+	<select id="selectAllCenterList" resultMap="centerInfo">
+		<![CDATA[
+			select * from STUDY_CENTERINFO order by CenterCode desc
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Code" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerCode like '%'||#{centerCode}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Name" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerName like '%'||#{centerName}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_Tel" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where centerTel '%'||#{centerTel}||'%' 
+		]]>
+
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectCenterByFilter_None" parameterType="hashMap" resultMap="centerInfo">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
+		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		from STUDY_CENTERINFO where 1=1
+		]]>
+		<![CDATA[
+		order by centerCode desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Code" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerCode like '%'||#{centerCode}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Name" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerName like '%'||#{centerName}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_Tel" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where centerTel like '%'||#{centerTel}||'%' 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+	<select id="countCenterByFilter_None" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from STUDY_CENTERINFO where 1=1 
+		]]>
+		<![CDATA[
+		order by centerCode desc 
+		]]>
+	</select>
+	
+</mapper>

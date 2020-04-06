@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.myspring.mall.admin.member.vo.SearchInfoVO;
+import com.myspring.mall.admin.member.vo.MemberFilterVO;
 import com.myspring.mall.member.vo.MemberVO;
 
 
@@ -79,13 +79,38 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 	public int modMember(MemberVO member) {
 		int result = 0;
 		result = sqlSession.update("mapper.member.modMember", member);
-		return 0;
+		return result;
 	}
 
 	@Override
 	public int delMemberById(String userId) {
 		int result = 0;
 		result = sqlSession.delete("mapper.member.delMemberById", userId);
+		return result;
+	}
+
+	@Override
+	public int countMemberByFilter_Id(Map searchMap) {
+		int result = 0;
+		result = (Integer)sqlSession.selectOne("mapper.member.countMemberByFilter_Id", searchMap);
+		return result;
+	}
+	@Override
+	public int countMemberByFilter_Name(Map searchMap) {
+		int result = 0;
+		result = (Integer)sqlSession.selectOne("mapper.member.countMemberByFilter_Name", searchMap);
+		return result;
+	}
+	@Override
+	public int countMemberByFilter_Tel(Map searchMap) {
+		int result = 0;
+		result = (Integer)sqlSession.selectOne("mapper.member.countMemberByFilter_Tel", searchMap);
+		return result;
+	}
+	@Override
+	public int countMemberByFilter_None(Map searchMap) {
+		int result = 0;
+		result = (Integer)sqlSession.selectOne("mapper.member.countMemberByFilter_None", searchMap);
 		return result;
 	}
 

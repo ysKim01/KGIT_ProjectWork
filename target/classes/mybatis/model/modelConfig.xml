@@ -6,5 +6,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.myspring.mall.member.vo.MemberVO" alias="memberVO"/>
+<<<<<<< HEAD
+=======
+		
+		<typeAlias type="com.myspring.mall.center.vo.CenterInfoVO" alias="CenterInfoVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.CenterContentsVO" alias="CenterContentsVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.CenterFacilityVO" alias="CenterFacilityVO"/>
+		<typeAlias type="com.myspring.mall.center.vo.RoomInfoVO" alias="RoomInfoVO"/>
+		
+		<typeAlias type="com.myspring.mall.reserve.vo.ReserveVO" alias="reserveVO"/>
+		<typeAlias type="com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO" alias="adminReserveSearchVO"/>
+>>>>>>> branch 'master' of https://github.com/ysKim01/KGIT_ProjectWork
 	</typeAliases>
 </configuration>

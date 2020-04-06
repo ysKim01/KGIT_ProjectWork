@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.myspring.mall.center.vo.CenterInfoVO;
+
 public class ControllData {
 	public Integer StringtoInteger(String str) {
 		Integer result = null;
@@ -14,7 +16,7 @@ public class ControllData {
 		try {
 			result = Integer.parseInt(str);
 		}catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		return result;
@@ -68,6 +70,16 @@ public class ControllData {
 		return tel;
 	}
 	
+	public String CenterTelDiv(String centerTel) {
+		String tel = new String();
+		if(centerTel.length() != 10) {
+			return null;
+		}
+		tel = centerTel;
+		
+		return tel;
+	}
+	
 	public Date Date9999toNull(Date date) {
 		if(date != null) {
 			if(date.toString().equals("9999-09-09")) {
@@ -82,6 +94,7 @@ public class ControllData {
 		try {
 			HttpSession session=request.getSession();
 			String lastRequest = (String)session.getAttribute("lastRequest");
+			session.removeAttribute("lastPage");
 			if(isEmpty(lastRequest)) {
 				session.setAttribute("lastPage", "/main.do");
 			}else {
@@ -98,7 +111,6 @@ public class ControllData {
 		try {
 			HttpSession session=request.getSession();
 			String lastPage = (String)session.getAttribute("lastPage");
-			session.removeAttribute("lastPage");
 			result = lastPage;
 			if(result == null) {
 				result = "/main.do";
@@ -108,4 +120,38 @@ public class ControllData {
 		}
 		return result;
 	}
+
+	public String transStatusLang(String status) {
+		if(status.equals("Apply")) {
+			return "예약신청";
+		}else if(status.equals("Payment")){
+			return "결재완료";
+		}else if(status.equals("Checkout")){
+			return "사용완료";
+		}else {
+			return "None";
+		}
+	}
+
+	public String usingTimeToString(CenterInfoVO center, String usingTime) {
+		int openMinute = center.getOperTimeStart();
+		int unitMinute = center.getUnitTime();
+		int startIdx = usingTime.indexOf("1");
+		int endIdx = usingTime.lastIndexOf("1");
+		
+		int startMinute = openMinute + (startIdx*unitMinute);
+		int endMinute = openMinute + ((endIdx+1)*unitMinute);
+		
+		String startTime = MinuteToTime(startMinute);
+		String endTime = MinuteToTime(endMinute);
+		
+		return startTime + " ~ " + endTime;
+	}
+
+	private String MinuteToTime(int time) {
+		Integer hour  = time / 60;
+		Integer minute = time % 60;
+		return hour.toString() + ":" + minute.toString();
+	}
+	
 }

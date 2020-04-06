@@ -27,6 +27,7 @@
 		]]>
 	</select>
 	
+<<<<<<< HEAD
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
 			insert into Study_Member
@@ -157,6 +158,220 @@
 		delete from Study_Member where userId = #{userId}
 		]]>
 	</delete>
+=======
+	<select id="selectMemberByIdPw" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+			select * from Study_Member where userId = #{userId} and userPw = #{userPw}
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+		<![CDATA[
+			insert into Study_Member
+			(userId, userPw, userName, userEmail, userBirth, userTel1, userTel2, userTel3, 
+			userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode)  
+			values(#{userId},#{userPw},#{userName},#{userEmail},#{userBirth},#{userTel1},#{userTel2},#{userTel3},
+			#{userAdd1},#{userAdd2},#{userAdd3},#{userAdd4},sysdate,#{adminMode})
+		]]>
+	</insert>
+	
+	<select id="selectAllMemberList" resultMap="memResult">
+		<![CDATA[
+			select * from Study_Member order by joinDate desc
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Id" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
+		from Study_Member where userId like '%'||#{userId}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Name" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
+		from Study_Member where userName like '%'||#{userName}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_Tel" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
+		from Study_Member 
+		where userTel1 = #{userTel.userTel1} 
+		and   userTel2 = #{userTel.userTel2} 
+		and   userTel3 = #{userTel.userTel3} 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="selectMemberByFilter_None" parameterType="hashMap" resultMap="memResult">
+		<![CDATA[
+		select * from 
+		(select rowNum as recNum, userId, userPw, userName, userEmail, userBirth, 
+		userTel1, userTel2, userTel3, userAdd1, userAdd2, userAdd3, userAdd4, joinDate, adminMode 
+		from Study_Member where 1=1
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="countMemberByFilter_Id" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where userId like '%'||#{userId}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_Name" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where userName like '%'||#{userName}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_Tel" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member 
+		where userTel1 = #{userTel.userTel1} 
+		and   userTel2 = #{userTel.userTel2} 
+		and   userTel3 = #{userTel.userTel3} 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_None" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where 1=1
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	
+	
+	<update id="modMember" parameterType="memberVO">
+		<![CDATA[
+		update Study_Member set 
+		userPw = #{userPw},
+		userName = #{userName},
+		userEmail = #{userEmail},
+		userBirth = #{userBirth},
+		userTel1 = #{userTel1},
+		userTel2 = #{userTel2},
+		userTel3 = #{userTel3},
+		userAdd1 = #{userAdd1},
+		userAdd2 = #{userAdd2},
+		userAdd3 = #{userAdd3},
+		userAdd4 = #{userAdd4},
+		adminMode = #{adminMode} 
+		where userId = #{userId} 
+		]]>
+	</update>
+	
+	<delete id="delMemberById" parameterType="String">
+		<![CDATA[
+		delete from Study_Member where userId = #{userId}
+		]]>
+	</delete>
+	
+	
+>>>>>>> branch 'master' of https://github.com/ysKim01/KGIT_ProjectWork
 </mapper>
 
 

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.reserve">
+	<resultMap id="reserveResult" type="reserveVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="userId" column="userId"/>
+		<result property="centerCode" column="centerCode"/>
+		<result property="roomCode" column="roomCode"/>
+		<result property="reserveApplyDate" column="reserveApplyDate"/>
+		<result property="reserveDate" column="reserveDate"/>
+		<result property="reservePrice" column="reservePrice"/>
+		<result property="reserveStatus" column="reserveStatus"/>
+		<result property="usingTime" column="usingTime"/>
+		<result property="extraCode" column="extraCode"/>
+	</resultMap>
+	<resultMap id="adminReserveSearchResult" type="adminReserveSearchVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="userId" column="userId"/>
+		<result property="centerCode" column="centerCode"/>
+		<result property="roomCode" column="roomCode"/>
+		<result property="reserveApplyDate" column="reserveApplyDate"/>
+		<result property="reserveDate" column="reserveDate"/>
+		<result property="reservePrice" column="reservePrice"/>
+		<result property="reserveStatus" column="reserveStatus"/>
+		<result property="usingTime" column="usingTime"/>
+		<result property="extraCode" column="extraCode"/>
+		<result property="centerName" column="centerName"/>
+		<result property="roomName" column="roomName"/>
+		<result property="scale" column="scale"/>
+		<result property="userName" column="userName"/>
+		<result property="userTel1" column="userTel1"/>
+		<result property="userTel2" column="userTel2"/>
+		<result property="userTel3" column="userTel3"/>
+	</resultMap>
+
+	
+	<select id="listUsingTimeForUsable" parameterType="hashMap" resultType="String">
+		<![CDATA[
+			select usingTime from Study_Reserve 
+			where centerCode  = #{centerCode}  
+			and   roomCode    = #{roomCode} 
+			and   reserveDate = #{reserveDate} 
+		]]>
+	</select>
+	
+	<insert id="insertReserve" parameterType="reserveVO">
+		<![CDATA[
+			insert into Study_Reserve
+			(keyNum, userId,centerCode,roomCode,reserveApplyDate,
+			reserveDate,reservePrice,reserveStatus,usingTime,extraCode)  
+			VALUES(resNum.nextVal, #{userId},#{centerCode},#{roomCode},sysdate,
+			#{reserveDate},#{reservePrice},'Apply',#{usingTime},#{extraCode})
+		]]>
+	</insert>
+	
+	<select id="listReserveByFilter_None" parameterType="hashMap" resultMap="adminReserveSearchResult">
+		<![CDATA[
+		select  * from (
+		select 
+		rowNum as recNum, 
+		Study_Reserve.keyNum, 
+		Study_Reserve.userId, 
+		Study_Reserve.centerCode, 
+		Study_Reserve.roomCode, 
+		Study_Reserve.reserveApplyDate, 
+		Study_Reserve.reserveDate, 
+		Study_Reserve.reservePrice, 
+		Study_Reserve.reserveStatus, 
+		Study_Reserve.usingTime, 
+		Study_Reserve.extraCode, 
+		Study_Member.userName,
+		Study_Member.userTel1,
+		Study_Member.userTel2,
+		Study_Member.userTel3,
+		Study_CenterInfo.centerName,
+		Study_RoomInfo.roomName,
+		Study_RoomInfo.scale   
+		from Study_Reserve, Study_Member, Study_CenterInfo, Study_RoomInfo 
+		where Study_Reserve.userId = Study_Member.userId 
+		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
+		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		]]>
+		<if test = "reserveStatus != null">
+			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
+ 		</if>
+		<![CDATA[
+		order by reserveApplyDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	<select id="countReserveByFilter_None" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select  
+		count(keyNum)  
+		from Study_Reserve, Study_Member, Study_CenterInfo, Study_RoomInfo 
+		where Study_Reserve.userId = Study_Member.userId 
+		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
+		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		]]>
+		<if test = "reserveStatus != null">
+			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
+ 		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

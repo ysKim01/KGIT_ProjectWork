@@ -140,6 +140,79 @@
 		]]>
 	</select>
 	
+	<select id="countMemberByFilter_Id" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where userId like '%'||#{userId}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_Name" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where userName like '%'||#{userName}||'%' 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_Tel" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member 
+		where userTel1 = #{userTel.userTel1} 
+		and   userTel2 = #{userTel.userTel2} 
+		and   userTel3 = #{userTel.userTel3} 
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	<select id="countMemberByFilter_None" parameterType="hashMap" resultType="int">
+		<![CDATA[
+		select count(*) from Study_Member where 1=1
+		]]>
+		<if test = "adminMode != null">
+			<![CDATA[ and adminMode = #{adminMode} ]]>
+ 		</if>
+ 		<if test = "joinStart != null">
+			<![CDATA[ and joinDate >= #{joinStart} ]]>
+ 		</if>
+ 		<if test = "joinEnd != null">
+			<![CDATA[ and joinDate <= #{joinEnd} ]]>
+ 		</if>
+		<![CDATA[
+		order by joinDate desc 
+		]]>
+	</select>
+	
+	
 	<update id="modMember" parameterType="memberVO">
 		<![CDATA[
 		update Study_Member set 
@@ -153,8 +226,9 @@
 		userAdd1 = #{userAdd1},
 		userAdd2 = #{userAdd2},
 		userAdd3 = #{userAdd3},
-		userAdd3 = #{userAdd4},
-		adminMode = #{adminMode}
+		userAdd4 = #{userAdd4},
+		adminMode = #{adminMode} 
+		where userId = #{userId} 
 		]]>
 	</update>
 	
@@ -163,6 +237,8 @@
 		delete from Study_Member where userId = #{userId}
 		]]>
 	</delete>
+	
+	
 </mapper>
 
 

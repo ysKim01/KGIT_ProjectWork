@@ -4,6 +4,7 @@ html,body,h1,h2,h3,h4,h5,p,ul,li,ol,dl,dt,dd,table,td,th,tr,section,article,asid
     margin:0; padding:0; border:0;
 }
 
+<<<<<<< HEAD
 #container{padding:50px 0;}
 table{border-spacing:0; border-collapse: collapse;}
 
@@ -53,3 +54,224 @@ img{max-width:100%; vertical-align:top;}
 
 	
 	/* end */
+=======
+#container{padding:0px 0;}
+#content{
+	padding:80px 0;
+}
+table{border-spacing:0; border-collapse: collapse;}
+
+body{font-family:'Malgun Gothic','맑은 고딕','Noto Sans','arial',sans-serif; line-height:1.6em; letter-spacing:-.5px; word-break:break-all; color:#333; font-size:15px;}
+
+h1{font-size:2.5rem; line-height:1.8em;}
+h2{font-size:2.2rem;}
+h3{font-size:1.9rem; line-height:1.6em;}
+h4{font-size:1.6rem;}
+
+legend{display:none;}
+
+a, a:link, a:visited{
+    text-decoration:none; color:#333;
+}
+ul{list-style:none;}
+
+
+.clear_both:after{content:''; display:block; clear:both;}
+
+img{max-width:100%; vertical-align:top;}
+
+
+
+.width_wrap{width:1200px; margin:0 auto;}
+
+
+.btn_type_01{
+    display:inline-block;
+    padding:8px 35px; box-sizing:border-box;
+    margin-right:5px;
+    font-size:14px;font-weight:500; 
+    border:1px solid #ccc; 
+    background-color:#333;
+    box-shadow:inset -1px -2px 3px rgba(99,99,99,1);
+    color:#fff;
+    transition:opaicty 0.2s;
+    -webkit-transition:opacity .2s;
+    -moz-transition:opacity .2s;
+    -o-transition:opacity .2s;
+}
+.btn_type_01:hover{
+    opacity:0.9;
+}
+.btn_type_02{
+    display:inline-block;
+    padding:8px 35px; box-sizing:border-box;
+    margin-right:5px;
+    font-size:14px;font-weight:500; 
+    border:1px solid #ccc; 
+    background-color:#333;
+    box-shadow:inset -1px -2px 3px rgba(99,99,99,1);
+    color:#fff;
+    transition:opaicty 0.2s;
+    -webkit-transition:opacity .2s;
+    -moz-transition:opacity .2s;
+    -o-transition:opacity .2s;
+}
+
+
+/* pagination */
+#paginate{
+	text-align:center;
+	padding:25px 0; box-sizing:border-box;
+	display:table; margin:auto;
+}
+#paginate > span{
+	display:table-cell; 
+}
+#paginate .pagePrev,
+#paginate .pageNext{
+	width:20px; height:20px;
+	position:relative;
+}
+#paginate .pagePrev > button,
+#paginate .pageNext > button{
+	display:block; width:100%; height:100%;
+	font-size:0; line-height:0;
+    background-color: unset; border:0;
+    cursor: pointer;
+}
+#paginate .pagePrev > button > i,
+#paginate .pageNext > button > i{
+	border: 5px solid #ccc;
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-left: 0;
+    border-bottom: 0;
+    transform-origin: center;
+}
+#paginate .pagePrev > button > i{
+	transform: rotate(-135deg);
+}
+#paginate .pageNext > button > i{
+	transform:rotate(45deg);
+	margin-left:8px;
+}
+#paginate .pageCover a{
+	display:inline-block;
+	padding:3px 10px; box-sizing:border-box;
+	font-size:16px;
+	min-width:38px;
+}
+#paginate .pageCover a.select{
+	border:1px solid #ccc;
+	font-weight:bold;
+	color:#333;
+}
+
+.editBtn, .delBtn, .reservBtn{
+	background-color:unset;
+	border:0;
+	cursor:pointer;
+}
+.editBtn i, .delBtn i, .reservBtn i{
+	font-size:18px;
+	
+}
+.editBtn i, .reservBtn i{
+	color:#041328;
+}
+.delBtn .icon-cross{
+	font-size:24px;
+	color:#DD0101;
+}
+
+
+
+.float_sec > *{
+    float:left;
+    width:50%;
+}
+
+
+
+
+
+
+/* loginform style */
+
+.screenWrap{
+	display:block;
+	width:100%; height:100%;
+	position:absolute; top:0; left:0;
+	background-color:rgba(22,22,22,0.85);
+}
+.screenWrap .loginFormWrap{
+	display:table;
+	width:100%;
+	height:100%;
+	text-align:center;
+}
+.loginForm{
+	display:table-cell;
+	padding:15px; box-sizing:border-box;
+	margin:auto;
+	text-align:center;
+	vertical-align:middle;
+}
+.loginForm > div{
+	background-color:#fff;
+	display:inline-block;
+	padding:25px; box-sizing:border-box;
+	border-radius:5px;
+}
+.loginForm .loginTitle{
+	font-size:20px; font-weight:600;
+	padding:10px 0; box-sizing:border-box;
+	text-align:center;
+}
+.loginForm > div > ul{
+	padding:10px;
+}
+.loginForm li dl{
+	display:table;
+	width:100%;
+}
+.loginForm li dt,
+.loginForm li dd{
+	display:table-cell;
+}
+.loginForm li dt{
+	display:none;
+}
+.loginForm li dd span{
+	display:block;
+	padding:10px; box-sizing:border-box;
+}
+.loginForm li dd span > input{
+	padding:5px 15px; box-sizing:border-box;
+	min-height:50px;
+	min-width: 280px;
+	font-size:15px;
+}
+
+.loginForm .login_btn{
+	margin:25px 0 10px;
+}
+.loginForm .login_btn span{
+	padding: 10px; box-sizing: border-box;
+    display: block;
+}
+.loginForm .login_btn input[type=button]{
+	background-color:#041328;
+	color:#fff; font-weight:bold;
+	font-size:18px;
+	text-align:center;
+	width:100%;
+	min-height:50px;
+	border:0;
+}
+.loginForm .joinMem{
+	font-size:13px; text-align:right;
+	display:block;padding:0 20px; box-sizing:border-box;
+}
+>>>>>>> branch 'master' of https://github.com/ysKim01/KGIT_ProjectWork

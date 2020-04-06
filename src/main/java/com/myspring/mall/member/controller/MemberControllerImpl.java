@@ -60,8 +60,15 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	@RequestMapping(value= {"/loginForm.do"}, method={RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
-
-		conData.setLastPage(request);
+		
+		HttpSession session = request.getSession();
+		String logon = (String)session.getAttribute("logon");
+		if(logon!=null) {
+			if(logon.equals("true"))
+				viewName = "redirect:" + conData.getLastPage(request);
+		} else {
+			conData.setLastPage(request);
+		}
 		
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
@@ -87,11 +94,16 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		String userPw = request.getParameter("userPw");
 		if(!conData.isEmpty(userId) && !conData.isEmpty(userPw)) {
 			MemberVO member = memberService.login(userId, userPw);
+			//System.out.println(member.toString());
 			if(member != null) {
 				logon = true;
 				HttpSession session = request.getSession();
-				session.setAttribute("logon", true);
-				session.setAttribute("logonMember", member);
+				session.removeAttribute("logon");
+				session.removeAttribute("logonId");
+				session.removeAttribute("isAdmin");
+				session.setAttribute("logon", "true");
+				session.setAttribute("logonId", member.getUserId());
+				session.setAttribute("isAdmin", member.getAdminMode());
 			}
 		}
 		
