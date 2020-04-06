@@ -369,6 +369,45 @@
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 	</select>
+	
+	
+	<select id="listReserveResultByCheckout" parameterType="hashMap" resultMap="adminReserveSearchResult">
+		<![CDATA[
+		select 
+		Study_Reserve.keyNum, 
+		Study_Reserve.userId, 
+		Study_Reserve.centerCode, 
+		Study_Reserve.roomCode, 
+		Study_Reserve.reserveApplyDate, 
+		Study_Reserve.reserveDate, 
+		Study_Reserve.reservePrice, 
+		Study_Reserve.reserveStatus, 
+		Study_Reserve.usingTime, 
+		Study_Reserve.extraCode, 
+		Study_Member.userName,
+		Study_Member.userTel1,
+		Study_Member.userTel2,
+		Study_Member.userTel3,
+		Study_CenterInfo.centerName,
+		Study_RoomInfo.roomName,
+		Study_RoomInfo.scale   
+		from Study_Reserve, Study_Member, Study_CenterInfo, Study_RoomInfo 
+		where Study_Reserve.userId = Study_Member.userId 
+		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
+		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		
+		and    Study_Reserve.userId = #{userId} 
+		]]>
+		<choose>
+	        <when test='status.equals("before")'>
+	        	<![CDATA[ and reserveStatus != 'Checkout' ]]>
+	        </when>
+	        <otherwise>
+	        	<![CDATA[ and reserveStatus = 'Checkout' ]]>
+	        </otherwise>
+       	</choose>
+	</select>
+	
 </mapper>
 
 

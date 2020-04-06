@@ -8,4 +8,5 @@ import com.myspring.mall.member.vo.MemberVO;
 
 public interface MemberService {
 	public MemberVO login(String userId, String userPw);
+	public boolean addMember(MemberVO member);
 }

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 회원가입 창</title>
+<title>회원가입 창</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
@@ -202,16 +202,9 @@
     function submitAction(){
         
         var userBirth = $('.birthYear').val();
-        userBirth += $('.birthMonth').val();
-        userBirth += $('.birthDay').val();
+        userBirth += "-" + $('.birthMonth').val();
+        userBirth += "-" + $('.birthDay').val();
 
-        if($("#adminMode").prop("checked")){
-        	adminModeOk = "1";
-        } else{
-        	adminModeOk = "0";
-        }
-    	
-         
         console.log("중복확인");
         if(!idOverLap){
             alert("아이디 중복확인을 해주세요.");
@@ -285,7 +278,6 @@
             userAdd2 : userAdd2,
             userAdd3 : userAdd3,
             userAdd4 : adminAddMember.userAdd2.value,
-            adminMode : adminModeOk
         }
         for(var key in adminAddMemberInfo) {
             if(isEmpty(adminAddMemberInfo[key])){
@@ -307,15 +299,17 @@
         // script로 form만들어서 데이터 저장 후 전송
         $.ajax({
             type:"post",
-            url:"${contextPath}/admin/addMember.do",
+            url:"${contextPath}/member/addMember.do",
             dataType:"text",
-            contentType:"application/JSON",
-            data:JSON.stringify(adminAddMemberInfo),
+            data:{"member" : JSON.stringify(adminAddMemberInfo)},
             success:function(data, textStatus){
                 console.log(textStatus);
                 alert(adminAddMemberInfo.userName+"님의 가입을 환영합니다.");
-                window.location.href="${contextPath}/admin/listMembers.do";
-            }
+                window.location.href="#";
+            },
+			error: function(data, status) {
+				alert("error");
+	        }
 
         })
     }
@@ -377,7 +371,7 @@
 <body>
     <div class="adminaddMemberWrap">
         <h3 class="content_title">
-           회원등록 폼 
+           회원가입 
         </h3>
     <form name="adminAddMember" id="adminAddMember"  action="#" method="post">
         <fieldset>
@@ -445,12 +439,6 @@
                         <b>
                             <input required  type="text" id="userAdd2" name="userAdd2">
                         </b>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong><label for="addAdminChk">관리자 계정</label></strong>
-                        <input type="checkbox" name="adminMode" id="adminMode">
                     </p>
                 </li>
                 <li>

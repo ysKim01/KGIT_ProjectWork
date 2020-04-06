@@ -37,7 +37,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myspring.mall.common.ControllData;
-import com.myspring.mall.common.mail.MailController;
+import com.myspring.mall.common.mail.MailService;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.myspring.mall.admin.center.service.AdminCenterService;
@@ -71,6 +71,8 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 	private AdminCenterService adminCenterService;
 	@Autowired
 	private AdminMemberService adminMemberService;
+	@Autowired
+	private MailService mailService;
 	
 	private static ControllData conData = new ControllData();
 	
@@ -472,7 +474,6 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 		result = adminReserveService.paymentReserve(keyNum);
 		
 		// 메일 전송
-		MailController mail = new MailController();
 		AdminReserveSearchVO rsvSearch = adminReserveService.selectReserveSearch(keyNum);
 		if(rsvSearch != null) { 
 			System.out.println(rsvSearch.toString()); 
@@ -495,8 +496,7 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 		}
 		
 		if(rsvSearch!=null && center!=null && member!=null) {
-			//mail.mailForPayment(request, member.getUserEmail(), rsvSearch, center);
-			mail.mailForPayment(request, "dudtkd4567@naver.com", rsvSearch, center);
+			mailService.mailForPayment(request, member.getUserEmail(), rsvSearch, center);
 		}
 		
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);

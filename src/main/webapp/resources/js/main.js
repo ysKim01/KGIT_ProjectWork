@@ -1,15 +1,5 @@
 
 
-<<<<<<< HEAD
-
-$(window).on('load',function(){
-
-})
-function windowClose(){
-    window.close();
-    self.close();
-}
-=======
 $(window).on('load',function(){
 
 })
@@ -53,4 +43,3 @@ function activeLogon(){
          }
      })
  }
->>>>>>> branch 'master' of https://github.com/ysKim01/KGIT_ProjectWork

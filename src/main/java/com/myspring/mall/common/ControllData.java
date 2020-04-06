@@ -149,9 +149,17 @@ public class ControllData {
 	}
 
 	private String MinuteToTime(int time) {
-		Integer hour  = time / 60;
-		Integer minute = time % 60;
-		return hour.toString() + ":" + minute.toString();
+		String hour = Integer.toString(time/60);
+		for(int i=0; i<(2-hour.length()); i++) {
+			hour = "0" + hour;
+		}
+		
+		String minute = Integer.toString(time%60);
+		for(int i=0; i<(2-minute.length()); i++) {
+			minute = "0" + minute;
+		}
+		
+		return hour + ":" + minute;
 	}
 	
 }

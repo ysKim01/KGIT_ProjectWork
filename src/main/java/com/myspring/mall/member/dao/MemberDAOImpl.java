@@ -39,6 +39,13 @@ public class MemberDAOImpl implements MemberDAO{
 		return member;
 	}
 
+	@Override
+	public int insertMember(MemberVO member) {
+		int result = 0;
+		result = sqlSession.insert("mapper.member.insertMember", member);
+		return result;
+	}
+
 }
 
 

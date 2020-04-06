@@ -4,26 +4,17 @@
 "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+	<definition name="baseLayoutMember" template="#">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
-		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp"></put-attribute>
+		<put-attribute name="header" value="#"></put-attribute>
+		<put-attribute name="side" value="#"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
-		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"></put-attribute>
+		<put-attribute name="footer" value="#"></put-attribute>
 	</definition>
 	
-	<definition	name="/" extends="baseLayout">
-		<put-attribute name="title" value="메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/main.jsp"></put-attribute>
-	</definition>
-	<definition	name="/main" extends="baseLayout">
-		<put-attribute name="title" value="메인페이지"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/main.jsp"></put-attribute>
-	</definition>
-	
-	<definition name="/member/loginForm" extends="baseLayout">
-		<put-attribute name="title" value="로그인창"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp"></put-attribute>
+	<definition name="/member/modMemberForm" extends="baseLayoutMember">
+		<put-attribute name="title" value="회원정보 수정 창"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/modMemberForm.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>
 

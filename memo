@@ -1,32 +1,24 @@
+[관리자 예약]
 0. 예약 등록
 - 예약 등록 후 페이지 이동
-
 1. 예약 조회
 - 예약상태 한글 변환
 - 결재 완료 > reserveApply 클릭 시 'Apply일 경우' 결재완료로 >
-
 2. 예약 수정
 - 이전 예약 정보 표시
 - 예약 수정 후 페이지 이동
 
 
+[회원]
+1.회원가입 > 컨트롤러 완성, 폼 링크 및 회원가입 약식(관리자 복붙) 완료
+2.로그아웃 > 세션 제거 수정
 
+[마이페이지] 
+!. 헤더에 로그인 시 접근가능 
+!. 즐겨찾기  > 검색 끝나면
+!. 
 
-File
-- java > admin > reserve
-       > common > controllData.java > inttostring오류메세지x, time변환
-       > common > mailcontroller.java
-       AdminMemberServiceImpl > 관리자 or 전체
+1. 회원수정 > 기능 구현, 폼 약식(디자인상세 x, 회원 수정후 페이지 이동 x)
+2. 예약  > 관련 페키지 구축
+       > 예약 목록 > 기능 구현	
 
-Resource
-- mybatis > reserve.xml
-- tiles_admin_Reserve.xml
-
-View
-- reserve > all
-- member > adminMembers.jsp > 수정 시 페이지값 넘기기 오류 수정
-
-
-환경
-- pom.xml > 메일 관련 lib
-- root-context.xml > 메일 bean

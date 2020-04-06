@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 회원가입 창</title>
+<title>회원정보 수정</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
@@ -22,12 +22,24 @@
    	// 패스워드 패턴 확인
    	var idOverLap = false;
    	// 아이디 중복확인
-   	var adminModeOk = false;
-       
-
+   	
+   	
+	var userAdd = '${member.userAdd1}' + ' ' + '${member.userAdd2}' + ' ' + '${member.userAdd3}'; 
+   	var userSubAdd = '${member.userAdd4}';
+   	var userTel1 = '${member.userTel1}';
+   	var userTel2 = '${member.userTel2}';
+   	var userTel3 = '${member.userTel3}';
+   	var userDate = '${member.userBirth}';
+   	var userBirth = userDate.split('-');
+   	var userbirthYear = userBirth[0];
+   	var userbirthMonth = userBirth[1]-1;
+   	var userbirthDay = userBirth[2];
+   	
        $(window).on('load',function(){
-           
-
+    	   
+		   $('#userAdd1').val(userAdd);
+		   $('#userAdd2').val(userSubAdd);
+		   
            // 생년월일 날짜 option
            var adminAddMember = document.adminAddMember;
            var date = new Date();
@@ -39,6 +51,7 @@
                    "<option value="+i+">"+i+"년</option>"
                );
            };
+           $('.birthYear option[value='+userbirthYear+']').attr('selected',true);
            for(var i = 1; i<=12; i++){
                var count = i;
                if(i < 10){
@@ -48,6 +61,7 @@
                    "<option value="+count+">"+count+"월</option>"
                )
            }
+           $('.birthMonth > option[value='+userbirthMonth+']').attr('selected',true);
            for(var i=1; i<=day; i++){
                var count = i;
                if(i < 10){
@@ -57,8 +71,8 @@
                    "<option value="+count+">"+count+"일</option>"
                )
            }
-           $('.birthYear option:last').attr('selected','select');
-           $('.birthMonth option:eq('+month+')').attr('selected','select');
+           $('.birthDay > option[value='+userbirthDay+']').attr('selected',true);
+           
            // 날짜 end\
            $('.birthDay').focus(function(){
                
@@ -149,23 +163,10 @@
     
     function submitAction(){
         
-        var userBirth = $('.birthYear').val();
-        userBirth += $('.birthMonth').val();
+        var userBirth = $('.birthYear').val() + "-";
+        userBirth += $('.birthMonth').val() + "-";
         userBirth += $('.birthDay').val();
 
-        if($("#adminMode").prop("checked")){
-        	adminModeOk = "1";
-        } else{
-        	adminModeOk = "0";
-        }
-    	
-         
-        console.log("중복확인");
-        if(!idOverLap){
-            alert("아이디 중복확인을 해주세요.");
-            $('#btnOverLapped').focus();
-            return;
-        } 
         if(!pwPtnOk){
             alert("패스워드형식이 일치하지 않습니다. 다시 입력해주세요.");
             $('#userPw').text('');
@@ -184,7 +185,7 @@
         var info_box = document.createElement('i');
         info_box.className='info_box';
         $('#userEmail').siblings().remove('.info_box');
-        console.log(adminAddMember.userEmail.value);
+        
         if(!emailPtn.test(adminAddMember.userEmail.value)){
             var info_text = document.createTextNode("이메일 형식을 맞춰주세요.");
             info_box.appendChild(info_text);
@@ -192,7 +193,7 @@
             $('#uesrEmail').focus();
             return;
         }
-        console.log("email");
+        
         // tel 패턴 검사
         if(isNaN(parseInt($("#userTel2").val())) || $('#userTel2').val().length < 3){
             var info_text = document.createTextNode("전화번호 형식에 맞춰주세요.");
@@ -208,11 +209,18 @@
             $('#userTel3').focus();
             return;
         }
-        console.log("전화번호");
+        
 
+     	// 주소값
         var fullAdd = adminAddMember.userAdd1.value.split(' ');
+       	var userAdd1 = fullAdd[0];
+       	var userAdd2 = fullAdd[1];
+       	var userAdd3 = "";
+        for(var i=2;i<fullAdd.length;i++){
+        	userAdd3 += fullAdd[i] + " "; 
+        }
         // 주소값
-        var adminAddMemberInfo = {
+        var member = {
             userId : adminAddMember.userId.value,
             userPw : adminAddMember.userPw.value,
             userName : adminAddMember.userName.value,
@@ -222,13 +230,13 @@
             userTel2 : adminAddMember.userTel2.value,
             userTel3 : adminAddMember.userTel3.value,
             
-            userAdd1 : fullAdd[0],
-            userAdd2 : fullAdd[1],
-            userAdd3 : adminAddMember.userAdd2.value,
-            adminMode : adminModeOk
+            userAdd1 : userAdd1,
+            userAdd2 : userAdd2,
+            userAdd3 : userAdd3,
+            userAdd4 : adminAddMember.userAdd2.value,
         }
-        for(var key in adminAddMemberInfo) {
-            if(isEmpty(adminAddMemberInfo[key])){
+        for(var key in member) {
+            if(isEmpty(member[key])){
             	var name;
             	if(key == 'userAdd3'){
             		key = 'userAdd2';
@@ -242,19 +250,18 @@
                 return;
             }
        	}
-        
+        console.log(member);
         //ajxa 수정
         // script로 form만들어서 데이터 저장 후 전송
         $.ajax({
             type:"post",
-            url:"${contextPath}/admin/addMember.do",
+            url:"${contextPath}/member/modMember.do",
             dataType:"text",
-            contentType:"application/JSON",
-            data:JSON.stringify(adminAddMemberInfo),
+            data:{"member" : JSON.stringify(member)},
             success:function(data, textStatus){
                 console.log(textStatus);
-                alert(adminAddMemberInfo.userName+"님의 가입을 환영합니다.");
-                window.location.href="${contextPath}/admin/listMembers.do";
+                alert(member.userId+"님의 정보가 수정되었습니다..");
+                searchMember();
             }
 
         })
@@ -310,14 +317,13 @@
             }
         }).open();
     }
-
-       
+    
     </script>
 </head>
 <body>
     <div class="adminaddMemberWrap">
         <h3 class="content_title">
-           회원수정 폼 
+           	회원 수정 
         </h3>
     <form name="adminAddMember" id="adminAddMember"  action="#" method="post">
         <fieldset>
@@ -389,14 +395,8 @@
                 </li>
                 <li>
                     <p>
-                        <strong><label for="addAdminChk">관리자 계정</label></strong>
-                        <input type="checkbox" name="adminMode" id="adminMode">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <input class="btn_type_01" type="button" onclick="submitAction()" value="가입하기">
-                        <input class="btn_type_01" type="button" value="취소" onclick="windowClose()">
+                        <input class="btn_type_01" type="button" onclick="submitAction()" value="수정하기">
+                        <input class="btn_type_01" type="button" value="취소" onclick="javascript:history.back()">
                     </p>
                 </li>
             </ul>

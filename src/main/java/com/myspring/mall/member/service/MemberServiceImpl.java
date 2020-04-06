@@ -23,5 +23,16 @@ public class MemberServiceImpl implements MemberService{
 		MemberVO member = memberDAO.login(userId,userPw);
 		return member;
 	}
+
+	@Override
+	public boolean addMember(MemberVO member) {
+		boolean result = false;
+		int num = memberDAO.insertMember(member);
+
+		if(num >= 1) { result = true; }
+		else { result = false; }
+		
+		return result;
+	}
 	
 }
