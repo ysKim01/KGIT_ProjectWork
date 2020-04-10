@@ -19,6 +19,9 @@
 		<div id="content">
 			<tiles:insertAttribute name="body" />
 		</div>
+		<div id="side">
+		<tiles:insertAttribute name="side" />
+		</div>
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />
 		</div>

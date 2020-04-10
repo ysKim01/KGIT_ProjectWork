@@ -20,6 +20,34 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	// 호출할때마다 자동으로 생성
+	
+	@Override
+	public int insertCenter(CenterInfoVO center) throws DataAccessException {
+		int result = 0;
+		result = sqlSession.insert("mapper.center.insertCenter",center);
+		return 0;
+	}
+
+	@Override
+	public int insertContents(CenterContentsVO contents) throws DataAccessException {
+		int result =0;
+		result = sqlSession.insert("mapper.center.insertContents",contents);
+		return 0;
+	}
+
+	@Override
+	public int insertFacility(CenterFacilityVO facility) throws DataAccessException {
+		int result =0;
+		result = sqlSession.insert("mapper.center.insertFacility",facility);
+		return 0;
+	}
+
+	@Override
+	public int insertRoom(RoomInfoVO room) throws DataAccessException {
+		int result =0;
+		result = sqlSession.insert("mapper.center.insertRoom",room);
+		return 0;
+	}
 
 	@Override
 	public List<RoomInfoVO> listRoomsByCenter(String centerCode) {

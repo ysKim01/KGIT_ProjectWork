@@ -5,42 +5,42 @@
 
 <mapper namespace="mapper.center" >
 	<resultMap id="centerInfo" type="CenterInfoVO" >
-		<result property="centerCode" column="centercode" />
-		<result property="centerName" column="centername" />
-		<result property="centerTel" column="centertel" />
-		<result property="unitPrice" column="unitprice" />
-		<result property="operTimeStart" column="opertime_start" />
-		<result property="operTimeEnd" column="opertime_End" />
-		<result property="unitTime" column="unittime" />
-		<result property="ratingScore" column="rating_score" />
-		<result property="ratingNum" column="rating_num" />
-		<result property="centerAdd1" column="centeradd1" />
-		<result property="centerAdd2" column="centeradd2" />
-		<result property="centerAdd3" column="centeradd3" />
+		<result property="centerCode" column="centerCode" />
+		<result property="centerName" column="centerName" />
+		<result property="centerTel" column="centerTel" />
+		<result property="unitPrice" column="unitPrice" />
+		<result property="operTimeStart" column="operTimeStart" />
+		<result property="operTimeEnd" column="operTimeEnd" />
+		<result property="unitTime" column="unitTime" />
+		<result property="ratingScore" column="ratingScore" />
+		<result property="ratingNum" column="ratingNum" />
+		<result property="centerAdd1" column="centerAdd1" />
+		<result property="centerAdd2" column="centerAdd2" />
+		<result property="centerAdd3" column="centerAdd3" />
 		<result property="minTime" column="minTime" />
 		<result property="premiumRate" column="premiumRate" />
 		<result property="surchageTime" column="surchageTime" />
 	</resultMap>	
 	<resultMap id="centerContents" type="CenterContentsVO">
-		<result property="centerCode" column="centercode" />
-		<result property="centerPhoto" column="centerphoto" />
-		<result property="centerIntroduce" column="centerintroduce" />	
+		<result property="centerCode" column="centerCode" />
+		<result property="centerPhoto" column="centerPhoto" />
+		<result property="centerIntroduce" column="centerIntroduce" />	
 		<result property="centerFareInfo" column="centerFareInfo" />	
-		<result property="centerUseInfo" column="centeruseinfo" />
-		<result property="centerFacility" column="centerfacility" />
-		<result property="roomPhoto1" column="roomphoto1" />
-		<result property="roomPhoto2" column="roomphoto2" />
-		<result property="roomPhoto3" column="roomphoto3" />
-		<result property="roomPhoto4" column="roomphoto4" />
-		<result property="roomPhoto5" column="roomphoto5" />
-		<result property="roomPhoto6" column="roomphoto6" />
-		<result property="roomPhoto7" column="roomphoto7" />
-		<result property="roomPhoto8" column="roomphoto8" />
-		<result property="roomPhoto9" column="roomphoto9" />
-		<result property="roomPhoto10" column="roomphoto10" />
+		<result property="centerUseInfo" column="centerUseInfo" />
+		<result property="centerFacility" column="centerFacility" />
+		<result property="roomPhoto1" column="roomPhoto1" />
+		<result property="roomPhoto2" column="roomPhoto2" />
+		<result property="roomPhoto3" column="roomPhoto3" />
+		<result property="roomPhoto4" column="roomPhoto4" />
+		<result property="roomPhoto5" column="roomPhoto5" />
+		<result property="roomPhoto6" column="roomPhoto6" />
+		<result property="roomPhoto7" column="roomPhoto7" />
+		<result property="roomPhoto8" column="roomPhoto8" />
+		<result property="roomPhoto9" column="roomPhoto9" />
+		<result property="roomPhoto10" column="roomPhoto10" />
 	</resultMap>	
 	<resultMap id="centerFacility" type="CenterFacilityVO">
-		<result property="centerCode" column="centercode" />
+		<result property="centerCode" column="centerCode" />
 		<result property="locker" column="locker" />
 		<result property="projector" column="projector" />
 		<result property="printer" column="printer" />
@@ -48,11 +48,139 @@
 		<result property="whiteBoard" column="whiteboard" />
 	</resultMap>	
 	<resultMap id="roomInfo" type="RoomInfoVO">
-		<result property="roomCode" column="roomcode" />
-		<result property="roomName" column="roomname" />
-		<result property="centerCode" column="centercode" />
+		<result property="roomCode" column="roomCode" />
+		<result property="roomName" column="roomName" />
+		<result property="centerCode" column="centerCode" />
 		<result property="scale" column="sacle" />
-	</resultMap>	
+	</resultMap>
+	<resultMap id="centerSearchResult" type="centerSearchVO">
+		<result property="centerCode" column="centerCode" />
+		<result property="centerName" column="centerName" />
+		<result property="centerTel" column="centerTel" />
+		<result property="unitPrice" column="unitPrice" />
+		<result property="operTimeStart" column="operTimeStart" />
+		<result property="operTimeEnd" column="operTimeEnd" />
+		<result property="unitTime" column="unitTime" />
+		<result property="ratingScore" column="ratingScore" />
+		<result property="ratingNum" column="ratingNum" />
+		<result property="centerAdd1" column="centerAdd1" />
+		<result property="centerAdd2" column="centerAdd2" />
+		<result property="centerAdd3" column="centerAdd3" />
+		<result property="minTime" column="minTime" />
+		<result property="premiumRate" column="premiumRate" />
+		<result property="surchageTime" column="surchageTime" />
+		<result property="centerPhoto" column="centerPhoto" />
+		<result property="locker" column="locker" />
+		<result property="projector" column="projector" />
+		<result property="printer" column="printer" />
+		<result property="noteBook" column="noteBook" />
+		<result property="whiteBoard" column="whiteBoard" />
+	</resultMap>
+	
+	<insert id="insertCenter"  parameterType="centerInfoVO">
+
+  <![CDATA[
+    	insert into Study_CenterInfo(
+    								centerCode,
+									centerName,
+									centerTel,
+									unitPrice,
+									operTimeStart,
+									operTimeEnd,
+									unitTime,
+									ratingScore,
+									ratingNum,
+									centerAdd1,
+									centerAdd2,
+									centerAdd3,
+									minTime,
+									premiumRate,
+									surchageTime)
+    						values(#{centerCode},
+									#{centerName},
+									#{centerTel},
+                                 	#{unitPrice},
+                                   	#{operTimeStart},
+                                   	#{operTimeEnd},
+                                    #{unitTime},
+                                    #{ratingScore},
+                                    #{ratingNum},
+                                    #{centerAdd1},
+                                    #{centerAdd2},
+                                    #{centerAdd3},
+                                    #{minTime},
+                                    #{premiumRate},
+                                    #{surchageTime})
+   ]]>      
+  </insert>	
+  
+   <insert id="insertContents"  parameterType="centerContentsVO">
+  <![CDATA[
+    	insert into Study_CenterContents(
+    								centerCode,
+									centerPhoto,
+									centerIntroduce,
+									centerFareInfo,
+									centerUseInfo,
+									roomPhoto1,
+									roomPhoto2,
+									roomPhoto3,
+									roomPhoto4,
+									roomPhoto5,
+									roomPhoto6,
+									roomPhoto7,
+									roomPhoto8,
+									roomPhoto9,
+									roomPhoto10)
+    						values(#{centerCode},
+									#{centerPhoto},
+									#{centerIntroduce},
+                                 	#{centerFareInfo},
+                                 	#{centerUseInfo},
+                                   	#{roomPhoto1},
+                                   	#{roomPhoto2},
+                                   	#{roomPhoto3},
+                                   	#{roomPhoto4},
+                                   	#{roomPhoto5},
+                                   	#{roomPhoto6},
+                                   	#{roomPhoto7},
+                                   	#{roomPhoto8},
+                                   	#{roomPhoto9},
+                                   	#{roomPhoto10})
+   ]]>      
+  </insert>
+  
+  <insert id="insertFacility"  parameterType="centerFacilityVO">
+  <![CDATA[
+    	insert into Study_CenterFacility(
+    								centerCode,
+									locker,
+									projector,
+									printer,
+									notebook,
+									whiteBoard)
+    						values(#{centerCode},
+									#{locker},
+									#{projector},
+                                 	#{printer},
+                                   	#{noteBook},
+                                   	#{whiteBoard})                
+   ]]>      
+  </insert>
+  
+  <insert id="insertRoom"  parameterType="roomInfoVO">
+  <![CDATA[
+    	insert into Study_RoomInfo(
+    								roomCode,
+									roomName,
+									centerCode,
+									scale)
+    						values(#{roomCode},
+									#{roomName},
+									#{centerCode},
+                                 	#{scale}) 
+   ]]>      
+  </insert>
 
 
 	<select id="listRoomByCenter" parameterType="String" resultMap="roomInfo">
@@ -75,8 +203,8 @@
 	<select id="selectCenterByFilter_Code" parameterType="hashMap" resultMap="centerInfo">
 		<![CDATA[
 		select * from 
-		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
-		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTimeStart, operTimeEnd, 
+		unitTime, minTime, PremiumRate, surchageTime, ratingScore,ratingNum,centerAdd1,centerAdd2,centerAdd3 
 		from STUDY_CENTERINFO where centerCode like '%'||#{centerCode}||'%' 
 		]]>
 		<![CDATA[
@@ -88,8 +216,8 @@
 	<select id="selectCenterByFilter_Name" parameterType="hashMap" resultMap="centerInfo">
 		<![CDATA[
 		select * from 
-		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
-		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTimeStart, operTimeEnd, 
+		unitTime, minTime, PremiumRate, surchageTime, ratingScore,ratingNum,centerAdd1,centerAdd2,centerAdd3 
 		from STUDY_CENTERINFO where centerName like '%'||#{centerName}||'%' 
 		]]>
 		<![CDATA[
@@ -101,8 +229,8 @@
 	<select id="selectCenterByFilter_Tel" parameterType="hashMap" resultMap="centerInfo">
 		<![CDATA[
 		select * from 
-		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
-		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTimeStart, operTimeEnd, 
+		unitTime, minTime, PremiumRate, surchageTime, ratingScore,ratingNum,centerAdd1,centerAdd2,centerAdd3 
 		from STUDY_CENTERINFO where centerTel '%'||#{centerTel}||'%' 
 		]]>
 
@@ -115,8 +243,8 @@
 	<select id="selectCenterByFilter_None" parameterType="hashMap" resultMap="centerInfo">
 		<![CDATA[
 		select * from 
-		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTime_Start, operTime_End, 
-		unitTime, minTime, PremiumRate, surchageTime, rating_Score,rating_Num,centerAdd1,centerAdd2,centerAdd3 
+		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTimeStart, operTimeEnd, 
+		unitTime, minTime, PremiumRate, surchageTime, ratingScore,ratingNum,centerAdd1,centerAdd2,centerAdd3 
 		from STUDY_CENTERINFO where 1=1
 		]]>
 		<![CDATA[
@@ -161,4 +289,71 @@
 		]]>
 	</select>
 	
+	<update id="updateRating" parameterType="hashMap">
+		<![CDATA[
+			update Study_Centerinfo set 
+			rating_score = #{ratingScore}, 
+			rating_num = #{ratingNum}  
+			where centerCode = #{centerCode}
+		]]>
+	</update>
+	
+	
+	<select id="listCenterCodeByFilter" parameterType="hashMap" resultType="String">
+		<![CDATA[
+			select centerCode from Study_CenterInfo 
+			where  centerAdd1 = #{searchAdd1} and centerAdd2 = #{searchAdd2}  
+		]]>
+		<choose>
+        <when test='sort == 1'> <!-- 낮은 가격 순 -->
+        	<![CDATA[ order by unitPrice asc ]]>
+        </when>
+        <when test='sort == 2'> <!-- 인기 순 -->
+        	<![CDATA[ order by ratingScore desc ]]>
+        </when>
+        <otherwise>
+        	<![CDATA[ order by centerName asc ]]>
+        </otherwise>
+      	</choose>
+	</select>
+	
+	<select id="selectMaxScaleByCenter" parameterType="String" resultType="Integer">
+		<![CDATA[
+			select max(scale) from ( select scale from study_roominfo 
+			where centerCode = #{centerCode} )
+		]]>
+	</select>
+	
+	
+	<select id="selectCenterSearchByCenterCode" parameterType="String" resultMap="centerSearchResult">
+		<![CDATA[
+		select 
+		Study_CenterInfo.centerCode, 
+		Study_CenterInfo.centerName, 
+		Study_CenterInfo.centerTel, 
+		Study_CenterInfo.unitPrice, 
+		Study_CenterInfo.operTimeStart, 
+		Study_CenterInfo.operTimeEnd, 
+		Study_CenterInfo.unitTime, 
+		Study_CenterInfo.ratingScore, 
+		Study_CenterInfo.ratingNum, 
+		Study_CenterInfo.centerAdd1, 
+		Study_CenterInfo.centerAdd2, 
+		Study_CenterInfo.centerAdd3, 
+		Study_CenterInfo.minTime, 
+		Study_CenterInfo.premiumRate, 
+		Study_CenterInfo.surchageTime, 
+		Study_CenterContents.centerPhoto, 
+		Study_CenterFacility.locker, 
+		Study_CenterFacility.projector, 
+		Study_CenterFacility.printer, 
+		Study_CenterFacility.noteBook, 
+		Study_CenterFacility.whiteBoard 
+		from Study_CenterInfo, Study_CenterContents, Study_CenterFacility 
+		where  Study_CenterInfo.centerCode = Study_CenterContents.centerCode 
+		and    Study_CenterInfo.centerCode = Study_CenterFacility.centerCode 
+		
+		and    Study_CenterInfo.centerCode = #{centerCode}
+		]]>
+	</select>
 </mapper>

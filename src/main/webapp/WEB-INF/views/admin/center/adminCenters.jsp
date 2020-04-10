@@ -474,7 +474,7 @@ $(document).on('ready',function(){
 					-->
 					</table>
 					<p class="editBtn_wrap">
-						<a href="${contextPath}/admin/centersForm.do" class="comAdd"><strong>등록</strong></a>
+						<a href="${contextPath}/admin/centerAddForm.do" class="comAdd"><strong>등록</strong></a>
 						<a href="chkDelCenters()" class="comDel"><strong>삭제</strong></a> 
 					</p>
 					<div id="paginate">

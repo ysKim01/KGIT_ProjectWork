@@ -20,9 +20,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/adminMain.jsp"></put-attribute>
 	</definition>
 	
-	<definition	name="/admin/CenterForm" extends="baseLayoutAdmin">
-		<put-attribute name="title" value="관리자 회원등록"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/admin/center/adminAddCenter.jsp"></put-attribute>
+	<definition	name="/admin/centerAddForm" extends="baseLayoutAdmin">
+		<put-attribute name="title" value="관리자 카페등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/center/adminCompanyRegisterForm.jsp"></put-attribute>
 	</definition>
 	
 	<definition	name="/admin/modCenterForm" extends="baseLayoutAdmin">

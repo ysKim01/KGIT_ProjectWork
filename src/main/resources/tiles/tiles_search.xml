@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="baseLayoutSearchPage" template="/WEB-INF/views/search/common/layout.jsp">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/search/common/header.jsp"></put-attribute>
+		<put-attribute name="leftSide" value="/WEB-INF/views/search/common/leftSide.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/search/common/footer.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/listSearch" extends="baseLayoutSearchPage">
+		<put-attribute name="title" value="검색 메인"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/search//listSearch.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>
+
+
+
+
+
+
+
+

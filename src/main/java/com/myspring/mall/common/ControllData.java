@@ -161,5 +161,17 @@ public class ControllData {
 		
 		return hour + ":" + minute;
 	}
+
+	public Float StringtoFloat(String str) {
+		Float result = null;
+		
+		try {
+			result =  Float.parseFloat(str);
+		}catch(Exception e) {
+			//e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 }

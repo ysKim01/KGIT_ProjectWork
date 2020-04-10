@@ -23,5 +23,9 @@ public interface AdminCenterDAO {
 	public int countCenterByFilter_Name(Map searchMap);
 	public int countCenterByFilter_Tel(Map searchMap);
 	public int countCenterByFilter_None(Map searchMap);
+	public int insertCenter(CenterInfoVO center) throws DataAccessException;
+	public int insertContents(CenterContentsVO contents) throws DataAccessException;
+	public int insertFacility(CenterFacilityVO facility) throws DataAccessException;
+	public int insertRoom(RoomInfoVO room) throws DataAccessException;
 	
 }

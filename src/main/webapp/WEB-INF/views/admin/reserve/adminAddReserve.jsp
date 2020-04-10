@@ -132,20 +132,28 @@ function setTimeTable(data){
     var count = 0; // for문 카운트횟수 저장
     for(var time = _operTimeStart; time < _operTimeEnd; time += _unitTime){
         var getHour = Math.floor(time); // 10.5 = 10
-        
         var getMinute = (time - getHour) * 60;
+        
+        var maxTime = time + _unitTime;
+        var maxHour = Math.floor(maxTime);
+        var maxMinute = (maxTime - maxHour) * 60;
+        
+        
         if(getMinute == 0) getMinute = '00';
         if(getHour < 10) getHour = '0'+getHour;
+        if(maxMinute == 0 || maxMinute == '0') maxMinute = '00';
+        if(maxHour < 10) maxHour = '0'+maxHour;
+        
         if(_reservIndex[count++] != 0){
-            setHtml += "<tr data-time-hour="+getHour+" data-time-minute="+getMinute+" data-index="+count+" data-sort='0' data-status='false'><td><b class='roomName'>"+reservRoomName+"</b></td><td><strong>"+getHour+ " : " + getMinute+"</strong></td><td><span class='red'>예약불가</span></tr>";
+            setHtml += "<tr data-time-hour="+getHour+" data-time-minute="+getMinute+" data-max-time-hour="+maxHour+" data-max-time-minute="+maxMinute+" data-index="+count+" data-sort='0' data-status='false'><td><b class='roomName'>"+reservRoomName+"</b></td><td><strong>"+getHour+ " : " + getMinute+"</strong><strong>"+maxHour+ " : " + maxMinute +"</strong></td><td><span class='red'>예약불가</span></tr>";
         }else{
-            setHtml += "<tr data-time-hour="+getHour+" data-time-minute="+getMinute+" data-index="+count+" data-sort='0' data-status='true'><td><b class='roomName'>"+reservRoomName+"</b></td><td><strong>"+getHour+ " : " + getMinute+"</strong></td><td><span class='green'>예약가능</span></td></tr>";
+            setHtml += "<tr data-time-hour="+getHour+" data-time-minute="+getMinute+"  data-max-time-hour="+maxHour+" data-max-time-minute="+maxMinute+"  data-index="+count+" data-sort='0' data-status='true'><td><b class='roomName'>"+reservRoomName+"</b></td><td><strong>"+getHour+ " : " + getMinute+"</strong><strong>"+maxHour+ " : " + maxMinute +"</strong></td><td><span class='green'>예약가능</span></td></tr>";
         }
         
     }
     setHtml += "</tbody></table>";
     $('#timeTableWrap').html(setHtml);
-    
+    $('.getTimeTableWrap > p').remove();
     createClickEvent()
     
     // element 생성 후 click이벤트 추가
@@ -185,29 +193,32 @@ function createClickEvent(){
         
         if(clickCount % 2 == 1){
         	// 시작값 저장
-        	
         	reservTime.startTime.setTime = parseInt($(this).data('time-hour')*60) + parseInt($(this).data('time-minute')) * 60;
+        	reservTime.endTime.setTime = parseInt($(this).data('max-time-hour')*60) + parseInt($(this).data('max-time-minute')) * 60;
         }else{
         	// 끝값 저장
-        	
-        	reservTime.endTime.setTime = parseInt($(this).data('time-hour')*60) + parseInt($(this).data('time-minute'));
+        	reservTime.endTime.setTime = parseInt($(this).data('max-time-hour')*60) + parseInt($(this).data('max-time-minute')) * 60;
         }
         
         
          
-        if(clickCount % 2 == 0){
+        
+        	console.log((reservTime.endTime.setTime - reservTime.startTime.setTime) > _minTime);
         	if(!(reservTime.startTime.setTime >= reservTime.endTime.setTime) && (reservTime.endTime.setTime - reservTime.startTime.setTime) > _minTime){
+        		console.log('성공');
             	var checkedList = document.getElementsByClassName('checked');
             	var context = $('.timeField tbody tr');
-            	for(var i = checkedList[0].dataset.index; i < checkedList[1].dataset.index - 1; i++){
-            		if(!context.eq(i).data('status')){
-            			alert("예약이 불가능한 시간이 겹쳐있습니다. 다시 선택해주세요.");
-            			context.removeClass();
-            			clickCount = 0;
-            			return;
-            		}
-            		context.eq(i).addClass('ing');
-            		
+            	if(checkedList.length == 2){
+            		for(var i = checkedList[0].dataset.index; i < checkedList[1].dataset.index - 1; i++){
+                		if(!context.eq(i).data('status')){
+                			alert("예약이 불가능한 시간이 겹쳐있습니다. 다시 선택해주세요.");
+                			context.removeClass();
+                			clickCount = 0;
+                			return;
+                		}
+                		context.eq(i).addClass('ing');
+                		
+                	}
             	}
             	reservTime.startTime.hour = reservTime.startTime.setTime / 60;
             	reservTime.startTime.minute =((reservTime.startTime.setTime % 60) == 0 ? '00':'0');
@@ -222,15 +233,8 @@ function createClickEvent(){
             	$('.timeField tbody tr').removeClass('checked');
             	
             }
-        	clickCount = 0;
-        }
-        
-        
-       
-        
-        
-
-        
+        if(clickCount == 2) clickCount = 0;
+  
         return;
     })
     
@@ -317,29 +321,37 @@ function onResorv(){
                     <div class="reservFormWrap">
                         <form action="#" method="post" onsubmit="return false;" name="adminReservForm" id="adminReservForm">
                             <fieldset>
-                                <ul>
-                                	<li>
-                                        <p>
+                                <table class="reservWrap">
+                                	<tr>
+                                        <th>
                                         <label>예약자 아이디</label>
+                                        </th>
+                                        <td>
                                         <strong><input type="text" readonly name="userId" class="userId" value="" onclick="idOverlapped()"></strong>
                                         <strong><input type="button" onclick="idOverlapped()" class="btn_type_02" value="아이디 확인"></strong>
-                                        </p>
-                                    </li>
-                                	<li>
-                                        <p>
+                                        </td>
+                                    </tr>
+                                	<tr>
+                                        <th>
                                         <label>센터 코드</label>
+                                        </th>
+                                        <td>
                                         <strong><input type="text" readonly name="centerCode" class="centerCode" value="${centerInfo.centerCode }"></strong>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
                                         <label>날짜</label>
+                                        </th>
+                                        <td>
                                         <strong><input type="text" name="reservDate" class="dcalendar"></strong>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
+                                        </d>
+                                    </tr>
+                                    <tr>
+                                        <th>
                                             <label>방 선택</label>
+                                        </th>
+                                        <td>
                                             <strong>
                                                 <select name="reservRoom" class="reservRoom">
                                                     <!-- ================================================ -->
@@ -352,29 +364,26 @@ function onResorv(){
                                                 </select>
                                             </strong>
                                             <input type="button" value="시간 확인" onclick="getReservTime()" class="btn_type_02">
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <dl class="reservTimeWrap">
-                                            <dt><label>시간 선택</label></dt>
-                                            <dd>
-                                                <div class="float_sec clear_both reservTime">
-                                                    <p>
-                                                        <b>시작 시간</b>
-                                                        <input type="text" name="startTime" readOnly>
-                                                    </p>
-                                                    <p>
-                                                        <b>끝 시간</b>
-                                                        <input type="text" name="endTime" readOnly>
-                                                    </p>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </li>
-
-                                </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="reservTimeWrap">
+                                       <th><label>시간 선택</label></th>
+                                       <td>
+                                           <div class="float_sec clear_both reservTime">
+                                               <p>
+                                                   <b>시작 시간</b>
+                                                   <input type="text" name="startTime" readOnly>
+                                               </p>
+                                               <p>
+                                                   <b>끝 시간</b>
+                                                   <input type="text" name="endTime" readOnly>
+                                               </p>
+                                           </div>
+                                       </td>
+                                    </tr>
+                                </table>
                                 <p class="btnArea">
-                                    <input type="button" value="예약" onclick="onResorv()">
+                                    <input class="btn_type_01" type="button" value="예약" onclick="onResorv()">
                                 </p>
                             </fieldset>
                         </form>

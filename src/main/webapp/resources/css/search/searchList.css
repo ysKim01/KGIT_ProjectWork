@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+
+
+.searchList_wrap .list_box{
+    box-sizing:border-box;
+    margin-bottom:40px;
+    background-color:#fff;
+    box-shadow: 2px 3px 3px rgba(22,22,22,0.05);
+}
+.list_box > div{
+    border:1px solid #eaeaea; box-sizing:border-box;
+    padding:10px; position:relative;
+    display:table; padding-right:135px;  width:100%;
+}
+.list_box .img_wrap,
+.list_box .txt_wrap{
+    display:table-cell;
+    vertical-align:middle;
+}
+.list_box .img_wrap{width: 210px;}
+.list_box .img_wrap figure{
+    padding:5px; box-sizing:border-box;
+    
+}
+.list_box .txt_wrap{padding:0 20px;     border-right: 1px solid #eaeaea;}
+.list_box .txt_wrap .box_title h5{
+    font-size:20px; font-weight:600;
+    padding:5px 0; box-sizing:border-box;
+    margin-bottom:8px;
+}
+.list_box .txt_wrap .sub_txt{padding-left:10px; box-sizing:border-box;}
+.list_box .txt_wrap .sub_txt dt,
+.list_box .txt_wrap .sub_txt dd{
+    float:left;
+    font-size:14px;
+}
+.list_box .txt_wrap .sub_txt dt{
+    min-width:10%;
+    max-width:120px;
+    padding-right:10px; box-sizing:border-box;
+     font-weight:500;
+    color:#444;
+}
+.list_box .txt_wrap .sub_txt dd{
+    padding-left:10px; box-sizing:border-box;
+    letter-spacing:.3px;
+}
+.list_box .txt_Wrap .sub_txt dd p{
+    font-size:14px; font-weight:normal;
+    color:#666;
+}
+.list_box .btn_wrap{
+    position:absolute; top:50%; right:0;
+    width:130px; padding:0 10px; box-sizing:border-box;
+    height: 91px;
+    margin-top: -45px;
+}
+.list_box .btn_wrap button{
+    margin:0; border:0;
+    box-shadow: inset -1px -1px 3px rgba(38,118,197,0.3);
+    background-color:#156BC1;
+    color:#fff;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding:10px 25px;
+}
+.list_box .btn_wrap button:last-child{
+    margin-bottom:0;
+}
+.equp span{
+    display:inline-block;
+    font-size:0;
+}
+.equp span i{
+    display:block;
+    padding-top: 5px;
+    font-size: 18px; color:#156BC1;
+    margin-right: 8px;
+}
+.priceLap h4{
+    font-family: 'Malgun Gothic','맑은 고딕','Nanum Gothic','Noto Sans','Noto Sans KR',sans-serif;
+    color:#666;
+}
+.priceLap h4 span{
+    display:inline-block;
+    margin-right:8px;
+}

@@ -249,7 +249,7 @@ public class AdminReserveControllerImpl extends MultiActionController implements
 	}
 	
 	/* ===========================================================================
-	 * 5. 회원검색 
+	 * 5. 예약검색 
 	 * ---------------------------------------------------------------------------
 	 * > 입력 : ReserveFilter (submit/get)
 	 * > 출력 : ReserveFilter

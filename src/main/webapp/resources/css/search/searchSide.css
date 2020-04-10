@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+.main_content{
+    padding: 70px 0;
+    position: relative;
+    box-sizing: border-box;
+    background-color: #fafafa;
+}
+
+.content_block{
+    width: 940px;
+    float: left;
+}
+
+.main_content .side_nav{
+    float: left;
+    width: 220px;
+    margin-right: 40px;
+}
+.main_content .side_nav > div{
+    background-color: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    box-shadow: 2px 3px 3px rgba(22,22,22,0.05);
+    margin-bottom:60px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.main_content .side_nav .side_top {
+    text-align: center;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.main_content .side_nav .side_top h4 {
+    font-size: 16px;
+    text-align: center;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    /* background-color: #fff; */
+}
+
+.main_content .side_nav .side_top i {
+    font-size: 50px;
+}
+
+.main_content .side_nav .side_top h4 span {
+    display: block;
+    margin-top: 13px;
+}
+
+.searchOpt li strong{
+    display:block;
+    padding:5px 0 3px; box-sizing:border-box;
+}
+.searchOpt input,
+.searchOpt select{
+    height:35px; border:1px solid #eaeaea;
+    background-color:#fff;
+    padding:5px 15px; box-sizing:border-box;
+}
+.searchOpt input{
+    width:100%;
+}
+.searchOpt select{
+    width:49%; 
+}
+.searchOpt #city{
+    padding-right:5px;
+}
+
+.searchOpt #gu{
+    padding-left:5px;
+}
+.searchOpt .scaleArea span{
+    position:relative;
+}
+.searchOpt .scaleArea span input{
+    padding-right:25px;
+}
+.searchOpt .scaleArea span i{
+    position:absolute ;right: 10px; top:50%;
+    font-size:13px; color:#888; margin-top:-10px;
+    font-style:normal;
+}

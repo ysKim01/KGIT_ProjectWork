@@ -1,6 +1,32 @@
 
 
 $(window).on('load',function(){
+	
+	$('.pubSelectbox .textArea').on('click',function(event){
+		var selectList = $(this).next();
+		$(this).children('input').focus();
+		if(!selectList.hasClass('on')){
+			console.log("성공");
+			selectList.addClass('on');
+		}else{
+			selectList.removeClass('on');
+		}
+	});
+	$('.pubSelectbox .textArea input').on('focus',function(){
+		 $(this).parent('a').addClass('focus');
+	}).on('blur',function(){
+		 $(this).parent('a').removeClass('focus');
+	});
+	$('.pubSelectbox .listArea a').on('click',function(){
+		var getText = $(this).text();
+		var target = $(this).parent('li').parent('ul').parent('div').prev();
+		target.children('input').val(getText);
+		target.contents()[0].textContent = getText;
+		target.next().removeClass('on');
+		return false;
+	})
+	
+
 
 })
 function windowClose(){
@@ -26,9 +52,11 @@ function activeLogon(){
 	
 	setHtml += "</ul><a class='joinMem' href='/mall/member/membershipForm.do'>회원가입</a></div></form></div></div>"
 	 $('body').append(setHtml);
+	 $('.loginArea #userId').focus();
 	 loginActive();
  }
  function loginActive(){
+	 
      $('.screenWrap').on('click',function(){
         
          $('.screenWrap').remove();
@@ -42,4 +70,7 @@ function activeLogon(){
              login();
          }
      })
+ }
+ function pubSelectClick(){
+	 
  }

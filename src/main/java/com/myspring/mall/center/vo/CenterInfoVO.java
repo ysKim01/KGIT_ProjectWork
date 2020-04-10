@@ -112,6 +112,26 @@ public class CenterInfoVO {
 		this.surchageTime = surchageTime;
 	}
 	
+	public String toString() {
+		String out = "";
+			out += "centerCode : " + centerCode +"\n";
+			out += "centerName : " + centerName +"\n";
+			out += "centerTel : " + centerTel	+"\n";
+			out += "unitPrice : " + unitPrice	+"\n";
+			out += "operTimeStart : " +operTimeStart+"\n";
+			out += "operTimeEnd : " +operTimeEnd+"\n";
+			out += "unitTime : " + unitTime+"\n";
+			out += "ratingScore : "+ratingScore +"\n";
+			out += "ratingNum : "+ratingNum+"\n";
+			out += "centerAdd1 : "+centerAdd1	+"\n";
+			out += "centerAdd2 : "	+centerAdd2	+"\n";
+			out += "centerAdd3 : "	+centerAdd3	+"\n";
+			out += "minTime : "+minTime+"\n";
+			out += "premiumRate : "+premiumRate+"\n";
+			out += "surchageTime : "+surchageTime+"\n";
+		
+		return out;
+	}
 	
 	
 }

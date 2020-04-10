@@ -10,7 +10,7 @@
 
 .reservFormWrap > *{
 	display:table-cell;
-	width:45%;
+	width:55%;
 	vertical-align:top;
 	max-height:550px;
 }
@@ -22,25 +22,34 @@
 #adminReservForm{
     padding:20px 15px 20px 0;
 }
-#adminReservForm ul{
+#adminReservForm >  table{
     margin:25px 0;
     padding:25px 0 ;
     box-sizing:border-box;
     border-top:2px solid #ccc;
     border-bottom:2px solid #ccc;;
 }
-#adminReservForm label{
-    display:inline-block;
-    min-width:100px;
-    width:8%;
+#adminReservForm .reservWrap{
+	border: 1px solid #ccc;
+    border-left: 0;
+    border-right: 0;
+}
+#adminReservForm .reservWrap > tbody > tr > th,
+#adminReservForm .reservWrap > tbody > tr > td{
+	padding:15px 5px 15px 10px;
+	box-sizing: border-box;
+}
+#adminReservForm .reservWrap > tbody > tr > th{
+    min-width:130px;
+    width:5%;
     font-size:15px;
     text-align:left;
+    background-color:#f5f5f5;
 }
-#adminReservForm li{
-    padding:8px 5px;
+#adminReservForm .reservWrap > tbody > tr{
     border-bottom:1px dashed #e7e7e7;
 }
-#adminReservForm li:last-child{
+#adminReservForm .reservWrap > tbody > tr:last-child{
     border-bottom:0;
 }
 
@@ -55,14 +64,7 @@
 	min-width:120px;
 }
 
-.reservTimeWrap{
-    display:table;
-    width:100%;
-}
-.reservTimeWrap > *{
-    display:table-cell;
-    vertical-align:middle;
-}
+
 .reservTimeWrap > dt{
     
     width:8%;
@@ -78,12 +80,15 @@
 }
 .reservTime > p{box-sizing:border-box; width:50%;}
 .reservTime > p:first-child{
-    padding-right:15px;
+    padding-right:10px;
 }
 .reservTime > p:last-child{
-    padding-left:15px;
+    padding-left:10px;
 }
-
+.btnArea{
+	text-align:right;
+	padding:25px 0; box-sizing:border-box;
+}
 
 /* timeTable */
 
@@ -173,12 +178,20 @@
 }
 */
 .timeField tbody strong{
-	display:block;
+	display:inline-block;
+	width:50%; position:relative;
 	font-size:20px;
 	font-weight:normal;
 	letter-spacing:.5px;
 	text-align:center;
-	border-right:1px solid #e7e7e7;
+	box-sizing:border-box;
+}
+.timeField tbody strong:first-child:after{
+	content:'~'; display:block;
+	position:absolute; top:0; font-size:18px; 
+	right:-5px;
+	height: 100%;
+    line-height: 24px;
 }
 .timeField tbody span{
 	display:block;

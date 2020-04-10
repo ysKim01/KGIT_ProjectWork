@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.myspring.mall.admin.center.controller.AdminCenterControllerImpl;
 import com.myspring.mall.admin.center.dao.AdminCenterDAO;
-import com.myspring.mall.admin.center.vo.CenterSearchVO;
+import com.myspring.mall.admin.center.vo.AdminCenterFilterVO;
 import com.myspring.mall.center.vo.CenterContentsVO;
 import com.myspring.mall.center.vo.CenterFacilityVO;
 import com.myspring.mall.center.vo.CenterInfoVO;
@@ -24,6 +24,26 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 	private AdminCenterDAO centerDAO;
 	
 	private static ControllData conData = new ControllData();
+	
+	@Override
+	public int addCenter(CenterInfoVO center) throws DataAccessException {
+		return centerDAO.insertCenter(center);
+	}
+
+	@Override
+	public int addContents(CenterContentsVO contents) throws DataAccessException {
+		return centerDAO.insertContents(contents);
+	}
+
+	@Override
+	public int addFacility(CenterFacilityVO facility) throws DataAccessException {
+		return centerDAO.insertFacility(facility);
+	}
+
+	@Override
+	public int addRoom(RoomInfoVO room) throws DataAccessException {
+		return centerDAO.insertRoom(room);
+	}
 
 	
 	@Override
@@ -48,7 +68,7 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 	}
 
 	@Override
-	public List listCenterByFiltered(CenterSearchVO centerSearch) {
+	public List listCenterByFiltered(AdminCenterFilterVO centerSearch) {
 		List centerList = null;
 		
 		String searchFilter = centerSearch.getSearchFilter();
@@ -100,7 +120,7 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 			}
 
 	@Override
-	public int getMaxPageByBiltered(CenterSearchVO centerSearch) {
+	public int getMaxPageByBiltered(AdminCenterFilterVO centerSearch) {
 		int result = 0;
 		
 		String searchFilter = centerSearch.getSearchFilter();		// not null

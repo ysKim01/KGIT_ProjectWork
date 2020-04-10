@@ -34,4 +34,13 @@ public class RoomInfoVO {
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
+	
+	public String toString() {
+		String out = "";
+		out += "1. roomCode : " + roomCode + "\n";
+		out += "2. roomName : " + roomName + "\n";
+		out += "3. centerCode : " + centerCode + "\n";
+		out += "4. scale : " + scale + "\n";
+		return out;
+	}
 }

@@ -111,4 +111,26 @@ public class CenterContentsVO {
 	public void setRoomPhoto10(String roomPhoto10) {
 		this.roomPhoto10 = roomPhoto10;
 	}
+	
+	public String toString() {
+		String out = "";
+			out +=	"centerCode : "	+	centerCode	+	"\n";
+			out +=	"centerPhoto : "	+	centerPhoto	+	"\n";
+			out +=	"centerIntroduce : "	+	centerIntroduce	+	"\n";
+			out +=	"centerFareInfo : "	+	centerFareInfo	+	"\n";
+			out +=	"centerUseInfo : "	+	centerUseInfo	+	"\n";
+			out +=	"roomPhoto1 : "	+	roomPhoto1	+	"\n";
+			out +=	"roomPhoto2 : "	+	roomPhoto2	+	"\n";
+			out +=	"roomPhoto3 : "	+	roomPhoto3	+	"\n";
+			out +=	"roomPhoto4 : "	+	roomPhoto4	+	"\n";
+			out +=	"roomPhoto5 : "	+	roomPhoto5	+	"\n";
+			out +=	"roomPhoto6 : "	+	roomPhoto6	+	"\n";
+			out +=	"roomPhoto7 : "	+	roomPhoto7	+	"\n";
+			out +=	"roomPhoto8 : "	+	roomPhoto8	+	"\n";
+			out +=	"roomPhoto9 : "	+	roomPhoto9	+	"\n";
+			out +=	"roomPhoto10 : "+	roomPhoto10	+	"\n";
+			
+			
+		return out;
+	}
 }

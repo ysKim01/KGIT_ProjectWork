@@ -12,7 +12,11 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
    <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminAddMember.css">
+   <style>
+   	.block_wrap{margin:0;}
+   </style>
    <script src="http://code.jquery.com/jquery-latest.js"></script>
+   <script src="${contextPath }/resources/js/loginRequired.js"></script>
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
    <!-- daum 우편번호 검색 시스템-->
    <script>
@@ -36,7 +40,10 @@
    	var userbirthDay = userBirth[2];
    	
        $(window).on('load',function(){
+    	   $('.side_nav .snb li').eq(0).children('a').addClass('active');
     	   
+    	   
+    	   console.log('1');
 		   $('#userAdd1').val(userAdd);
 		   $('#userAdd2').val(userSubAdd);
 		   
@@ -261,7 +268,7 @@
             success:function(data, textStatus){
                 console.log(textStatus);
                 alert(member.userId+"님의 정보가 수정되었습니다..");
-                searchMember();
+                
             }
 
         })
@@ -321,88 +328,92 @@
     </script>
 </head>
 <body>
+<div class="content_block">
+<div class="block_wrap">
     <div class="adminaddMemberWrap">
-        <h3 class="content_title">
-           	회원 수정 
-        </h3>
-    <form name="adminAddMember" id="adminAddMember"  action="#" method="post">
-        <fieldset>
-            <ul class="adminMemList clear_both">
-                <li>
-                    <p>
-                        <strong>아이디</strong>
-                        <input type="text" name="userText" id="userText" value="${member.userId}" disabled>
-                        <input required type="hidden" name="userId" id="userId" value="${member.userId}">
-                    </p>
-                </li>
-                <li>
-                    <p class="pwLap">
-                        <b>
-                            <strong>패스워드</strong>
-                            <input required type="password" name="userPw" id="userPw" value="${member.userPw}" >
-                        </b>
-                        <b>
-                            <strong>패스워드 확인</strong>
-                            <input required type="password" name="userPwOverLapped" id="userPwOverLapped" value="${member.userPw}">
-                        </b>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>이름</strong>
-                        <input required type="text" name="userName" id="userName" value="${member.userName}">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>이메일</strong>
-                        <input required  type="text" name="userEmail" id="userEmail" value="${member.userEmail}">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>생년월일</strong>
-                        <select name="birthYear" class="birthYear birth" id="birthYear">
-                        </select>
-                        <select name="birthMonth" class="birthMonth birth" id="birthMonth">    
-                        </select>
-                        <select name="birthDay" class="birthDay birth" id="birthDay">    
-                        </select>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <strong>전화번호</strong>
-                        <select name="userTel1" class="telNum firstTelNum" id="userTel1">
-                            <option value="010" selected="select">010</option>
-                            <option value="011">011</option>
-                            <option value="011">017</option>
-                        </select>
-                        <input required type="text" name="userTel2" class="telNum" maxlength="4" minlength="3" id="userTel2" value="${member.userTel2}">
-                        <input required type="text" name="userTel3" class="telNum" maxlength="4" minlength="4" id="userTel3" value="${member.userTel3}">
-                    </p>
-                </li>
-                <li>
-                    <p class="addLap">
-                        <b>
-                            <strong>주소</strong>
-                            <input type="text" id="userAdd1" name="userAdd1" disabled="disabled"><input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
-                        </b>
-                        <b>
-                            <input required  type="text" id="userAdd2" name="userAdd2">
-                        </b>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <input class="btn_type_01" type="button" onclick="submitAction()" value="수정하기">
-                        <input class="btn_type_01" type="button" value="취소" onclick="javascript:history.back()">
-                    </p>
-                </li>
-            </ul>
-        </fieldset>
-    </form>
+	        <div class="block_title">
+	        <h3>회원 수정</h3>
+	           	 
+	        </div>
+	    <form name="adminAddMember" id="adminAddMember"  action="#" method="post">
+	        <fieldset>
+	            <ul class="adminMemList clear_both">
+	                <li>
+	                    <p>
+	                        <strong>아이디</strong>
+	                        <input type="text" name="userText" id="userText" value="${member.userId}" disabled>
+	                        <input required type="hidden" name="userId" id="userId" value="${member.userId}">
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="pwLap">
+	                        <b>
+	                            <strong>패스워드</strong>
+	                            <input required type="password" name="userPw" id="userPw" value="${member.userPw}" >
+	                        </b>
+	                        <b>
+	                            <strong>패스워드 확인</strong>
+	                            <input required type="password" name="userPwOverLapped" id="userPwOverLapped" value="${member.userPw}">
+	                        </b>
+	                    </p>
+	                </li>
+	                <li class="float_left">
+	                    <p>
+	                        <strong>이름</strong>
+	                        <input required type="text" name="userName" id="userName" value="${member.userName}">
+	                    </p>
+	                </li>
+	                <li class="float_left">
+	                    <p>
+	                        <strong>이메일</strong>
+	                        <input required  type="text" name="userEmail" id="userEmail" value="${member.userEmail}">
+	                    </p>
+	                </li>
+	                <li class="float_left">
+	                    <p>
+	                        <strong>생년월일</strong>
+	                        <select name="birthYear" class="birthYear birth" id="birthYear">
+	                        </select>
+	                        <select name="birthMonth" class="birthMonth birth" id="birthMonth">    
+	                        </select>
+	                        <select name="birthDay" class="birthDay birth" id="birthDay">    
+	                        </select>
+	                    </p>
+	                </li>
+	                <li class="clear">
+	                    <p>
+	                        <strong>전화번호</strong>
+	                        <select name="userTel1" class="telNum firstTelNum" id="userTel1">
+	                            <option value="010" selected="select">010</option>
+	                            <option value="011">011</option>
+	                            <option value="011">017</option>
+	                        </select>
+	                        <input required type="text" name="userTel2" class="telNum" maxlength="4" minlength="3" id="userTel2" value="${member.userTel2}">
+	                        <input required type="text" name="userTel3" class="telNum" maxlength="4" minlength="4" id="userTel3" value="${member.userTel3}">
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="addLap">
+	                        <b>
+	                            <strong>주소</strong>
+	                            <input type="text" id="userAdd1" name="userAdd1" disabled="disabled"><input type="button" onclick="execDaumPostcode()" class="btn_type_01" value="우편번호 찾기">
+	                        </b>
+	                        <b>
+	                            <input required  type="text" id="userAdd2" name="userAdd2">
+	                        </b>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="clear_both">
+	                        <input class="btn_type_03 submitBtn float_right" type="button" onclick="submitAction()" value="수정하기">
+	                        <input class="btn_type_03 cancelBtn float_left" type="button" value="취소" onclick="javascript:history.back()">
+	                    </p>
+	                </li>
+	            </ul>
+	        </fieldset>
+	    </form>
+	</div>
 </div>
-
+</div>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="baseLayoutMyPage" template="/WEB-INF/views/member/common/layout.jsp">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/member/common/header.jsp"></put-attribute>
+		<put-attribute name="leftSide" value="/WEB-INF/views/member/common/leftSide.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/member/common/footer.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/mypage" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="마이페이지 메인"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/mypage.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/member/modMemberForm" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="회원정보 수정 창"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/ModMemberForm.jsp"></put-attribute>
+	</definition>
+	<definition name="/member/delMemberForm" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="회원탈퇴 창"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/delMemberForm.jsp"></put-attribute>
+	</definition>
+	<definition name="/reserve/listReserve" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="예약관리 창"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/reserve/ListReserve.jsp"></put-attribute>
+	</definition>
+	<definition name="/question/listQuestion" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="1:1 문의 창"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/listQuestion.jsp"></put-attribute>
+	</definition>
+	<definition name="/question/addQuestionForm" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="1:1 문의 등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/addQuestionForm.jsp"></put-attribute>
+	</definition>
+	<definition name="/question/showQuestionForm" extends="baseLayoutMyPage">
+		<put-attribute name="title" value="1:1 문의 확인"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/member/showQuestionForm.jsp"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
+
+
+
+
+
+
+
+

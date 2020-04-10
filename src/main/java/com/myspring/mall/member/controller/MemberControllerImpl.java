@@ -114,6 +114,9 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 				session.setAttribute("logon", "true");
 				session.setAttribute("logonId", member.getUserId());
 				session.setAttribute("isAdmin", member.getAdminMode());
+				System.out.println("[로그인]");
+				System.out.println("- userId : " + member.getUserId());
+				System.out.println("- userPw : " + member.getUserPw());
 			}
 		}
 		
@@ -144,6 +147,28 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		session.removeAttribute("isAdmin");
 		
 		ModelAndView mav = new ModelAndView("redirect:/lastPage.do");
+		return mav;
+	}
+	
+	/* ===========================================================================
+	 * 3-2. 로그아웃 & 메인
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : userId, userPw
+	 * > 출력 : -
+	 * > 이동 페이지 : /member/loginForm.do (로그인 창)
+	 * > 설명 : 
+	 * 		- 로그인 창
+	 ===========================================================================*/
+	@RequestMapping(value= {"/logoutAndMain.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView logoutAndMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		conData.setLastPage(request);
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("logon");
+		session.removeAttribute("logonId");
+		session.removeAttribute("isAdmin");
+		
+		ModelAndView mav = new ModelAndView("/main");
 		return mav;
 	}
 	
@@ -206,12 +231,17 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	 ===========================================================================*/
 	@RequestMapping(value={"/modMemberForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		
 		HttpSession session=request.getSession();
-		String userId = (String)session.getAttribute("userId");
+		String userId = (String)session.getAttribute("logonId");
+		if(userId == null) {
+			System.out.println("[warning] 로그인 되지 않았습니다.");
+			return mav;
+		}
 		
 		MemberVO member = adminMemberService.getMemberById(userId);
 		
-		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
 		mav.addObject("member", member);
 		return mav;
 	}
@@ -250,6 +280,81 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		}
 	}
 		
+	/* ===========================================================================
+	 * 8. 회원 탈퇴 창
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : - 
+	 * > 출력 : member
+	 * > 이동 페이지 : 회원 탈퇴 창(/member/delMemberForm.jsp)
+	 * > 설명 : 
+	 * 		- 회원 탈퇴 창
+	 ===========================================================================*/
+	@RequestMapping(value={"/delMemberForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView delMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("logonId");
+		if(userId == null) {
+			System.out.println("[warning] 로그인 되지 않았습니다.");
+			return mav;
+		}
+		
+		MemberVO member = adminMemberService.getMemberById(userId);
+		
+		mav.addObject("member", member);
+		return mav;
+	}
+	
+	/* ===========================================================================
+	 * 9. 회원 탈퇴 
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : -
+	 * > 출력 : boolean
+	 * > 이동 페이지 : -
+	 * > 설명 : 
+	 * 		- 회원 탈퇴 및 로그 아웃
+	 ===========================================================================*/
+	@RequestMapping(value= {"/delMember.do"}, method=RequestMethod.POST)
+	public ResponseEntity<Boolean> delMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		boolean result = false;
+		
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("logonId");
+		if(userId == null) {
+			System.out.println("[warning] 로그인 되지 않았습니다.");
+			return new ResponseEntity("로그인 실패", HttpStatus.BAD_REQUEST);
+		}
+		
+		String userPw = request.getParameter("userPw");
+		if(userPw == null) {
+			System.out.println("[warning] userPw를 받아오는데 실패했습니다.");
+			return new ResponseEntity("userPw 받아오는데 실패", HttpStatus.BAD_REQUEST);
+		}
+		
+		MemberVO member = adminMemberService.getMemberById(userId);
+		if(member == null) {
+			System.out.println("[warning] MemberVO 를 불러오는데 실패했습니다.");
+			return new ResponseEntity("MemberVO 불러오기 실패", HttpStatus.BAD_REQUEST);
+		}
+		
+		// 회원 삭제
+		if(userPw.equals(member.getUserPw())) {
+			int num = adminMemberService.delMembersList(member);
+			if(num >= 1) {
+				result = true;
+			}else {
+				System.out.println("[warning] member 삭제 적용 실패.");
+				return new ResponseEntity("member 삭제 적용 실패.", HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		try {
+			return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	/* ===========================================================================
 	 *                                   기타

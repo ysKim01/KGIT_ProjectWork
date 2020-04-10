@@ -74,6 +74,19 @@
 		]]>
 	</update>
 	
+	<update id="updateReserveStatus" parameterType="hashMap">
+		<![CDATA[
+			update Study_Reserve set reserveStatus = #{reserveStatus}     
+			where keyNum = #{keyNum}
+		]]>
+	</update>
+	
+	<select id="listReserveById" parameterType="String" resultMap="reserveResult">
+		<![CDATA[
+			select * from Study_Reserve where userId = #{userId} order by keyNum desc 
+		]]>
+	</select>
+	
 	<select id="selectReserveSearch" parameterType="Integer" resultMap="adminReserveSearchResult">
 		<![CDATA[
 		select 
@@ -400,12 +413,15 @@
 		]]>
 		<choose>
 	        <when test='status.equals("before")'>
-	        	<![CDATA[ and reserveStatus != 'Checkout' ]]>
+	        	<![CDATA[ and (reserveStatus = 'Apply' or reserveStatus = 'Payment') ]]>
 	        </when>
 	        <otherwise>
-	        	<![CDATA[ and reserveStatus = 'Checkout' ]]>
+	        	<![CDATA[ and (reserveStatus = 'Checkout' or reserveStatus = 'Rating') ]]>
 	        </otherwise>
        	</choose>
+       	<![CDATA[
+		order by Study_Reserve.keyNum desc 
+		]]>
 	</select>
 	
 </mapper>

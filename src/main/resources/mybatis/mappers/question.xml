@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.question" >
+	
+	<resultMap id="questionResult" type="questionVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="userId" column="userId"/>
+		<result property="questionClass" column="questionClass"/>
+		<result property="questionTitle" column="questionTitle"/>
+		<result property="questionContent" column="questionContent"/>
+		<result property="questionAnswer" column="questionAnswer"/>
+		<result property="questionDate" column="questionDate"/>
+		<result property="answerDate" column="answerDate"/>
+		<result property="mailMode" column="mailMode"/>
+	</resultMap>
+
+	<select id="listQuestionById" parameterType="String" resultMap="questionResult">
+		<![CDATA[
+			select * from Study_CustomerService where userId = #{userId} order by keyNum desc
+		]]>
+	</select>
+	
+	<select id="insertQuestion" parameterType="questionVO" >
+		<![CDATA[
+			insert into Study_CustomerService
+			(keyNum, userId, questionClass, questionTitle, questionContent, questionAnswer, 
+			questionDate, answerDate, mailMode)
+			values(qNum.nextVal,#{userId},#{questionClass},#{questionTitle},#{questionContent},null,
+			sysdate,null,#{mailMode})
+		]]>
+	</select>
+	
+	<select id="selectQuestion" parameterType="Integer" resultMap="questionResult">
+		<![CDATA[
+			select * from Study_CustomerService where keyNum = #{keyNum}
+		]]>
+	</select>
+	
+	<update id="updateQuestion" parameterType="questionVO">
+		<![CDATA[
+			update Study_CustomerService set  
+			questionClass = #{questionClass}, 
+			questionTitle = #{questionTitle},    
+			questionContent = #{questionContent}, 
+			mailMode = #{mailMode} 
+			where keyNum = #{keyNum} 
+		]]>
+	</update>
+	
+	
+	<select id="listQuestionByFilter_Id" parameterType="hashMap" resultMap="questionResult">
+		<![CDATA[
+		select  * from (
+		select 
+		rowNum as recNum, 
+		keyNum, 
+		userId, 
+		questionClass, 
+		questionTitle, 
+		questionContent, 
+		questionAnswer, 
+		questionDate, 
+		answerDate, 
+		mailMode 
+		from Study_CustomerService 
+		where userId like '%'||#{userId}||'%'   
+		]]>
+		<if test = "!questionClass.equals('All')">
+			<![CDATA[ and questionClass = #{questionClass} ]]>
+ 		</if>
+		<choose>
+        <when test="isAnswered.equals('완료')">
+        	<![CDATA[ and questionAnswer is not null ]]>
+        </when>
+        <when test="isAnswered.equals('미완료')">
+        	<![CDATA[ and questionAnswer is null ]]>
+        </when>
+        </choose>
+		<![CDATA[
+		order by questionDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	<select id="listQuestionByFilter_None" parameterType="hashMap" resultMap="questionResult">
+		<![CDATA[
+		select  * from (
+		select 
+		rowNum as recNum, 
+		keyNum, 
+		userId, 
+		questionClass, 
+		questionTitle, 
+		questionContent, 
+		questionAnswer, 
+		questionDate, 
+		answerDate, 
+		mailMode 
+		from Study_CustomerService 
+		where 1=1  
+		]]>
+		<if test = "!questionClass.equals('All')">
+			<![CDATA[ and questionClass = #{questionClass} ]]>
+ 		</if>
+		<choose>
+        <when test="isAnswered.equals('완료')">
+        	<![CDATA[ and questionAnswer is not null  ]]>
+        </when>
+        <when test="isAnswered.equals('미완료')">
+        	<![CDATA[ and questionAnswer is null ]]>
+        </when>
+        </choose>
+		<![CDATA[
+		order by questionDate desc) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="countQuestionByFilter_Id" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select count(keyNum) from Study_CustomerService  
+		where userId like '%'||#{userId}||'%'   
+		]]>
+		<if test = "!questionClass.equals('All')">
+			<![CDATA[ and questionClass = #{questionClass} ]]>
+ 		</if>
+		<choose>
+        <when test="isAnswered.equals('완료')">
+        	<![CDATA[ and questionAnswer is not null ]]>
+        </when>
+        <when test="isAnswered.equals('미완료')">
+        	<![CDATA[ and questionAnswer is null ]]>
+        </when>
+        </choose>
+		<![CDATA[
+		order by questionDate desc 
+		]]>
+	</select>
+	<select id="countQuestionByFilter_None" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select count(keyNum) from Study_CustomerService  
+		where 1=1    
+		]]>
+		<if test = "!questionClass.equals('All')">
+			<![CDATA[ and questionClass = #{questionClass} ]]>
+ 		</if>
+		<choose>
+        <when test="isAnswered.equals('완료')">
+        	<![CDATA[ and questionAnswer is not null ]]>
+        </when>
+        <when test="isAnswered.equals('미완료')">
+        	<![CDATA[ and questionAnswer is null ]]>
+        </when>
+        </choose>
+		<![CDATA[
+		order by questionDate desc 
+		]]>
+	</select>
+</mapper>

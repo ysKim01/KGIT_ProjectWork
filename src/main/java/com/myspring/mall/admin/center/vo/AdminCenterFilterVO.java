@@ -2,8 +2,8 @@ package com.myspring.mall.admin.center.vo;
 
 import org.springframework.stereotype.Component;
 
-@Component("centerSearchVO")
-public class CenterSearchVO {
+@Component("adminCenterFilterVO")
+public class AdminCenterFilterVO {
 
 	private String searchFilter;
 	private String searchContents;

@@ -49,4 +49,16 @@ public class CenterFacilityVO {
 		this.whiteBoard = whiteBoard;
 	}
 	
+	public String toString() {
+		String out = "";
+			out +=	"centerCode : "	+	centerCode	+	"\n";
+			out +=	"locker : "	+	locker	+	"\n";
+			out +=	"projector : "	+	projector	+	"\n";
+			out +=	"printer : "	+	printer	+	"\n";
+			out +=	"noteBook : "	+	noteBook	+	"\n";
+			out +=	"whiteBoard : "	+	whiteBoard	+	"\n";
+			
+		return out;
+	}
+	
 }

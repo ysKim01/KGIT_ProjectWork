@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+
+
+
+
+
+
+
+.top_block .ing_list{
+    margin-bottom:25px;
+    background-color:#fff;
+     box-sizing:border-box;
+    display:table;
+    width:100%;
+    box-shadow:2px 3px 3px rgba(22,22,22,0.05);
+}
+.top_block .ing_list dd,
+.top_block .ing_list dt{
+    display:table-cell;
+    vertical-align:middle;
+}
+.top_block .ing_list dt{
+    text-align:center;
+    padding:10px; box-sizing:border-box;
+    background-color:#ccc; box-shadow:1px 2px 3px rgba(33,33,33,0.4);
+    width: 20%;
+    background:linear-gradient(-45deg, #156bc1 4%, #75cee1 60%, transparent);
+    padding:15px 0;
+
+}
+.top_block .ing_list dt i{
+    color: #fff;
+    font-size: 32px;
+    margin-bottom: 8px;
+    display: block;
+}
+.top_block .ing_list dt strong{
+    font-size:15px; font-weight:600;
+    color:#fff;
+}
+
+
+.top_block .ing_list dd li{
+    float:left;
+    width:33.333%;
+}
+.ing_list .txt_wrap p{
+    text-align:center;
+}
+.ing_list .txt_wrap i{
+    font-size:15px; font-weight:500;
+    display:block; color:#666; font-style:normal;
+    padding:5px 0;
+}
+.ing_list .txt_wrap strong{
+    font-size:32px; font-weight:600;
+    display:inline-block; padding:5px; box-sizing:border-box;
+    color:#156bc1;
+}
+.ing_list .txt_wrap span{
+    font-size:13px; color:#aaa;
+}
+
+
+
+/* bookmark */
+
+
+.bookmark .block_title h4{
+    font-size:22px; font-weight:600;
+    padding:20px 0;box-sizing:border-box;
+    margin-bottom:25px;
+    border-bottom:2px solid #e7e7e7;
+}
+.bookmark #mCustom-slider{
+    padding:20px 20px;
+    background-color:#fff;
+    box-sizing:border-box;
+    box-shadow: 2px 3px 3px rgba(22,22,22,0.05);
+}
+#mCustom-slider .sp-mask.sp-grab,
+#mCustom-slider .sp-mask.sp-grabbing{
+    padding-bottom:10px; 
+    
+}
+#mCustom-slider .txt_wrap{
+    padding:10px; box-sizing:border-box;
+    text-align:right;
+    
+}
+#mCustom-slider .txt_wrap strong{
+    display:block;
+    font-size:15px; color:#444;
+    font-weight: 500;
+    padding: 3px 0;
+    
+}
+#mCustom-slider .txt_wrap span{
+    font-size:11px;
+    color:#aaa;
+}

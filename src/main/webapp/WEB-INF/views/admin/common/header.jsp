@@ -42,7 +42,7 @@ $(window).on('load',function(){
 		<ul>
 			<li class="menu"><a href="${contextPath }/admin/listMembers.do">회원관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/listReserve.do">예약관리</a></li>
-			<li class="menu"><a href="${contextPath }/admin/adminQna.do">1:1문의</a></li>
+			<li class="menu"><a href="${contextPath }/admin/listQuestion.do">1:1문의</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminOnedayclass.do">원데이클래스</a></li>
 						<li class="menu"><a href="${contextPath }/admin/listCenter.do">업체관리</a></li>
 			<li class="menu"><a href="${contextPath }/admin/adminNotice.do">공지사항</a></li>

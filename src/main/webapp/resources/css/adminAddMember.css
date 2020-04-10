@@ -3,7 +3,7 @@
 
 .adminaddMemberWrap{
     max-width:100%;
-    padding:10px 20px; box-sizing:border-box;
+    padding:40px 20px; box-sizing:border-box;
 }
 #adminAddMember{
     max-width:800px; 
@@ -16,6 +16,7 @@
 .adminMemList > li{
     
     padding:5px 10px; box-sizing:border-box;
+    margin-bottom:10px;
 }
 .adminMemList > li strong{
     display:block;
@@ -26,7 +27,12 @@
 .adminMemList input[type="text"],
 .adminMemList input[type="password"],
 .adminMemList select{
-    padding:3px 10px; box-sizing:border-box;
+    padding: 7px 10px 7px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 3px rgba(22,22,22,0.1);
+    height: 33px;
+    vertical-align: top;
 }
 
 .adminMemList .telNum{
@@ -50,3 +56,67 @@
 .addLap > b{display:block; margin-bottom:15px;}
 .addLap input{margin-right:10px;}
 .addLap > b:last-child input{width:350px;}
+
+
+
+
+
+.block_wrap{
+	max-width:800px;
+	margin:auto; position:relative;
+	padding:10px 10px 40px;
+	background-color:#fff;
+}
+.block_title h3{
+	font-size:22px; font-weight:600;
+	padding:10px 0; margin-bottom:15px;
+	text-align:center;
+}
+.privacy_wrap .txt_box{
+	padding:15px; box-sizing:border-box;
+	background-color:#fff;
+	border:1px solid #eaeaea;
+	background-color:#fafafa;
+}
+.privacy_wrap .txt_box .txt_overflow{
+	height:150px; text-overflow-y:scroll; overflow-y: scroll;
+}
+.privacy_wrap .sub_txt{
+	padding:15px 10px;
+	margin-bottom:15px;
+	font-size:14px; color:#666; line-height:20px;
+}
+.privacy_wrap .sub_txt h4{
+	font-size:18px; font-weight:600;
+	margin:15px 0 25px;
+	
+}
+.privacy_wrap p,
+.privacy_wrap ul{
+	padding:10px; box-sizing:border-box;
+	margin-bottom:10px;
+}
+.privacy_wrap li{
+	padding:3px 0; box-sizing:border-box;
+}
+.privacy_wrap .sub_txt strong{
+	font-size:15px; display:block;
+	
+	padding:0 5px;
+}
+.privacy_wrap .sub_txt span{
+	display:block;
+	padding:0 5px;
+}
+
+.privacy_chk{
+	padding:10px 0; box-sizing:border-box;
+	text-align:right;
+}
+
+.privacy_chk label{
+	font-size:15px; font-weight:500;
+}
+
+
+.subExc{font-size:15px; font-weight:400; color:#666; text-align:center; padding:5px 0; margin-bottom:5px;}

@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.myspring.mall.center.vo.CenterInfoVO;
+import com.myspring.mall.common.ControllData;
 
 @Component("adminReserveSearchVO")
 public class AdminReserveSearchVO {
@@ -30,6 +32,8 @@ public class AdminReserveSearchVO {
 	private String userTel1;
 	private String userTel2;
 	private String userTel3;
+	// 추가 가공
+	private String usingTimeString;
 	
 	// Getter & Setter
 	public Integer getKeyNum() {
@@ -134,6 +138,12 @@ public class AdminReserveSearchVO {
 	public void setUserTel3(String userTel3) {
 		this.userTel3 = userTel3;
 	}
+	public String getUsingTimeString() {
+		return usingTimeString;
+	}
+	public void setUsingTimeString(String usingTimeString) {
+		this.usingTimeString = usingTimeString;
+	}
 	
 	@Override
 	public String toString() {
@@ -156,7 +166,8 @@ public class AdminReserveSearchVO {
 		out += "14. userName : " + userName + " / ";
 		out += "15. userTel1 : " + userTel1 + " / ";
 		out += "16. userTel2 : " + userTel2 + " / ";
-		out += "17. userTel3 : " + userTel3 + " } ";
+		out += "17. userTel3 : " + userTel3 + " / ";
+		out += "18. usingTimeString : " + usingTimeString + " }\n ";
 		return out;
 	}
 }

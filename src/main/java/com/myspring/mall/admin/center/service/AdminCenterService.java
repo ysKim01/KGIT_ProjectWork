@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import com.myspring.mall.admin.center.vo.CenterSearchVO;
+import com.myspring.mall.admin.center.vo.AdminCenterFilterVO;
 import com.myspring.mall.center.vo.CenterContentsVO;
 import com.myspring.mall.center.vo.CenterFacilityVO;
 import com.myspring.mall.center.vo.CenterInfoVO;
@@ -16,7 +16,11 @@ public interface AdminCenterService {
 	List<RoomInfoVO> listRoomsByCenter(String centerCode);
 	CenterInfoVO selectCenterByCenterCode(String centerCode);
 	public List listCenter() throws DataAccessException;
-	public List listCenterByFiltered(CenterSearchVO centerSearch);
-	public int getMaxPageByBiltered(CenterSearchVO centerSearch);
+	public List listCenterByFiltered(AdminCenterFilterVO centerSearch);
+	public int getMaxPageByBiltered(AdminCenterFilterVO centerSearch);
+	public int addCenter(CenterInfoVO center) throws DataAccessException;
+	public int addContents(CenterContentsVO contents) throws DataAccessException;
+	public int addFacility(CenterFacilityVO facility) throws DataAccessException;
+	public int addRoom(RoomInfoVO room) throws DataAccessException;
 	
 }
