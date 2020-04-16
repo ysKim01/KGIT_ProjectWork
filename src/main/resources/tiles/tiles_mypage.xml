@@ -8,6 +8,7 @@
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="header" value="/WEB-INF/views/member/common/header.jsp"></put-attribute>
 		<put-attribute name="leftSide" value="/WEB-INF/views/member/common/leftSide.jsp"></put-attribute>
+		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/member/common/footer.jsp"></put-attribute>
 	</definition>

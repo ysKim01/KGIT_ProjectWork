@@ -58,4 +58,32 @@ public class AdminQuestionServiceImpl implements AdminQuestionService{
 		return qList;
 	}
 
+	@Override
+	public boolean updateAnswer(Integer keyNum, String answer) {
+		boolean result = false;
+		
+		Map map = new HashMap();
+		map.put("keyNum", keyNum);
+		map.put("answer", answer);
+		
+		int num = adminQuestionDAO.updateAnswer(map);
+		if(num >= 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean deleteQuestion(Integer keyNum) {
+		boolean result = false;
+		
+		int num = adminQuestionDAO.deleteQuestion(keyNum);
+		if(num >= 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
 }

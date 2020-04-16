@@ -16,8 +16,6 @@
    	.block_wrap{margin:0;}
    </style>
    <script src="${contextPath }/resources/js/loginRequired.js"></script>
-   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-   <!-- daum 우편번호 검색 시스템-->
    <script>
    	
       $(window).on('load',function(){
@@ -125,22 +123,22 @@
          event.stopPropagation();
        })
 	   $('.starRev span').click(function(){
-		  	console.log('click');
+		  	
 	     $(this).parent().children('span').removeClass('on');
 	     $(this).addClass('on').prevAll('span').addClass('on');
 	     
 	     
 	     point = $(this).html();
-	     console.log($(this).html());
+	     
 	     return false;
 	   });
 	   $('#docWrap .reviewEnter').on('click',function(){
-		   console.log(centerCode);
-		   console.log(point);
+		   
+		   
 		   $.ajax({
 			   type:'post',
 			   url:"${contextPath}/center/rating.do",
-			   data:{centerCode : centerCode, point : point, keyNum : keyNum},
+			   data:{'centerCode' : centerCode, 'point' : point, 'keyNum' : keyNum},
 			   success:function(data, textStatus){
 				   alert("별점이 성공적으로 등록되었습니다. 감사합니다.");
 				   $('#docWrap').remove();

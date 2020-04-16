@@ -1,6 +1,8 @@
 @charset "utf-8";
 
-
+table {
+	width: 100%;
+}
 
 .search_list{
     padding:10px 0;
@@ -66,20 +68,20 @@
     background-color:rgba(33,33,33,0.9);
 }
 
-.companyContent{
+.centerContents{
     width:100%;
 }
-.companyContent th{
+.centerContents th{
     padding:7px 0;
     border-bottom:1px solid #e7e7e7;
 }
-.companyContent td, th{
+.centerContents td, th{
     text-align:center; padding:5px 15px;
 }
 
-.companyContent thead tr th:nth-child(6),
-.companyContent thead tr th:nth-child(7),
-.companyContent thead tr th:nth-child(8){
+.centerContents thead tr th:nth-child(6),
+.centerContents thead tr th:nth-child(7),
+.centerContents thead tr th:nth-child(8){
     width:70px;
 }
 

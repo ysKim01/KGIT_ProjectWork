@@ -4,6 +4,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+   	<settings>
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+
 	<typeAliases>
 		<typeAlias type="com.myspring.mall.member.vo.MemberVO" alias="memberVO"/>
 		
@@ -17,5 +21,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO" alias="adminReserveSearchVO"/>
 		
 		<typeAlias type="com.myspring.mall.question.vo.QuestionVO" alias="questionVO"/>
+		
+		<typeAlias type="com.myspring.mall.admin.notice.vo.NoticeVO" alias="noticeVO"/>
+		
+		<typeAlias type="com.myspring.mall.admin.oneday.vo.OneDayVO" alias="onedayVO"/>
+		
+		<typeAlias type="com.myspring.mall.favorite.vo.FavoriteVO" alias="favoriteVO"/>
 	</typeAliases>
 </configuration>

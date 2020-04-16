@@ -1,4 +1,4 @@
-package com.myspring.mall.admin.center.dao;
+﻿package com.myspring.mall.admin.center.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -48,6 +48,13 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 		result = sqlSession.insert("mapper.center.insertRoom",room);
 		return 0;
 	}
+	
+	@Override
+	public int delCenterByCode(String centerCode) {
+		int result = 0;
+		result = sqlSession.delete("mapper.center.delCenterByCode", centerCode);
+		return result;
+	}
 
 	@Override
 	public List<RoomInfoVO> listRoomsByCenter(String centerCode) {
@@ -73,28 +80,28 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 	public List selectCenterByFilter_Code(Map searchMap) {
 		List<CenterInfoVO> centerList = null;
 		centerList = sqlSession.selectList("mapper.center.selectCenterByFilter_Code", searchMap);
-		return null;
+		return centerList;
 	}
 
 	@Override
 	public List selectCenterByFilter_Name(Map searchMap) {
 		List<CenterInfoVO> centerList = null;
 		centerList = sqlSession.selectList("mapper.center.selectCenterByFilter_Name", searchMap);
-		return null;
+		return centerList;
 	}
 
 	@Override
 	public List selectCenterByFilter_None(Map searchMap) {
 		List<CenterInfoVO> centerList = null;
 		centerList = sqlSession.selectList("mapper.center.selectCenterByFilter_None", searchMap);
-		return null;
+		return centerList;
 	}
 
 	@Override
 	public List selectCenterByFilter_Tel(Map searchMap) {
 		List<CenterInfoVO> centerList = null;
 		centerList = sqlSession.selectList("mapper.center.selectCenterByFilter_Tel", searchMap);
-		return null;
+		return centerList;
 	}
 
 	@Override
@@ -107,14 +114,14 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 	@Override
 	public int countCenterByFilter_Name(Map searchMap) {
 		int result = 0;
-		result = (Integer)sqlSession.selectOne("mapper.center.countMemberByFilter_Name", searchMap);
+		result = (Integer)sqlSession.selectOne("mapper.center.countCenterByFilter_Name", searchMap);
 		return result;
 	}
 
 	@Override
 	public int countCenterByFilter_Tel(Map searchMap) {
 		int result = 0;
-		result = (Integer)sqlSession.selectOne("mapper.center.countMemberByFilter_Tel", searchMap);
+		result = (Integer)sqlSession.selectOne("mapper.center.countCenterByFilter_Tel", searchMap);
 		return result;
 	}
 

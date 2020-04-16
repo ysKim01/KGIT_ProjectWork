@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -76,6 +76,12 @@
 		<result property="noteBook" column="noteBook" />
 		<result property="whiteBoard" column="whiteBoard" />
 	</resultMap>
+
+	<delete id="delCenterByCode" parameterType="String">
+		<![CDATA[
+		delete from STUDY_CENTERINFO where centerCode = #{centerCode}
+		]]>
+	</delete>
 	
 	<insert id="insertCenter"  parameterType="centerInfoVO">
 
@@ -231,7 +237,7 @@
 		select * from 
 		(select rowNum as recNum, centerCode, centerName, centerTel, unitPrice, operTimeStart, operTimeEnd, 
 		unitTime, minTime, PremiumRate, surchageTime, ratingScore,ratingNum,centerAdd1,centerAdd2,centerAdd3 
-		from STUDY_CENTERINFO where centerTel '%'||#{centerTel}||'%' 
+		from STUDY_CENTERINFO where centerTel like '%'||#{centerTel}||'%' 
 		]]>
 
 		<![CDATA[
@@ -292,8 +298,8 @@
 	<update id="updateRating" parameterType="hashMap">
 		<![CDATA[
 			update Study_Centerinfo set 
-			rating_score = #{ratingScore}, 
-			rating_num = #{ratingNum}  
+			ratingScore = #{ratingScore}, 
+			ratingNum = #{ratingNum}  
 			where centerCode = #{centerCode}
 		]]>
 	</update>
@@ -354,6 +360,88 @@
 		and    Study_CenterInfo.centerCode = Study_CenterFacility.centerCode 
 		
 		and    Study_CenterInfo.centerCode = #{centerCode}
+		]]>
+	</select>
+	
+	<select id="selectCenterContents" parameterType="String" resultMap="centerContents">
+		<![CDATA[
+			select * from Study_CenterContents where centerCode = #{centerCode}
+		]]>
+	</select>
+	
+	<select id="selectRoomByCode" parameterType="hashMap" resultMap="roomInfo">
+		<![CDATA[
+			select * from Study_RoomInfo 
+			where centerCode = #{centerCode} 
+			and   roomCode = #{roomCode} 
+		]]>
+	</select>
+	
+	<select id="listTop5Center" resultMap="centerSearchResult">
+		<![CDATA[
+		select * from 
+		(
+			select
+	        ROW_NUMBER() OVER(ORDER BY Study_CenterInfo.ratingScore desc, Study_CenterInfo.ratingnum desc) as recNum, 
+			Study_CenterInfo.centerCode, 
+			Study_CenterInfo.centerName, 
+			Study_CenterInfo.centerTel, 
+			Study_CenterInfo.unitPrice, 
+			Study_CenterInfo.operTimeStart, 
+			Study_CenterInfo.operTimeEnd, 
+			Study_CenterInfo.unitTime, 
+			Study_CenterInfo.ratingScore, 
+			Study_CenterInfo.ratingNum, 
+			Study_CenterInfo.centerAdd1, 
+			Study_CenterInfo.centerAdd2, 
+			Study_CenterInfo.centerAdd3, 
+			Study_CenterInfo.minTime, 
+			Study_CenterInfo.premiumRate, 
+			Study_CenterInfo.surchageTime, 
+			Study_CenterContents.centerPhoto, 
+			Study_CenterFacility.locker, 
+			Study_CenterFacility.projector, 
+			Study_CenterFacility.printer, 
+			Study_CenterFacility.noteBook, 
+			Study_CenterFacility.whiteBoard 
+			from Study_CenterInfo, Study_CenterContents, Study_CenterFacility 
+	        
+			where  Study_CenterInfo.centerCode = Study_CenterContents.centerCode 
+			and    Study_CenterInfo.centerCode = Study_CenterFacility.centerCode 
+		) 
+		where recNum between 1 and 5
+		]]>
+	</select>
+	
+	<select id="selectCenterSearch" parameterType="String" resultMap="centerSearchResult">
+		<![CDATA[
+		select 
+		Study_CenterInfo.centerCode, 
+		Study_CenterInfo.centerName, 
+		Study_CenterInfo.centerTel, 
+		Study_CenterInfo.unitPrice, 
+		Study_CenterInfo.operTimeStart, 
+		Study_CenterInfo.operTimeEnd, 
+		Study_CenterInfo.unitTime, 
+		Study_CenterInfo.ratingScore, 
+		Study_CenterInfo.ratingNum, 
+		Study_CenterInfo.centerAdd1, 
+		Study_CenterInfo.centerAdd2, 
+		Study_CenterInfo.centerAdd3, 
+		Study_CenterInfo.minTime, 
+		Study_CenterInfo.premiumRate, 
+		Study_CenterInfo.surchageTime, 
+		Study_CenterContents.centerPhoto, 
+		Study_CenterFacility.locker, 
+		Study_CenterFacility.projector, 
+		Study_CenterFacility.printer, 
+		Study_CenterFacility.noteBook, 
+		Study_CenterFacility.whiteBoard 
+		from Study_CenterInfo, Study_CenterContents, Study_CenterFacility 
+		where  Study_CenterInfo.centerCode = Study_CenterContents.centerCode 
+		and    Study_CenterInfo.centerCode = Study_CenterFacility.centerCode 
+		
+		and Study_CenterInfo.centerCode = #{centerCode}
 		]]>
 	</select>
 </mapper>

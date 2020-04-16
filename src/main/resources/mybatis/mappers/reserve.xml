@@ -111,6 +111,8 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and   Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and   Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and   Study_Reserve.centerCode = Study_RoomInfo.centerCode
+		
 		and   keyNum = #{keyNum} 
 		]]>
 	</select>
@@ -122,7 +124,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		Study_Reserve.keyNum, 
 		Study_Reserve.userId, 
 		Study_Reserve.centerCode, 
@@ -144,6 +146,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_Reserve.userId like '%'||#{userId}||'%' 
 		]]>
@@ -151,7 +154,7 @@
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 		<![CDATA[
-		order by reserveApplyDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -159,7 +162,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		Study_Reserve.keyNum, 
 		Study_Reserve.userId, 
 		Study_Reserve.centerCode, 
@@ -181,6 +184,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_Member.userTel1 = #{userTel1} 
 		and    Study_Member.userTel2 = #{userTel2} 
@@ -190,7 +194,7 @@
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 		<![CDATA[
-		order by reserveApplyDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -198,7 +202,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,   
 		Study_Reserve.keyNum, 
 		Study_Reserve.userId, 
 		Study_Reserve.centerCode, 
@@ -220,6 +224,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_CenterInfo.centerCode like '%'||#{centerCode}||'%' 
 		]]>
@@ -227,7 +232,7 @@
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 		<![CDATA[
-		order by reserveApplyDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -235,7 +240,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		Study_Reserve.keyNum, 
 		Study_Reserve.userId, 
 		Study_Reserve.centerCode, 
@@ -257,6 +262,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_CenterInfo.centerName like '%'||#{centerName}||'%' 
 		]]>
@@ -264,7 +270,7 @@
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 		<![CDATA[
-		order by reserveApplyDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -272,7 +278,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		Study_Reserve.keyNum, 
 		Study_Reserve.userId, 
 		Study_Reserve.centerCode, 
@@ -294,12 +300,13 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		]]>
 		<if test = "reserveStatus != null">
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
  		</if>
 		<![CDATA[
-		order by reserveApplyDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -315,6 +322,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_Reserve.userId like '%'||#{userId}||'%' 
 		]]>
@@ -330,6 +338,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_Member.userTel1 = #{userTel1} 
 		and    Study_Member.userTel2 = #{userTel2} 
@@ -347,6 +356,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_CenterInfo.centerCode like '%'||#{centerCode}||'%' 
 		]]>
@@ -362,6 +372,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_CenterInfo.centerName like '%'||#{centerName}||'%' 
 		]]>
@@ -377,6 +388,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		]]>
 		<if test = "reserveStatus != null">
 			<![CDATA[ and reserveStatus = #{reserveStatus} ]]>
@@ -408,6 +420,7 @@
 		where Study_Reserve.userId = Study_Member.userId 
 		and    Study_Reserve.centerCode = Study_CenterInfo.centerCode 
 		and    Study_Reserve.roomCode = Study_RoomInfo.roomCode 
+		and    Study_Reserve.centerCode = Study_RoomInfo.centerCode
 		
 		and    Study_Reserve.userId = #{userId} 
 		]]>

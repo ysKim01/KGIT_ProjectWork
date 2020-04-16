@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="baseAdminOneDay" template="/WEB-INF/views/admin/common/layout.jsp">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/admin/common/header.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/admin/common/footer.jsp"></put-attribute>
+	</definition>
+	
+	
+	<definition	name="/admin/addOneDayForm" extends="baseAdminOneDay">
+		<put-attribute name="title" value="관리자 일일클래스 등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/oneday/AddOneDayForm.jsp"></put-attribute>
+	</definition>
+	
+	<definition	name="/admin/listOneDay" extends="baseAdminOneDay">
+		<put-attribute name="title" value="관리자 일일클래스 등록"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin/oneday/ListOneDay.jsp"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
+
+
+
+
+
+
+
+

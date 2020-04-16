@@ -216,6 +216,20 @@ public class QuestionControllerImpl extends MultiActionController implements Que
 		}
 	}
 	
+	/* ===========================================================================
+	 * 6. FAQ 
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : - 
+	 * > 출력 : - 
+	 * > 이동 페이지 : FAQ창 (/views/board/FAQboard.jsp)
+	 * > 설명 : 
+	 * 		- FAQ 보기
+	 ===========================================================================*/
+	@RequestMapping(value={"/showFAQ.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView showFAQ(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		return mav;
+	}
 	
 	/* ===========================================================================
 	 *                                   기타

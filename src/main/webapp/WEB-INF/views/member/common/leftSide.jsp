@@ -24,7 +24,7 @@
          <div class="side_top">
              <h4>
                  <i class="icon-question"></i>
-                 <span>Hong gil dong</span>
+                 <span>${member.userName}</span>
                  <%-- ${userInfo.name } --%>
              </h4>
          </div>

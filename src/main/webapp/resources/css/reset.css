@@ -106,7 +106,8 @@ img{max-width:100%; vertical-align:top;}
 	display:table; margin:auto;
 }
 #paginate > span{
-	display:table-cell; 
+	display:table-cell;
+	background-color:#fff; 
 }
 #paginate .pagePrev,
 #paginate .pageNext{
@@ -302,6 +303,7 @@ img{max-width:100%; vertical-align:top;}
 .none{font-size:0 !important;}
 .red{color:red;}
 .yellow{color:yellow;}
+.green{color:#3EC729;}
 .blue{color:#156BC1}
 .align_right{text-align:right;}
 .align_left{text-align:left;}
@@ -389,3 +391,31 @@ img{max-width:100%; vertical-align:top;}
 	display:block;
 }
 
+
+
+.designCheck{padding:0; margin:0;}
+.designCheck label b{
+	font-weight:500;
+    color: #444;
+    padding: 3px 5px;
+    border-radius: 5px;font-size: 14px;
+}
+.designCheck input[type=checkbox]{
+	width:0; height:0; margin:0; padding:0;
+}
+
+/*  designCheck */
+.designCheck span{
+	margin-right:8px;
+	display:inline-block; width:16px; height:16px;
+	border:1px solid #eaeaea; box-sizing:border-box;
+	position:relative;    vertical-align: middle;
+}
+.designCheck label.check span:before{
+	content: ''; display: block;
+    width: 8px; height: 14px;
+    border: 3px solid #ffd200;
+    border-top:0; border-left: 0;
+    transform: rotate(45deg); position: absolute; 
+    bottom: 51%; right: -2%;
+}

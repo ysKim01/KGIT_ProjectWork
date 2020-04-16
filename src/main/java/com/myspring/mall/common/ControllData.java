@@ -1,5 +1,6 @@
-package com.myspring.mall.common;
+﻿package com.myspring.mall.common;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,16 +67,6 @@ public class ControllData {
 		tel.put("userTel1", userTel1);
 		tel.put("userTel2", userTel2);
 		tel.put("userTel3", userTel3);
-		
-		return tel;
-	}
-	
-	public String CenterTelDiv(String centerTel) {
-		String tel = new String();
-		if(centerTel.length() != 10) {
-			return null;
-		}
-		tel = centerTel;
 		
 		return tel;
 	}
@@ -174,4 +165,22 @@ public class ControllData {
 		return result;
 	}
 	
+	public static void deleteFileFn(String path) {
+		File file = new File(path); // 매개변수로 받은 경로를 파일객체선언 (/home/nation909/test 경로의 폴더를 지정함)
+		File[] files = file.listFiles();  // 해당 폴더 안의 파일들을 files 변수에 담음
+
+		if(files.length > 0) { // 파일, 폴더가 1개라도 있을경우 실행
+			for (int i=0; i<files.length; i++) { // 개수만큼 루프
+				if(files[i].isFile()) { // 파일일경우 해당파일 삭제
+					files[i].delete();
+				}
+				else { // 폴더일경우 재귀함수로 해당폴더의 경로를 전달함
+					deleteFileFn(files[i].getPath()); // 재귀함수
+				}
+				files[i].delete(); // 폴더일경우 재귀함수가 다돌고나서, 즉 폴더안의 파일이 다지워지고 나서 해당폴더를 삭제함 
+			}
+		}
+		file.delete();
+	}
+
 }

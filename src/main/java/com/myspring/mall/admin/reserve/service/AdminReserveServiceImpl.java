@@ -170,7 +170,9 @@ public class AdminReserveServiceImpl implements AdminReserveService{
 		
 		return result;
 	}
-	private int calReservePrice(ReserveVO reserve, Integer scale, CenterInfoVO center) {
+	
+	@Override
+	public int calReservePrice(ReserveVO reserve, Integer scale, CenterInfoVO center) {
 		int result = 0;
 		
 		int idxPrice = center.getUnitPrice() * center.getUnitTime() / 60;
@@ -230,6 +232,17 @@ public class AdminReserveServiceImpl implements AdminReserveService{
 		AdminReserveSearchVO rsvResult = null;
 		rsvResult = adminReserveDAO.selectReserveSearch(keyNum);
 		return rsvResult;
+	}
+
+
+	@Override
+	public boolean insertReserve(ReserveVO reserve) {
+		boolean result = false;
+		
+		int num = adminReserveDAO.insertReserve(reserve);
+		if(num > 0) result = true;
+		
+		return result;
 	}
 	
 }

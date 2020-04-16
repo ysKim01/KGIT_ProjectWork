@@ -16,6 +16,7 @@
 <body>
 	<h1>관리자 메인 페이지입니다.!!</h1>
 	<a href="${contextPath}/admin/membershipForm.do">회원가입 하기</a><br>
+	<a href="${contextPath}/admin/addOneDayForm.do">일일클래스 등록</a><br>
 	
 	<!-- 임시 예약 등록창 이동 폼 -->
 	<form action="${contextPath}/admin/addReserveForm.do" method="post">

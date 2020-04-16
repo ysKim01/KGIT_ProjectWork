@@ -15,7 +15,9 @@
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/mDcalendar.picker.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/slider-pro.css">
 
-
+<style>
+	.sp-slide{overflow:hidden;}
+</style>
 
 
 
@@ -29,7 +31,7 @@
             var getDate = new Date();
             var getYear = getDate.getFullYear();
             var getMonth = getDate.getMonth()+1;
-            var getDate = getDate.getDate();
+            var getDate = getDate.getDate()+1;
             var dayOfWeek = week[new Date().getDay()];
             if(getMonth < 10) getMonth = '0'+getMonth;
             if(getDate < 10) getDate = '0'+getDate;
@@ -176,11 +178,28 @@
                 'sort' : '0',
                 'page' : '1'
             }
+            
             var setDate = document.createElement('input');
             setDate.setAttribute('type','hidden');
             setDate.setAttribute('name','searchInfo');
             setDate.setAttribute('value',encodeURI(JSON.stringify(searchInfo)));
             setForm.appendChild(setDate);
+            
+            
+            const facilityObj = {
+            		'locker' : '0',
+            		'projector' : '0',
+            		'printer' : '0',
+            		'noteBook' : '0',
+            		'whiteBoard' : '0'
+            };
+            var facility = document.createElement('input');
+            facility.setAttribute('type','hidden');
+            facility.setAttribute('name','facility');
+            facility.setAttribute('value',encodeURI(JSON.stringify(facilityObj)));
+            setForm.appendChild(facility);
+            
+            
             document.body.appendChild(setForm);
             setForm.submit();
             
@@ -203,12 +222,22 @@
                         </div>
                         <div class="searchAdd clear_both">
                             <p class="align_right">
-                                <select name="city" id="city">
-                                    <option value="서울" selected>서울</option>
+                                <select name="city" id="city" class="addr1">
+                                    <option value="서울">서울시</option>
+			                        <option value="경기">경기도</option>
+			                        <option value="강원">강원도</option>
+			                        <option value="경남">경상남도</option>
+			                        <option value="경북">경상북도</option>
+			                        <option value="전남">전라남도</option>
+			                        <option value="전북">전라북도</option>
+			                        <option value="대전">대전시</option>
+			                        <option value="제주특별자치도">제주시</option>
+			                        <option value="충남">충청남도</option>
+			                        <option value="충북">충청북도</option>
                                 </select>
                             </p>
                             <p class="align_right">
-                                <select name="gu" id="gu">
+                                <select name="gu" id="gu"  class="addr2">
                                     <option value="종로구" selected>종로구</option>
                                 </select>
                             </p>

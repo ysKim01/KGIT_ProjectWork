@@ -1,0 +1,178 @@
+@charset "UTF-8";
+
+
+.reserveInfoFormWrap{
+    max-width:100%;
+    padding:40px 20px; box-sizing:border-box;
+}
+#reserveInfoForm{
+    max-width:800px; 
+    margin:0 auto;
+}
+
+.content_title{
+    text-align:center;
+}
+.reserveUserList > li{
+    
+    padding:5px 10px; box-sizing:border-box;
+    margin-bottom:10px;
+    
+}
+.reserveUserList > li strong{
+    font-size: 15px; font-weight: 600;
+    padding: 5px 0;
+    display: inline-block; min-width: 100px;
+}
+
+.reserveUserList input[type="text"],
+.reserveUserList input[type="password"],
+.reserveUserList select{
+    padding: 7px 10px 7px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 3px rgba(22,22,22,0.1);
+    height: 33px;
+    vertical-align: top;
+}
+
+.reserveUserList .telNum{
+    width:33.3333%;
+    max-width:100px;
+}
+
+.reserveUserList .info_box{
+    font-size:12px; color:red;
+    display:block;
+}
+.reserveUserList .info_box.green{
+    color:green;
+}
+
+
+.block_wrap.reserveInfoWrap{background-color:unset; background-color:none;}
+.reserveInfo dl{display:table; width:100%;     border-bottom: 2px solid #f5f5f5;}
+.reserveInfo dt, .reserveInfo dd{
+	display:table-cell;
+	padding:8px 5px; box-sizing:border-box;     vertical-align: middle;
+}
+.reserveInfo dt{
+	width:80px;
+	border-right: 2px solid #f5f5f5;
+    text-align: center;
+}
+.reserveInfo dt strong{    
+	font-weight: 500;
+    color: #666;
+    font-size: 15px;
+    }
+.reserveInfo dd p{
+	padding:3px 15px; box-sizing:border-box;
+	font-size:14px;   
+	letter-spacing:.8px; font-weight: 500;
+}
+
+
+.infoTitle {    padding: 20px 0;}
+.infoTitle p{
+	text-align:center;
+}
+.infoTitle p span{display:block;}
+.infoTitle i{
+	border-radius: 50%;     display: inline-block;
+    padding: 10px;
+    font-size: 24px;
+    color: #fff;
+    background-color: #156BC1;
+}
+.infoTitle b{
+	font-weight: 500;
+    font-size: 24px;
+    display: block;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin: 10px 0 0;
+    color: #888;
+}
+
+
+.block_wrap{
+	max-width:800px;
+	margin:auto; position:relative;
+    padding: 0px 10px 10px;
+    background-color: #fff;
+    margin-bottom: 25px;
+}
+.block_title{
+	position:relative;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 25px;
+}
+.block_title h3{
+	font-size:22px; font-weight:600;
+	padding:10px 10px; text-align:left;
+}
+.block_title .privacy_chk{
+	position:absolute;
+	top:50%; right:0px;
+	margin-top:-10px; padding:0;
+}
+.block_title .privacy_chk .designCheck{
+	padding:0; margin:0;
+}
+.privacy_wrap .txt_box{
+	padding:15px; box-sizing:border-box;
+	background-color:#fff;
+	border:1px solid #eaeaea;
+	background-color:#fafafa;
+}
+.privacy_wrap .txt_box .txt_overflow{
+	height:150px; text-overflow-y:scroll; overflow-y: scroll;
+}
+.privacy_wrap .sub_txt{
+	padding:15px 10px;
+	margin-bottom:15px;
+	font-size:14px; color:#666; line-height:20px;
+}
+.privacy_wrap .sub_txt h4{
+	font-size:18px; font-weight:600;
+	margin:15px 0 25px;
+	
+}
+.privacy_wrap p,
+.privacy_wrap ul{
+	padding:10px; box-sizing:border-box;
+	margin-bottom:10px;
+}
+.privacy_wrap li{
+	padding:3px 0; box-sizing:border-box;
+}
+.privacy_wrap .sub_txt strong{
+	font-size:15px; display:block;
+	
+	padding:0 5px;
+}
+.privacy_wrap .sub_txt span{
+	display:block;
+	padding:0 5px;
+}
+.priceInfo strong{
+	margin-right:10px;
+}
+.priceInfo .pdt_info{
+    font-style: normal;
+    font-size: 14px;
+    color: #666;
+    display: inline-block;
+    margin-right: 10px;
+}
+.priceInfo .price{
+	float:right; font-size:20px; font-weight:500;
+	 
+}
+.priceInfo .price b{
+	font-weight:400; font-size:15px;
+	display:inline-block; margin-left:5px; color:#666;
+}
+
+.subExc{font-size:15px; font-weight:400; color:#666; text-align:center; padding:5px 0; margin-bottom:5px;}

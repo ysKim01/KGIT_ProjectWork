@@ -124,7 +124,7 @@
 	                    			<div class="listArea">
 	                    				<ul>
 	                    					<li><a href="#">예약문의</a></li>
-	                    					<li><a href="#">원데이클레스문의</a></li>
+	                    					<li><a href="#">원데이클레스 문의</a></li>
 	                    					<li><a href="#">환불문의</a></li>
 	                    					<li><a href="#">기타문의</a></li>
 	                    				</ul>

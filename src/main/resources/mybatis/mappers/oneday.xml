@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.oneday" >
+	
+	<resultMap id="onedayResult" type="onedayVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="classTitle" column="classTitle"/>
+		<result property="lector" column="lector"/>
+		<result property="lectorTel" column="lectorTel"/>
+		<result property="classContent" column="classContent"/>
+		<result property="classStatus" column="classStatus"/>
+		<result property="classTime" column="classTime"/>
+		<result property="classDate" column="classDate"/>
+		<result property="classWriteDate" column="classWriteDate"/>
+		<result property="classPhoto1" column="classPhoto1"/>
+		<result property="classPhoto2" column="classPhoto2"/>
+		<result property="classPhoto3" column="classPhoto3"/>
+		<result property="classPhoto4" column="classPhoto4"/>
+		<result property="classPhoto5" column="classPhoto5"/>
+	</resultMap>
+
+	<select id="getMaxKeyNum" resultType="Integer">
+		<![CDATA[
+			select max(keyNum) from Study_OneDay   
+		]]>
+	</select>
+	
+	<delete id="deleteOneDay" parameterType="Integer">
+		<![CDATA[
+			delete from Study_OneDay where keyNum = #{keyNum}   
+		]]>
+	</delete>
+	
+	<select id="selectOneDay" parameterType="Integer" resultMap="onedayResult">
+		<![CDATA[
+			select * from Study_OneDay where keyNum = #{keyNum}   
+		]]>
+	</select>
+	
+	<insert id="insertOneDay" parameterType="onedayVO">
+		<![CDATA[
+			insert into Study_OneDay (
+			keyNum, classTitle, lector, lectorTel, classContent, 
+			classStatus, classTime, classDate, classWriteDate, 
+			classPhoto1, classPhoto2, classPhoto3, classPhoto4, classPhoto5
+			)   
+			values(
+			#{keyNum}, #{classTitle}, #{lector}, #{lectorTel}, #{classContent}, 
+			0, #{classTime}, #{classDate}, sysdate,
+			#{classPhoto1}, #{classPhoto2}, #{classPhoto3}, #{classPhoto4}, #{classPhoto5}
+			)
+		]]>
+	</insert>
+	
+	<select id="listOneDayByFilter_Title" parameterType="hashMap" resultMap="onedayResult">
+		<![CDATA[
+		select  * from (
+		select 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,    
+		keyNum, 
+		classTitle, 
+		lector, 
+		lectorTel, 
+		classContent, 
+		classStatus, 
+		classTime, 
+		classDate, 
+		classWriteDate, 
+		classPhoto1, 
+		classPhoto2, 
+		classPhoto3, 
+		classPhoto4, 
+		classPhoto5 
+		from Study_OneDay 
+		
+		where classTitle like '%'||#{classTitle}||'%'   
+		]]>
+		<if test="classStatus != null">
+			<![CDATA[
+			 and classStatus = #{classStatus} 
+			]]>
+		</if>
+		<![CDATA[
+		) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	<select id="listOneDayByFilter_None" parameterType="hashMap" resultMap="onedayResult">
+		<![CDATA[
+		select  * from (
+		select 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,   
+		keyNum, 
+		classTitle, 
+		lector, 
+		lectorTel, 
+		classContent, 
+		classStatus, 
+		classTime, 
+		classDate, 
+		classWriteDate, 
+		classPhoto1, 
+		classPhoto2, 
+		classPhoto3, 
+		classPhoto4, 
+		classPhoto5 
+		from Study_OneDay 
+		
+		where 1=1    
+		]]>
+		<if test="classStatus != null">
+			<![CDATA[
+			 and classStatus = #{classStatus} 
+			]]>
+		</if>
+		<![CDATA[
+		) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	<select id="countOneDayByFilter_Title" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select  count(keyNum) from Study_OneDay 
+		where classTitle like '%'||#{classTitle}||'%'   
+		]]>
+		<if test="classStatus != null">
+			<![CDATA[
+			 and classStatus = #{classStatus} 
+			]]>
+		</if>
+	</select>
+	<select id="countOneDayByFilter_None" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select  count(keyNum) from Study_OneDay 
+		where 1=1 
+		]]>
+		<if test="classStatus != null">
+			<![CDATA[
+			 and classStatus = #{classStatus} 
+			]]>
+		</if>
+	</select>
+</mapper>

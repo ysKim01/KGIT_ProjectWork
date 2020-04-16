@@ -16,7 +16,10 @@
 
 
 
-
+<style>
+	.sp-slides .sp-slide .sp-image-container{height:150px !important; overflow:hidden;}
+	.sp-slides .sp-slide .sp-image-container .sp-image{min-height:150px !important;}
+</style>
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -66,19 +69,19 @@
                                     <li>
                                         <p>
                                             <i>대기중</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${reserveWaitingCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
                                             <i>결제완료</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${reserveCnt - reserveWaitingCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
                                             <i>총 예약건</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${reserveCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                 </ul>
@@ -96,19 +99,19 @@
                                     <li>
                                         <p>
                                             <i>대기중</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${questionWaitingCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
                                             <i>답변 완료</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${questionCnt - questionWaitingCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
                                             <i>총 문의</i>
-                                            <strong>1</strong><span>건</span>
+                                            <strong>${questionCnt}</strong><span>건</span>
                                         </p>
                                     </li>
                                 </ul>
@@ -124,72 +127,19 @@
                             <div class="mOnClass_slider" id="mCustom-slider">
                                 <div class="sp-slides">
                                     <!-- Slide 1 -->
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
+                                <c:forEach var="center" items="${centerList }" varStatus="status">
+					            <div class="sp-slide">
+                                    <div class="slider_cover">
+                                        <figure><img class="sp-image" src="${contextPath }${center.centerPhoto}"/></figure>
+                                        <div class="txt_wrap">
+                                            <p>
+                                                <strong class="centerName">${center.centerName}</strong>
+                                                <span>${center.centerAdd1} ${center.centerAdd1} ${center.centerAdd1}</span>
+                                            </p>
                                         </div>
                                     </div>
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sp-slide">
-                                        <div class="slider_cover">
-                                            <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                            <div class="txt_wrap">
-                                                <p>
-                                                    <strong class="centerName">강남구 스터디카페</strong>
-                                                    <span>서울특별시 강남구 00동</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>  	
+					            </c:forEach>
                                 </div>  
                             </div>
                             <!-- slider end-->

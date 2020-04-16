@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.favorite" >
+	
+	<resultMap id="favoriteResult" type="favoriteVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="userId" column="userId"/>
+		<result property="centerCode" column="centerCode"/>
+	</resultMap>
+
+	<select id="countFavoriteMatch_IDCODE" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+			select count(*) from Study_Favorite 
+			where userId = #{userId} and centerCode = #{centerCode}    
+		]]>
+	</select>
+	
+	<select id="selectMaxKeyNum" resultType="Integer">
+		<![CDATA[
+			select max(keyNum) from Study_Favorite 
+		]]>
+	</select>
+	
+	<insert id="insertFavorite" parameterType="favoriteVO">
+		<![CDATA[
+			insert into Study_Favorite
+			(keyNum, userId, centerCode)   
+			values(#{keyNum}, #{userId}, #{centerCode}) 
+		]]>
+	</insert>
+	
+	<delete id="deleteFavorite">
+		<![CDATA[
+			delete from Study_Favorite 
+			where userId = #{userId} and centerCode = #{centerCode} 
+		]]>
+	</delete>
+	
+	<select id="listFavoriteById" parameterType="String" resultMap="favoriteResult">
+		<![CDATA[
+			select * from Study_Favorite where userId = #{userId}  
+		]]>
+	</select>
+</mapper>

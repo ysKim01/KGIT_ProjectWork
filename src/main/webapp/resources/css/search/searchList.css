@@ -86,3 +86,267 @@
     display:inline-block;
     margin-right:8px;
 }
+
+
+.starR2.on {
+    background-position: -10px 0;
+}
+
+.starR2 {
+    background: url(http://miuu227.godohosting.com/images/icon/ico_review.png) no-repeat right 0;
+    background-size: auto 100%;
+    width: 10px;
+    height: 20px;
+    float: left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
+.starR1.on {
+    background-position: 0 0;
+}
+
+.starR1 {
+    background: url(http://miuu227.godohosting.com/images/icon/ico_review.png) no-repeat -52px 0;
+    background-size: auto 100%;
+    width: 10px;
+    height: 20px;
+    float: left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+/* */
+
+.list_box > div.selectArea{
+    border: 1px solid #eaeaea;
+    box-sizing: border-box;
+    padding: 10px; position: relative;
+    width: 100%;
+    display:none;
+}
+.list_box > div.selectArea.on{
+	display:block;
+}
+.selectBorder > ul > li{
+	float:left;
+	padding:0 15px; box-sizing:border-box;
+}
+.selectBorder > ul > li:first-child{width:25%;}
+.selectBorder > ul > li:nth-child(2){width:25%;}
+.selectBorder > ul > li:last-child{width:50%;}
+
+.selectBorder dt strong{
+	font-size:15px;
+	display:block; padding:5px 0; box-sizing:border-box;
+}
+
+.scroll_list,
+.timeTableLap{
+	box-sizing:border-box;
+	border:1px solid #eaeaea; 
+	height:200px;
+}
+.scroll_list{
+	padding:5px;
+}
+
+.timeTable > ul{
+	padding:10px 0; box-sizing:border-box;
+}
+.timeTable > ul > li{
+	
+	padding-right:15px; box-sizing:border-box;
+	border-bottom:1px solid #eaeaea;
+}
+.timeTable > ul > li:hover{
+	background-color:#f5f5f5;
+}
+.time_list button,
+.scrollArea button{
+	background-color:unset; background-color:none;
+	border:0;
+	text-align:left;
+	width:100%;
+	padding-right:20px;
+}
+.scrollArea li{
+	margin-bottom:5px;
+}
+.scrollArea button{
+	padding:5px 10px; box-sizing:border-box;
+}
+.scrollArea button .scale{
+	display:inline-block; margin-left:5px;
+	color:#666;
+}
+.scrollArea .selRoom.chk{
+	background-color:#f5f5f5;
+}
+.scrollArea .selRoom span{
+	display:block;
+	color:#666; font-size:12px; margin-left:3px;
+}
+.time_list .table_btn{
+	display:table; width:100%; padding:5px 15px; box-sizing:border-box; 
+	position:relative;
+}
+.table_btn > span{display:table-cell; vertical-align:middle; padding:0 5px; box-sizing:border-box;}
+.table_btn .time strong{
+	display:block;
+	font-weight:600; font-size:15px;
+	margin-bottom:3px;
+}
+.table_btn .time em{
+	font-style:normal;
+	font-size:12px; color:#666;
+}
+.table_btn .time{width:20%;}
+.table_btn .title{width:55%;text-align:left;     min-width: 210px;}
+.table_btn .status{width:32%;}
+.table_btn .title strong{
+	display:block;
+	font-weight:500; font-size:14px;
+}
+.table_btn .title em{
+	font-style:normal;
+	font-size:13px; color:#666;
+}
+
+.table_btn .status span{
+	display:inline-block; padding:3px 5px;
+	box-sizing:border-box; color:#fff; font-weight:500;
+	border-radius:3px;
+}
+
+.table_btn.check{
+	background-color:#f5f5f5;
+}
+.table_btn.ing{
+	background-color:#f5f5f5;
+}
+.table_btn.check:before{
+	content:''; display:block;
+	width:3px; height:100%; position:absolute; top:0; left:0; 
+	background-color:#156BC1;
+}
+.table_btn .status .true{
+	background-color:#29AE54;
+}
+.table_btn .status .false{
+	background-color:#EB4D40;
+}
+
+
+.reservInfo {
+	font-size:12px; 
+}
+.reservInfo i{
+	font-style:normal
+}
+
+
+/* view Detail */
+
+
+.pageCover{
+	background-color:rgba(22,22,22,0.8);
+	position:fixed; top:0; left:0;
+	width:100%; height:100%; z-index:99999999999;
+	display:table;
+}
+.pageCover .detailCover{
+	display:table-cell;
+	margin:auto; vertical-align:middle;
+}
+.detailCover .detailArea{
+	width:800px; margin:auto;
+	min-height:680px;
+	background-color:#fff;
+    max-height: 700px;
+}
+.detail{box-sizing:border-box;}
+.detail .detailTitle{position:relative;}
+.detail .detailTitle h4{
+    font-size: 22px;
+    padding: 15px 10px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #222;
+    color: #fff; 
+}
+.detail .detailTitle button{
+    margin: 0; padding: 0;
+    border: 0;
+    position: absolute; top: 50%; margin-top: -10px; right: 50px;
+    background-color: unset; cursor: pointer;
+}
+.detail .detailTitle button.mark i{
+	color:#FFD200;
+}
+.detail .detailTitle button i{
+	font-size:23px; color:#fff;
+	font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    letter-spacing: 0;
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    -o-font-feature-settings: "liga";
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.detail .detailTitle button i:before{
+    content: "\e91f";
+}
+.photoListWrap{
+	padding:0 10px; box-sizing:border-box !important;
+	margin-bottom:25px;
+}
+
+
+.roomSelectArea li{
+	width:33.333%;
+}
+.roomSelectArea li a{
+	display:block; width:100%; padding:15px 10px; box-sizing:border-box;
+	border:2px solid #eaeaea; font-size:15px;    text-align: center;
+	position:relative;
+}
+.roomSelectArea li a:hover{
+	background-color:#333; color:#fff;
+}
+.roomSelectArea li a.on{
+	background-color:#333; color:#fff;
+}
+.roomSelectArea li a.on:before{
+	content:''; display:block;
+	width:100%; background-color:#ffd200; height:4px;
+	position:absolute; bottom:0; left:0;	
+	
+}
+.roomDetailText{
+	margin-top:25px;
+}
+.roomDetailText > div{
+	display:none;
+}
+.roomDetailText > div.first-child{
+	display:block;
+}
+.roomDetailText > div.on{
+	display:block;
+}
+.introduce, .fareInfo, .useInfo{
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+

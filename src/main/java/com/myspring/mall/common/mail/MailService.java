@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
 import com.myspring.mall.center.vo.CenterInfoVO;
 import com.myspring.mall.common.ControllData;
+import com.myspring.mall.member.vo.MemberVO;
+import com.myspring.mall.question.vo.QuestionVO;
 import com.myspring.mall.reserve.vo.ReserveVO;
 
 @Service
@@ -64,5 +66,40 @@ public class MailService {
 		}
 
 		return "main/main.tiles";
+	}
+	
+	// Mail for Question
+	public void mailForQuestion(HttpServletRequest request, MemberVO member, QuestionVO question) throws Exception {
+		System.out.println("메일 보내기 시작");
+		
+		String setfrom = "Studying@std.com";
+		String title = member.getUserName() + "님의 문의 답변이 도착했습니다."; // 제목
+		String tomail = member.getUserEmail();
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("<html><body>");
+		sb.append("<meta http-equiv='content-Type' content='text/html;charset=euc-kr'>");
+		sb.append("<h1>[문의정보]</h1><br>");
+		sb.append("1. 문의 제목 : " + question.getQuestionTitle() + "<br>");
+		sb.append("2. 문의 유형 : " + question.getQuestionClass() + "<br>");
+		sb.append("3. 문의 내용 : " + question.getQuestionContent() + "<br>");
+		sb.append("4. 답변 : " + question.getQuestionAnswer() + "<br>");
+		sb.append("</body></html>");
+		String content = sb.toString();
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			System.out.println(message);
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom, "Studying닷컴"); // 보내는사람
+			messageHelper.setTo(tomail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			messageHelper.setText(content, true); // 메일 내용
+
+			mailSender.send(message);
+			System.out.println("메일 보내기 완료");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("메일 보내기 실패");
+		}
 	}
 }

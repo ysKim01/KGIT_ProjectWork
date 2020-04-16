@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.content_wrap ul:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+body {
+    font: normal 16px sans-serif;
+}
+
+.content_wrap ul {
+    border-top: 1px solid #d5d5d5;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.content_wrap ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+

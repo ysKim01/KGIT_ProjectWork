@@ -1,6 +1,5 @@
-package com.myspring.mall.admin.center.service;
+﻿package com.myspring.mall.admin.center.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.myspring.mall.admin.center.controller.AdminCenterControllerImpl;
 import com.myspring.mall.admin.center.dao.AdminCenterDAO;
 import com.myspring.mall.admin.center.vo.AdminCenterFilterVO;
 import com.myspring.mall.center.vo.CenterContentsVO;
@@ -69,10 +67,10 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 
 	@Override
 	public List listCenterByFiltered(AdminCenterFilterVO centerSearch) {
-		List centerList = null;
+		List centersList = null;
 		
 		String searchFilter = centerSearch.getSearchFilter();
-		String searchContent = centerSearch.getSearchContents();
+		String searchContents = centerSearch.getSearchContents();
 		Integer page = centerSearch.getPage();
 		
 		// 예외처리
@@ -86,37 +84,30 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 				Map searchMap = new HashMap();
 				searchMap.put("page", page);
 				
-				if(!conData.isEmpty(searchContent)) { // 검색내용 있을 경우
+				if(!conData.isEmpty(searchContents)) { // 검색내용 있을 경우
 					if(searchFilter.equals("centerCode")) {
-						searchMap.put("centerCode", searchContent);
-						centerList = centerDAO.selectCenterByFilter_Code(searchMap);
+						searchMap.put("centerCode", searchContents);
+						centersList = centerDAO.selectCenterByFilter_Code(searchMap);
 					}
 					else if(searchFilter.equals("centerName")) {
-						searchMap.put("centerName", searchContent);
-						centerList = centerDAO.selectCenterByFilter_Name(searchMap);
+						searchMap.put("centerName", searchContents);
+						centersList = centerDAO.selectCenterByFilter_Name(searchMap);
 					}
 					else if(searchFilter.equals("centerTel")) {
-						String centerTel = conData.CenterTelDiv(searchContent);
-						if(centerTel!=null) {
-							searchMap.put("centerTel", centerTel);
-							centerList = centerDAO.selectCenterByFilter_Tel(searchMap);
-						}else {
-							System.out.println("[Warning] admin / service / listCenterByFiltered > "
-									+ "전화번호 입력을 다시한번 확인해주세요.");
-							centerList = null;
-						}
+						searchMap.put("centerTel", searchContents);
+						centersList = centerDAO.selectCenterByFilter_Tel(searchMap);
 					}
 					else {
 						System.out.println("[Warning] admin / service / listCenterByFiltered > "
 								+ "검색 필터값이 정확하지 않습니다.");
-						centerList = centerDAO.selectCenterByFilter_None(searchMap);
+						centersList = centerDAO.selectCenterByFilter_None(searchMap);
 					}
 				}
 				else { // 검색내용 없을 경우
-					centerList = centerDAO.selectCenterByFilter_None(searchMap);
+					centersList = centerDAO.selectCenterByFilter_None(searchMap);
 				}
 				
-				return centerList;
+				return centersList;
 			}
 
 	@Override
@@ -124,7 +115,7 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 		int result = 0;
 		
 		String searchFilter = centerSearch.getSearchFilter();		// not null
-		String searchContent = centerSearch.getSearchContents();
+		String searchContents = centerSearch.getSearchContents();
 		Integer page = centerSearch.getPage();					// not null, 양수
 		// 예외처리
 		if(searchFilter==null) {
@@ -137,34 +128,48 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 		Map searchMap = new HashMap();
 		searchMap.put("page", page);
 		
-		if(!conData.isEmpty(searchContent)) { // 검색내용 있을 경우
+		if(!conData.isEmpty(searchContents)) { // 검색내용 있을 경우
 			if(searchFilter.equals("centerCode")) {
-				searchMap.put("centerCode", searchContent);
+				searchMap.put("centerCode", searchContents);
 				result = centerDAO.countCenterByFilter_Code(searchMap);
 			}
 			else if(searchFilter.equals("centerName")) {
-				searchMap.put("centerName", searchContent);
+				searchMap.put("centerName", searchContents);
 				result = centerDAO.countCenterByFilter_Name(searchMap);
 			}
 			else if(searchFilter.equals("centerTel")) {
-				Map userTel = conData.TelDivThree(searchContent);
-				if(userTel!=null) {
-					searchMap.put("centerTel", userTel);
-					result = centerDAO.countCenterByFilter_Tel(searchMap);
-				}else {
-					System.out.println("[Warning] admin / service / listMembersByFiltered > "
-							+ "전화번호가 10자리가 아닙니다.");
-				}
+				searchMap.put("centerTel", searchContents);
+				result = centerDAO.countCenterByFilter_Tel(searchMap);
 			}
 			else {
 				System.out.println("[Warning] admin / service / listMembersByFiltered > "
-						+ "계정 검색 필터값이 정확하지 않습니다.");
+						+ "검색 필터값이 정확하지 않습니다.");
 				result = centerDAO.countCenterByFilter_None(searchMap);
 			}
 		}
 		else { // 검색내용 없을 경우
 			result = centerDAO.countCenterByFilter_None(searchMap);
 		}
+		
+		return result;
+	}
+
+	@Override
+	public int delCentersList(List<CenterInfoVO> centersList) {
+		int result = 0;
+		for(int i=0; i<centersList.size();i++) {
+			String centerCode = centersList.get(i).getCenterCode();
+			result += centerDAO.delCenterByCode(centerCode);
+		}
+		return result;
+	}
+
+	@Override
+	public int delCentersList(CenterInfoVO center) {
+		int result = 0;
+		
+		String centerCode = center.getCenterCode();
+		result = centerDAO.delCenterByCode(centerCode);
 		
 		return result;
 	}

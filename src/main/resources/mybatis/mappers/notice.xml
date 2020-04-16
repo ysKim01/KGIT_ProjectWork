@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.notice" >
+	
+	<resultMap id="noticeResult" type="noticeVO">
+		<result property="keyNum" column="keyNum"/>
+		<result property="noticeTitle" column="noticeTitle"/>
+		<result property="noticeContent" column="noticeContent"/>
+		<result property="noticeWriteDate" column="noticeWriteDate"/>
+		<result property="noticeTop" column="noticeTop"/>
+	</resultMap>
+
+	<select id="listTopNotice" resultMap="noticeResult">
+		<![CDATA[
+			select * from Study_Notice  
+			where noticeTop = 1  
+			order by keyNum desc
+		]]>
+	</select>
+	
+	<select id="selectNotice" parameterType="Integer" resultMap="noticeResult">
+		<![CDATA[
+			select * from Study_Notice where keyNum = #{keyNum}  
+		]]>
+	</select>
+	
+	<update id="updateNotice" parameterType="noticeVO">
+		<![CDATA[
+			update Study_Notice set  
+			noticeTitle = #{noticeTitle}, 
+			noticeContent = #{noticeContent}, 
+			noticeTop = #{noticeTop}  
+			where keyNum = #{keyNum} 
+		]]>
+	</update>
+	
+	<insert id="insertNotice" parameterType="noticeVO">
+		<![CDATA[
+			insert into Study_Notice(keyNum, noticeTitle, noticeContent, noticeWriteDate, noticeTop) 
+			VALUES(nNum.nextVal, #{noticeTitle},#{noticeContent},sysdate,#{noticeTop})
+		]]>
+	</insert>
+	
+	<delete id="deleteNotice" parameterType="Integer">
+		<![CDATA[
+			delete from Study_Notice where keyNum = #{keyNum}
+		]]>
+	</delete>
+	
+	
+	
+	<select id="listNoticeByFilter_Title" parameterType="hashMap" resultMap="noticeResult">
+		<![CDATA[
+		select  * from (
+		select 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
+		keyNum, 
+		noticeTitle, 
+		noticeContent, 
+		noticeWriteDate, 
+		noticeTop   
+		from Study_Notice 
+		
+		where noticeTitle like '%'||#{noticeTitle}||'%'   
+		and noticeTop = 0 
+		
+		) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="listNoticeByFilter_None" parameterType="hashMap" resultMap="noticeResult">
+		<![CDATA[
+		select  * from (
+		select 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,   
+		keyNum, 
+		noticeTitle, 
+		noticeContent, 
+		noticeWriteDate, 
+		noticeTop   
+		from Study_Notice 
+		where noticeTop = 0 
+		) 
+		where recNum between (#{page}-1)*10+1 and #{page}*10
+		]]>
+	</select>
+	
+	<select id="countNoticeByFilter_Title" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select count(keyNum) from Study_Notice  
+		where noticeTitle like '%'||#{noticeTitle}||'%'  
+		and noticeTop = 0 	
+		]]>
+	</select>
+	<select id="countNoticeByFilter_None" parameterType="hashMap" resultType="Integer">
+		<![CDATA[
+		select count(keyNum) from Study_Notice where noticeTop = 0   
+		]]>
+	</select>
+	
+</mapper>

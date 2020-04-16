@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+
+
+.boardListWrap{
+	max-width: 100%;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.content_block{
+	max-width: 800px;
+    margin: auto;
+    position: relative;
+    padding: 10px 10px 40px;
+    
+}
+
+.board_list .list_list{margin-bottom:8px; }
+
+.board_list ul li{
+    
+    padding:10px 15px; box-sizing:border-box;
+    color:#777;
+    text-align:center;
+    font-size:15px;
+}
+.board_list li strong{font-weight:400;}
+
+.board_list .typo{
+        font-size: 13px;
+    font-weight: bold;
+    display: inline-block;
+    color: #156BC1;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #156BC1;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffff;
+	}
+.board_list .list_header{
+    color:#555;
+}
+.board_list .list_list > ul{
+    display:table; width:100%; background-color:#fff;
+    box-shadow:2px 2px 3px rgba(22,22,22,0.05);
+    transition:all .2s;
+}
+.bottom_arrow i{position:relative;}
+.bottom_arrow i:after{
+	content:''; display:block;
+	width:10px; height:10px;
+	border:3px solid #898989; border-top:0; border-left:0;
+	transform:rotate(45deg);
+	position:absolute; top: 50%; left: 0;     margin-top: -15px;
+}
+.bottom_arrow.view i:after{
+    transform:rotate(-135deg);
+    margin-top: -11px;
+}
+.board_list button:focus{
+    border:0; box-shadow:none;
+}
+.board_list .list_list .title{
+	text-align:left;
+	text-overflow:ellipsis; white-space: nowrap; overflow:hidden;
+	max-width:400px; 
+}
+.board_list .list_list:hover{
+    transform:scale(1.01);
+    box-shadow:2px 2px 3px rgba(22,22,22,0.1);
+    background-color:#ddeeff;
+    pointer:cursor;
+}
+.board_list .list_list > ul >  li{display:table-cell; vertical-align:middle; height:100%;}
+.board_list .dateType i{
+    display:block;
+    font-style:normal; 
+    font-size:13px; color:#999;
+}
+.board_list button{
+    border:0; background-color:rgba(255,255,255,0.0);
+    cursor:pointer;
+    font-size:20px;
+}
+.block_title h3{
+    font-size: 22px;
+    font-weight: 600;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.faq_content{
+    font-size: 14px;
+    background-color: #fff;
+    border-top: 2px solid #eaeaea;
+    padding: 10px 10px 10px 60px;
+    box-sizing: border-box;
+    letter-spacing: .5px;
+    box-shadow: 2px 2px 3px rgba(22,22,22,0.05);
+    position:relative;
+}
+.board_list .faq_content .typo{
+	position:absolute; top:20px; left:10px;
+	background-color:#666; color:#fff;
+	
+}
+.btn_wrap{
+	padding:20px 0;
+}
+.btn_wrap button{
+	margin-right:0;
+}
+.faq_content{display:none;}

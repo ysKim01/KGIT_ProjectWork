@@ -53,7 +53,10 @@
         form.setAttribute("method", "Get");  //Get 방식
         form.setAttribute("action", "${contextPath}/admin/searchQuestion.do"); //요청 보낼 주소
 		if(paginate == null || paginate == '' || paginate == 'undefined'){
-			paginate = '1';
+			paginate = $('#paginate .pageCover a.select').text();
+			if(isEmpty(paginate)){
+				paginate = '1';
+			}
 		}
         
         // searchInfo
@@ -102,7 +105,7 @@
         searchObj['searchContent'] = document.getElementById("searchContent").value;
         searchObj['questionClass'] = document.getElementById("questionClass").value;
         searchObj['isAnswered'] = document.getElementById("isAnswered").value;
-        searchObj['page'] = paginate;
+        searchObj['page'] = $('#paginate .pageCover a.select').text();
         
         var searchInfo = document.createElement("input");
         searchInfo.setAttribute("type", "hidden");
@@ -114,48 +117,49 @@
         form.submit();
 	 }
  	/* ===========================================================================
-	 * 2. 예약 삭제
+	 * 3. 문의 삭제
 	 * ---------------------------------------------------------------------------
 	 * > 입력 : keyNum
 	 * > 출력 : -
-	 * > 이동 페이지 : /admin/delReserve.do > /admin/searchReserve.do 
-	 * > 설명 : 
+	 * > 이동 페이지 : /admin/delQuestion.do  
+	 * > 설명 : 문의 삭제
 	 ===========================================================================*/
-	function delReserve(keyNum){
+	function delQuestion(keyNum){
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"${contextPath}/admin/delReserve.do",
+			url:"${contextPath}/admin/delQuestion.do",
 			dataType:"text",
 			data:{"keyNum" : keyNum},
 			success:function(data, status){
+				console.log("삭제 결과 : " + data);
 				alert("삭제했습니다.");
+				searchQuestion();
 			},
 			error: function(data, status) {
 				alert("error");
 	        }
-		})  
-		searchReserve();
+		});  
 	}
 	 
 	 /* ===========================================================================
-	 * 4. 예약 다중 삭제
+	 * 4. 문의 다중 삭제
 	 * ---------------------------------------------------------------------------
-	 * > 입력 : keyNum-List, SearchInfo
+	 * > 입력 : keyNum-List
 	 * > 출력 : - 
-	 * > 이동 페이지 : /admin/delReserveList.do > /admin/searchReserve.do 
+	 * > 이동 페이지 : /admin/delQuestionList.do  
 	 * > 설명 : 
 	 ===========================================================================*/
-	function chkDelReserve(){
+	 function chkDelQuestion(){
 		var keyList = [];
-		<c:forEach var="item" items="${reserveList}" varStatus="status">
+		<c:forEach var="item" items="${questionList}" varStatus="status">
 			var key = "${item.keyNum}";
 			keyList.push(key);
 		</c:forEach>
 		
 		var chkObj = new Object();
 		var delKeyObj = [];
-		var targets = document.getElementsByClassName('rsvChk');
+		var targets = document.getElementsByClassName('qChk');
 		$.each(targets, function(index, items){
 			if(items.checked == true){
 				chkObj[index] = 'chk';
@@ -181,18 +185,18 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"${contextPath}/admin/delReserveList.do",
+			url:"${contextPath}/admin/delQuestionList.do",
 			dataType:"text",
 			data:{"list" : JSON.stringify(delKeyObj)},
 			success:function(data, status){
+				console.log("다중삭제 결과 : " + data);
 				alert("삭제했습니다.");
+				searchQuestion();
 			},
 			error: function(data, status) {
 				alert("error");
 	        }
 		});
-		
-		searchReserve();
 	}
 	
     // ==================================== //
@@ -280,7 +284,7 @@
 			
 			var setPage = (pagingGroup - 1) * 10 ;
 			
-			searchReserve(String(setPage));
+			searchQuestion(String(setPage));
 			return;
 			
 		}
@@ -290,11 +294,11 @@
 			}
 			var setPage = pagingGroup * 10 + 1;
 			
-			searchReserve(String(setPage));
+			searchQuestion(String(setPage));
 			return;
 		}
 		
-		searchReserve(String(event.context.id));
+		searchQuestion(String(event.context.id));
 		return;
         
 	}
@@ -365,12 +369,12 @@
 							</tr>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="questionTable" items="${questionList }" varStatus="status">
+							<c:forEach var="questionTable" items="${questionList}" varStatus="status">
 								<tr>
 									<td><input value="${status.index}" type="checkbox" class="qChk" name="qChk${status.index }"></td>
-									<td>${questionTable.questionClass }</td>
-									<td>${questionTable.questionTitle }</td>
-									<td>${questionTable.userId }</td>
+									<td>${questionTable.questionClass}</td>
+									<td>${questionTable.questionTitle}</td>
+									<td>${questionTable.userId}</td>
 									<c:choose>
 			                     	<c:when test="${questionTable.questionAnswer == null}">
 			                     		<td>답변대기</td>
@@ -381,7 +385,7 @@
 			                     		<td><button type="button" class="editBtn" onclick="showQuestion('${questionTable.keyNum}')" value="답변"><i class="icon icon-checkmark"></i></button></td>
 			                     	</c:otherwise>
 				                    </c:choose>
-									<td><button type="button" class="delBtn" onclick="delReserve('${reserveTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
+									<td><button type="button" class="delBtn" onclick="delQuestion('${questionTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
 								</tr>
 							</c:forEach> 
 						</c:otherwise>

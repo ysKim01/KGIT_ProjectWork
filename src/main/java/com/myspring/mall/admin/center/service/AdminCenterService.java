@@ -22,5 +22,8 @@ public interface AdminCenterService {
 	public int addContents(CenterContentsVO contents) throws DataAccessException;
 	public int addFacility(CenterFacilityVO facility) throws DataAccessException;
 	public int addRoom(RoomInfoVO room) throws DataAccessException;
+	public int delCentersList(List<CenterInfoVO> centersList);
+	public int delCentersList(CenterInfoVO center);
+	
 	
 }

@@ -21,6 +21,7 @@ import com.myspring.mall.admin.reserve.service.AdminReserveService;
 import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
 import com.myspring.mall.admin.reserve.vo.ReserveFilterVO;
 import com.myspring.mall.center.service.CenterService;
+import com.myspring.mall.center.vo.CenterContentsVO;
 import com.myspring.mall.center.vo.CenterInfoVO;
 import com.myspring.mall.common.ControllData;
 import com.myspring.mall.reserve.service.ReserveService;
@@ -89,5 +90,31 @@ public class CenterControllerImpl implements CenterController {
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
 	
-	
+	/* ===========================================================================
+	 * 2. 센터 상세정보 보기
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : centerCode (ajax/post)
+	 * > 출력 : boolean
+	 * > 이동 페이지 : - 
+	 * > 설명 : 
+	 * 		- 센터 평점 매기기
+	 ===========================================================================*/
+	@RequestMapping(value= {"/showCenterContents.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Object> showCenterContents(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// 센터 코드
+		String centerCode = request.getParameter("centerCode");
+		if(centerCode == null) {
+			System.out.println("[warning] centerCode를 받아오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] centerCode를 받아오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		CenterContentsVO contents = centerService.selectCenterContents(centerCode);
+		if(contents == null) {
+			System.out.println("[warning] centerContents를 불러오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] centerContents를 불러오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<Object>(contents, HttpStatus.OK);
+	}
 }

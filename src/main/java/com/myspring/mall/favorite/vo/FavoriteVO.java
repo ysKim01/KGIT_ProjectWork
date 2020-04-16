@@ -1,4 +1,4 @@
-package com.myspring.mall.member.vo;
+package com.myspring.mall.favorite.vo;
 
 import org.springframework.stereotype.Component;
 
@@ -31,10 +31,10 @@ public class FavoriteVO {
 	@Override
 	public String toString() {
 		String out = "[Favorite] { ";
-		out += "( keyNum : " + keyNum + " ) / ";
-		out += "( userId : " + userId + " ) / ";
-		out += "( centerCode : " + centerCode + " ) ";
-		out += " }\n";
+		out += "(keyNum : " + keyNum + "), ";
+		out += "(userId : " + userId + "), ";
+		out += "(centerCode : " + centerCode + ") ";
+		out += "}";
 		return out;
 	}
 }

@@ -15,4 +15,8 @@ public interface AdminQuestionDAO {
 
 	int countQuestionByFilter_None(Map searchMap);
 
+	int updateAnswer(Map map);
+
+	int deleteQuestion(Integer keyNum);
+
 }

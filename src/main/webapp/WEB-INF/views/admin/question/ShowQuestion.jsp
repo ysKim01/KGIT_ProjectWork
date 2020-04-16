@@ -15,10 +15,9 @@
    <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/member/showQuestionForm.css">
    <style>
    	.block_wrap{margin:0;}
-   	.reply{ display: none; }
+   	#reply{ display: none; }
    </style>
    <script src="http://code.jquery.com/jquery-latest.js"></script>
-   <script src="${contextPath }/resources/js/loginRequired.js"></script>
    <script>
    	
    	
@@ -37,12 +36,84 @@
          }
     };
     
+    
+    
+    /* ===========================================================================
+	 * 1. 문의 검색
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : searchInfo
+	 * > 출력 : searchInfo
+	 * > 이동 페이지 : /admin/searchQuestion.do
+	 * > 설명 : 
+		 	- 검색필터 전달 후 문의 검색창으로
+	 ===========================================================================*/
+	function searchQuestion(){
+		var form = document.createElement("form");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Get");  //Get 방식
+        form.setAttribute("action", "${contextPath}/admin/searchQuestion.do"); //요청 보낼 주소
+        
+        // searchInfo
+        var searchObj = new Object();
+        searchObj['searchFilter'] = '${searchInfo.searchFilter}';
+        searchObj['searchContent'] = '${searchInfo.searchContent}';
+        searchObj['questionClass'] = '${searchInfo.questionClass}';
+        searchObj['isAnswered'] = '${searchInfo.isAnswered}';
+        searchObj['page'] = '${searchInfo.page}';
+        
+        var searchInfo = document.createElement("input");
+        searchInfo.setAttribute("type", "hidden");
+        searchInfo.setAttribute("name", "searchInfo");
+        searchInfo.setAttribute("value", encodeURI(JSON.stringify(searchObj)));
+        form.appendChild(searchInfo);
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
+	 
+    /* ===========================================================================
+	 * 2. 답변 활성화
+	 ===========================================================================*/
     function onReply(){
     	var onReply = document.getElementById('onReply');
     	onReply.style.display = 'none';
     	var reply = document.getElementById('reply');
     	reply.style.display = 'block';
     }
+    
+    /* ===========================================================================
+	 * 3. 답변 하기
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : keyNum, replyText
+	 * > 출력 : -
+	 * > 이동 페이지 : /admin/replyQuestion.do
+	 * > 설명 : 
+		 	- 문의 내용 답변
+	 ===========================================================================*/
+	 function reply(){
+        var keyNum = '${question.keyNum}';
+        var answer = document.getElementById('replyText').value;
+        console.log("keyNum : " + keyNum);
+        console.log("reply : " + answer);
+        
+        $.ajax({
+			type:"post",
+			async: false,
+			url:"${contextPath}/admin/replyQuestion.do",
+			dataType:"text",
+			data:{
+				"keyNum" : keyNum,
+				"answer" : answer	
+			},
+			success:function(data, status){
+				alert("답변에 성공했습니다.");
+				searchQuestion();
+			},
+			error: function(data, status) {
+				alert("error");
+	        }
+		});
+	 }
     
     </script>
 </head>
@@ -67,8 +138,8 @@
 	                    <dl>
 	                    	<dt>문의유형</dt>
 	                    	<dd>
-	                    		<div class="ansClass pubSelectbox">
-	                    			<a class="textArea" onclick="">${question.questionClass }<input type="text" class="hidden" name="ansClass" value="${question.questionClass }"></a>
+	                    		<div>
+	                    			<a class="textArea" onclick="">${question.questionClass }</a>
 	                    		</div>
 	                    	</dd>
 	                    </dl>
@@ -96,25 +167,22 @@
 		    	<ul class="questionList clear_both">
 	                <li class="ansContent">
 	                    <div>
-	                    <div class="contentArea">
-	                    	${question.questionAnswer}
-	                    </div>
+	                    <div class="contentArea">${question.questionAnswer}</div>
 	                    </div>
 	                </li>
 	            </ul>
 		    </div>
 	    </c:when>
 	    <c:otherwise>
-	    	<button type="button" onclick="onReply()" value="답변하기" id="onReply">
+	    	<div id="onReply">
+	            <button type="button" onclick="onReply()" value="답변하기" id="onReply" />
+            </div>
             <div id="reply">
-	            <textarea id="" cols="40" rows="10">
-				</textarea>
+	            <textarea id="replyText" cols="40" rows="10"></textarea>
 				<button type="button" onclick="reply()" value="답변완료" >
             </div>
 	    </c:otherwise>
 	    </c:choose>
-	    <c:when test=""></c:when>
-	    
 	</div>
 </div>
 </div>

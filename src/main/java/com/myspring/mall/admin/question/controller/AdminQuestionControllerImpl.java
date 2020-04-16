@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.mall.admin.member.service.AdminMemberService;
 import com.myspring.mall.admin.question.service.AdminQuestionService;
 import com.myspring.mall.admin.question.vo.AdminQuestionFilterVO;
 import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
@@ -28,9 +29,12 @@ import com.myspring.mall.admin.reserve.vo.ReserveFilterVO;
 import com.myspring.mall.center.vo.CenterSearchVO;
 import com.myspring.mall.center.vo.MainSearchFilterVO;
 import com.myspring.mall.common.ControllData;
+import com.myspring.mall.common.mail.MailService;
+import com.myspring.mall.member.vo.MemberVO;
 import com.myspring.mall.question.service.QuestionService;
 import com.myspring.mall.question.vo.QuestionVO;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @RestController
@@ -42,6 +46,11 @@ public class AdminQuestionControllerImpl implements AdminQuestionController{
 	private AdminQuestionService adminQuestionService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private AdminMemberService adminMemberService;
+	
 	
 	static private ControllData conData = new ControllData();
 	
@@ -158,6 +167,117 @@ public class AdminQuestionControllerImpl implements AdminQuestionController{
 		mav.addObject("searchInfo", searchInfo);
 		return mav;
 	}
+	
+	/* ===========================================================================
+	 * 3. 문의 답변
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : keyNum, answer
+	 * > 출력 : boolean
+	 * > 이동 페이지 : -
+	 * > 설명 : 
+	 * 		- 문의 조회 창
+	 ===========================================================================*/
+	@RequestMapping(value={"/replyQuestion.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> replyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		
+		// keyNum 
+		Integer keyNum = conData.StringtoInteger(request.getParameter("keyNum"));
+		if(keyNum == null) {
+			System.out.println("[warning] keyNum을 받아오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] keyNum을 받아오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		// Answer
+		String answer = request.getParameter("answer");
+		if(answer == null) {
+			System.out.println("[warning] answer를 받아오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] answer를 받아오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		// 답변 등록
+		boolean result = adminQuestionService.updateAnswer(keyNum, answer);
+		
+		// 메일
+		QuestionVO question = questionService.selectQuestion(keyNum);
+		if(question == null) {
+			System.out.println("[warning] keyNum에 해당하는 문의가 존재하지 않습니다.");
+			return new ResponseEntity("[warning] keyNum에 해당하는 문의가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
+		MemberVO member = adminMemberService.getMemberById(question.getUserId());
+		if(member == null) {
+			System.out.println("[warning] 문의 한 유저가 더이상 존재하지 않습니다.");
+			return new ResponseEntity("[warning] 문의 한 유저가 더이상 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
+		if(question.getMailMode() == 1) {
+			mailService.mailForQuestion(request, member, question);
+		}
+		
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
+	/* ===========================================================================
+	 * 4. 문의 삭제
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : keyNum
+	 * > 출력 : boolean
+	 * > 이동 페이지 : -
+	 * > 설명 : 
+	 * 		- 문의 조회 창
+	 ===========================================================================*/
+	@RequestMapping(value={"/delQuestion.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> delQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		
+		// keyNum 
+		Integer keyNum = conData.StringtoInteger(request.getParameter("keyNum"));
+		if(keyNum == null) {
+			System.out.println("[warning] keyNum을 받아오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] keyNum을 받아오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		// 문의 삭제
+		boolean result = adminQuestionService.deleteQuestion(keyNum);
+		
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
+	/* ===========================================================================
+	 * 5. 문의 다중 삭제
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : keyNum - List
+	 * > 출력 : boolean
+	 * > 이동 페이지 : -
+	 * > 설명 : 
+	 * 		- 문의 조회 창
+	 ===========================================================================*/
+	@RequestMapping(value={"/delQuestionList.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> delQuestionList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		boolean result = false;
+		
+		String jsonData = request.getParameter("list");
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			System.out.println(jsonData);
+			JSONArray array = JSONArray.fromObject(jsonData);
+			int num = 0;
+			for(int i=0;i<array.size();i++) {
+				Integer keyNum = array.getInt(i);
+				boolean delResult = adminQuestionService.deleteQuestion(keyNum);
+				if(delResult) num++;
+			}
+			if(array.size() == num) {
+				result = true;
+			}
+			System.out.println("삭제된 열 : " + num + "/" + array.size());
+		}else {
+			System.out.println("[warning] keyNum-List를 받아오는데 문제가 발생했습니다.");
+			return new ResponseEntity("[warning] keyNum-List를 받아오는데 문제가 발생했습니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
 	
 	// ===========================================================================
 	//                                    기타 

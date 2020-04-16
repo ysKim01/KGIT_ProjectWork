@@ -181,7 +181,7 @@ public class CenterSearchVO {
 		out += "( printer : " + printer + " ) , ";
 		out += "( noteBook : " + noteBook + " ) , ";
 		out += "( whiteBoard : " + whiteBoard + " )  ";
-		out += " } \n";
+		out += " }";
 		return out;
 	}
 }

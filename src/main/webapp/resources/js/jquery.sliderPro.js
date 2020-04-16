@@ -4711,7 +4711,7 @@
 				this.$previousArrow.css( 'display', 'block' );
 			}
 
-			if ( this.selectedSlideIndex === this.getTotalSlides() - 3 ) {
+			if ( this.selectedSlideIndex === this.getTotalSlides() - 1 ) {
 				this.$nextArrow.css( 'display', 'none' );
 			} else {
 				this.$nextArrow.css( 'display', 'block' );

@@ -48,7 +48,6 @@
 
 .main_content .side_nav .side_top h4 span {
     display: block;
-    margin-top: 13px;
 }
 
 .searchOpt li strong{
@@ -70,6 +69,44 @@
 .searchOpt #city{
     padding-right:5px;
 }
+.searchOpt .btn_wrap{
+	padding:10px 0;
+}
+.searchOpt .btn_wrap .btn_type_03{
+	margin-right:0;
+}
+
+.facility > li{margin-bottom:8px;}
+.facility label b{
+	font-weight:500;
+    color: #444;
+    padding: 3px 10px;
+    border-radius: 5px;font-size: 14px;
+}
+.facility label.check b{
+	background-color:#156bc1; color:#fff;
+}
+.facility input[type=checkbox]{
+	width:0; height:0; margin:0; padding:0;
+}
+
+/*  designCheck */
+.designCheck{
+	margin-right:8px;
+	display:inline-block; width:16px; height:16px;
+	border:1px solid #eaeaea; box-sizing:border-box;
+	position:relative;    vertical-align: middle;
+}
+.facility label.check .designCheck:before{
+	content: ''; display: block;
+    width: 8px; height: 14px;
+    border: 3px solid #ffd200;
+    border-top:0; border-left: 0;
+    transform: rotate(45deg); position: absolute; 
+    bottom: 51%; right: -2%;
+	
+}
+
 
 .searchOpt #gu{
     padding-left:5px;

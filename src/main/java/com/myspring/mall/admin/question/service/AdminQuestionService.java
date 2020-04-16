@@ -9,4 +9,8 @@ public interface AdminQuestionService {
 
 	List<QuestionVO> listQuestionByFiltered(AdminQuestionFilterVO searchInfo);
 
+	boolean updateAnswer(Integer keyNum, String answer);
+
+	boolean deleteQuestion(Integer keyNum);
+
 }

@@ -50,12 +50,27 @@
 		]]>
 	</update>
 	
+	<update id="updateAnswer" parameterType="hashMap">
+		<![CDATA[
+			update Study_CustomerService set   
+			questionAnswer = #{answer},  
+			answerDate = sysdate     
+			where keyNum = #{keyNum} 
+		]]>
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="Integer">
+		<![CDATA[
+			delete from Study_CustomerService where keyNum = #{keyNum}
+		]]>
+	</delete>
+	
 	
 	<select id="listQuestionByFilter_Id" parameterType="hashMap" resultMap="questionResult">
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		keyNum, 
 		userId, 
 		questionClass, 
@@ -80,7 +95,7 @@
         </when>
         </choose>
 		<![CDATA[
-		order by questionDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>
@@ -88,7 +103,7 @@
 		<![CDATA[
 		select  * from (
 		select 
-		rowNum as recNum, 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,  
 		keyNum, 
 		userId, 
 		questionClass, 
@@ -113,7 +128,7 @@
         </when>
         </choose>
 		<![CDATA[
-		order by questionDate desc) 
+		) 
 		where recNum between (#{page}-1)*10+1 and #{page}*10
 		]]>
 	</select>

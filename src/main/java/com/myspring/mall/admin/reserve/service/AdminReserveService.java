@@ -19,4 +19,6 @@ public interface AdminReserveService {
 	ReserveVO selectReserve(Integer keyNum);
 	boolean paymentReserve(Integer keyNum);
 	AdminReserveSearchVO selectReserveSearch(Integer keyNum);
+	int calReservePrice(ReserveVO reserve, Integer scale, CenterInfoVO center);
+	boolean insertReserve(ReserveVO reserve);
 }

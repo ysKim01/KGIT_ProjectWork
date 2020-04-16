@@ -1,0 +1,31 @@
+/* quick_menu */
+#quick_menu { position:fixed;top:0;right:0;z-index:1000;width:100px;height:100%; padding-top: 80px;}
+#quick_menu .toggle icon-menu { position:absolute; left:-32px; top:50%; margin-top:-40px; background:none; }
+#quick_menu .content { overflow:hidden;position:relative;height:60%;border-left:1px solid #111;background-color:#111; }
+#quick_menu .content .btn_wrap { position:relative;float:left;width:100%;height:58%; }
+#quick_menu .content .btn_wrap > ul > li > a { display:block;padding:20px 0;text-align:center;font-weight:400;color:#adb5bd;letter-spacing:-1px; }
+#quick_menu .content .btn_wrap > ul > li > a:hover { background:#f3f3f3; }
+#quick_menu .content .btn_wrap .login icon-user { background-position:0 0; } /* 로그인 */
+#quick_menu .content .btn_wrap a:hover .login icon-user { background-position:49px 0; } 
+#quick_menu .content .btn_wrap .member icon-user-plus { background-position:0 293px; } /* 회원가입 */
+#quick_menu .content .btn_wrap a:hover .member icon-user { background-position:49px 293px; } 
+#quick_menu .content .btn_wrap .notice { background-position:0 257px; } /* 공지사항*/
+#quick_menu .content .btn_wrap a:hover .notice { background-position:49px 257px; } 
+#quick_menu .content .btn_wrap .question { background-position:0 222px; } /* 자주하는 질문 */
+#quick_menu .content .btn_wrap a:hover .question { background-position:49px 222px; } 
+#quick_menu .content .btn_wrap .QA { background-position:0 185px; } /* 질문과 답변*/
+#quick_menu .content .btn_wrap a:hover .QA { background-position:49px 185px; } 
+#quick_menu .content .scrollTo a{ position:absolute; bottom:30px; left:0; right:0; width:100px; }
+#quick_menu .content .scrollTo a:hover { color:#ddd }
+#quick_menu .content .scrollTo a:first-child { padding:15px; margin:0 12px; color:#666;}
+#quick_menu .content #layerTodayView { float:right;width:358px; }
+#quick_menu > button {
+		background:#333;
+		position: absolute;
+		top: 150px;
+		right: 100px;
+		width: 52px;
+		height: 100px;
+		border: none;
+		color: white;
+	}

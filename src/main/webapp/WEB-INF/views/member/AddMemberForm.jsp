@@ -908,10 +908,26 @@
                 <li class="clear">
                     <p>
                         <strong>전화번호<span class="required">*</span></strong>
+                        
                         <select name="userTel1" class="telNum firstTelNum" id="userTel1">
-                            <option value="010" selected="select">010</option>
-                            <option value="011">011</option>
-                            <option value="011">017</option>
+                        <option value="02" selected="select">02</option>
+                        <option value="010">010</option>
+                        <option value="031">031</option>
+                        <option value="032">032</option>
+                        <option value="033">033</option>
+                        <option value="041">041</option>
+                        <option value="042">042</option>
+                        <option value="043">043</option>
+                        <option value="044">044</option>
+                        <option value="051">051</option>
+                        <option value="053">053</option>
+                        <option value="054">054</option>
+                        <option value="055">055</option>
+                        <option value="061">061</option>
+                        <option value="062">062</option>
+                        <option value="063">063</option>
+                        <option value="064">064</option>
+                        <option value="070">070</option>
                         </select>
                         <input required type="text" name="userTel2" class="telNum" maxlength="4" minlength="3" id="userTel2">
                         <input required type="text" name="userTel3" class="telNum" maxlength="4" minlength="4" id="userTel3">

@@ -1,4 +1,4 @@
-package com.myspring.mall.admin.center.controller;
+﻿package com.myspring.mall.admin.center.controller;
 
 
 import java.io.File;
@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -183,9 +185,10 @@ public class AdminCenterControllerImpl extends MultiActionController implements 
 		String src = mtfRequest.getParameter("src");
 		System.out.println("src value : " + src);
 
-		// 앞 : 본인 PC주소    >>>>> 뒷부분 : 프로젝트 내부 저장경로
-		String path = "C:\\Users\\kim\\Desktop\\project\\git\\"+"mall\\src\\main\\webapp\\resources\\image\\center\\" + src+"";
+		// ( 프로젝트 내부 디렉토리 주소 + src(생성될 폴더이름)
+		String path = request.getSession().getServletContext().getRealPath("/resources/image/center/"+ src);
 		// 저장 경로
+		System.out.println("path :" + path);
 
 		File folder = new File(path);
 		
@@ -237,50 +240,49 @@ public class AdminCenterControllerImpl extends MultiActionController implements 
 		dispatcher.forward(request, response);
 	}
 
-
 	/* ===========================================================================
 	 * 스터디룸 목록 
 	 * ---------------------------------------------------------------------------
-	 * > 입력 : /listCenter.do -> -(aTag/get)
-	 * > 출력 : List<CenterInfoVO>
-	 * > 이동 페이지 : /admin/adminCenter.jsp (카페목록 창 - 실제페이지)
-	 * > 설명 : 
-	 * 		- 카페 목록 전달
 	 ===========================================================================*/
 	
 	@RequestMapping(value={"/listCenter.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView listCenter(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName"); 
 		System.out.println("viewName : "+viewName);
-		
-		List<CenterInfoVO> centerList = new ArrayList<CenterInfoVO>();
+
+		List<CenterInfoVO> centersList = new ArrayList<CenterInfoVO>();
 		AdminCenterFilterVO centerSearch = (AdminCenterFilterVO)request.getAttribute("centerSearch");
-		if(centerSearch == null)
+//		System.out.println("centerList start~~~~~~~~~~~~~~~~~~");
+		if(centerSearch == null) 
 			centerSearch = new AdminCenterFilterVO();
 		
-		centerList = centerService.listCenterByFiltered(centerSearch);
+		centersList = centerService.listCenterByFiltered(centerSearch);
 		int maxPage = centerService.getMaxPageByBiltered(centerSearch);
 		centerSearch.setMaxPage(maxPage);
-		
+
+//		if(centersList != null && centersList.size() != 0) {
+//			for(CenterInfoVO center : centersList) {
+//				System.out.println("[toString] start========================");
+//				System.out.println(center.toString());
+//				System.out.println("[toString] End========================");
+//			}
+//		}
+
 		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("centerList",centerList);
+		mav.addObject("centersList",centersList);
 		mav.addObject("centerSearch",centerSearch);
 		return mav;
 	}
+	
 	/* ===========================================================================
 	 * 카페검색 
 	 * ---------------------------------------------------------------------------
-	 * > 입력 : CenterSearch (submit/get)
-	 * > 출력 : CenterSearch
-	 * > 이동 페이지 : /admin/listCenter.do (회원목록)
-	 * > 설명 : 
-	 * 		- 조건에 맞는 카페 검색 후,카페 목록 전달
 	 ===========================================================================*/
 	@RequestMapping(value= {"/searchCenter.do"}, method = {RequestMethod.GET,RequestMethod.POST})
 	public void searchCenter(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String nextPage = "/admin/listCenter.do";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-		
+
 		AdminCenterFilterVO centerSearch = new AdminCenterFilterVO();
 		String jsonData = request.getParameter("centerSearch");
 
@@ -290,10 +292,126 @@ public class AdminCenterControllerImpl extends MultiActionController implements 
 			JSONObject jsonObj = JSONObject.fromObject(jsonData);
 			centerSearch = JSONtoSearchInfo(jsonObj);
 		}
-		
+
 		request.setAttribute("centerSearch", centerSearch);
 		dispatcher.forward(request, response);
 	}
+	
+	/* ===========================================================================
+	 * 회원삭제 
+	 * ---------------------------------------------------------------------------
+	 ===========================================================================*/
+	@RequestMapping(value={"/delCenter.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> delMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String jsonData = request.getParameter("center");
+
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			System.out.println(jsonData);
+			JSONObject jsonObj = JSONObject.fromObject(jsonData);
+
+			CenterInfoVO center = JSONinfo(jsonObj);
+			int result = centerService.delCentersList(center);
+		}
+
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
+	/* ===========================================================================
+	 * 8. 다중회원삭제 
+	 * ---------------------------------------------------------------------------
+	 ===========================================================================*/
+	@RequestMapping(value={"/delCentersList.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Boolean> delMembersList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<CenterInfoVO> centersList = new ArrayList<CenterInfoVO>();
+
+		String jsonData = request.getParameter("list");
+		if(jsonData != null) {
+			jsonData = URLDecoder.decode(jsonData,"utf-8");
+			JSONArray array = JSONArray.fromObject(jsonData);
+			for(int i=0;i<array.size();i++) {
+				JSONObject obj = (JSONObject)array.get(i);
+				CenterInfoVO center = JSONinfo(obj);
+				System.out.println(center.toString());
+				centersList.add(center);
+			}
+			int result = centerService.delCentersList(centersList);
+			System.out.println("삭제된 열 : " + result);
+		}
+
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
+	/* ===========================================================================
+	 * 회원수정 창
+	 * ---------------------------------------------------------------------------
+	 ===========================================================================*/
+	//	@RequestMapping(value={"/modCenterForm.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	//	public ModelAndView modMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	//		String viewName = (String)request.getAttribute("viewName"); // 잠시
+	//		System.out.println("viewName : "+viewName);
+	//		boolean result = true;
+	//		
+	//		// Member
+	//		MemberVO member = null;
+	//		String userId = request.getParameter("userId");
+	//		if(!conData.isEmpty(userId)) {
+	//			member = adminMemberService.getMemberById(userId);
+	//			if(member==null) {result = false;}
+	//		}else {
+	//			result = false;
+	//		}
+	//		
+	//		// SearchInfo
+	//		MemberFilterVO searchInfo = new MemberFilterVO();
+	//		String jsonDataSearch = request.getParameter("searchInfo");
+	//		if(!conData.isEmpty(jsonDataSearch)) {
+	//			jsonDataSearch = URLDecoder.decode(jsonDataSearch,"utf-8");
+	//			System.out.println(jsonDataSearch);
+	//			JSONObject jsonObjSearch = JSONObject.fromObject(jsonDataSearch);
+	//			searchInfo = JSONtoMemberFilter(jsonObjSearch);
+	//		}else {
+	//			result = false;
+	//		}
+	//		
+	//		ModelAndView mav = new ModelAndView(viewName);
+	//		mav.addObject("member",member);
+	//		mav.addObject("searchInfo",searchInfo);
+	//		return mav;
+	//	}
+
+	/* ===========================================================================
+	 * 회원수정
+	 * ---------------------------------------------------------------------------
+	 ===========================================================================*/
+	//	@RequestMapping(value={"/modCenter.do"}, method= {RequestMethod.GET, RequestMethod.POST})
+	//	public ResponseEntity<Boolean> modMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	//		ResponseEntity<Boolean> resEntity = null;
+	//		boolean result = false;
+	//		
+	//		String jsonData = request.getParameter("center");
+	//		System.out.println("json : " + jsonData);
+	//		if(jsonData != null) {
+	//			jsonData = URLDecoder.decode(jsonData,"utf-8");
+	//			//System.out.println(jsonData);
+	//			JSONObject jsonObj = JSONObject.fromObject(jsonData);
+	//			
+	//			CenterInfoVO center = JSONinfo(jsonObj);
+	//			if(center != null) {
+	//				System.out.println(center.toString());
+	//				Integer num = centerService.modCenter(center);
+	//				if(num!=null && num>0)
+	//					result = true;
+	//			}
+	//		}
+	//		
+	//		try {
+	//			resEntity = new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	//		}catch(Exception e) {
+	//			resEntity = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+	//		}
+	//		return resEntity;
+	//	}
 
 	
 	private String getViewName(HttpServletRequest request)  throws Exception{

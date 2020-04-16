@@ -41,5 +41,19 @@ public class AdminQuestionDAOImpl implements AdminQuestionDAO{
 		result = sqlSession.selectOne("mapper.question.countQuestionByFilter_None", searchMap);
 		return result;
 	}
+
+	@Override
+	public int updateAnswer(Map map) {
+		int result = 0;
+		result = sqlSession.update("mapper.question.updateAnswer", map);
+		return result;
+	}
+
+	@Override
+	public int deleteQuestion(Integer keyNum) {
+		int result = 0;
+		result = sqlSession.delete("mapper.question.deleteQuestion", keyNum);
+		return result;
+	}
 	
 }
