@@ -35,15 +35,42 @@
             autoHeight:true,
             buttons: false,
             visibleSize: '100%',
-            loop:true,
+            loop:false,
             centerSelectedSlide:false,
             //forceSize: 'fullWidth',
             autoplay:false,
             slideDistance:20,
-            autoScaleLayers: true
+            autoScaleLayers: true,
+            touchSwipe:false,
         });
+		$('#mCustom-slider').on('gotoSlide',function(e){
+        	var totalSlider = $( '#mCustom-slider' ).data( 'sliderPro' ).getTotalSlides();
+        	var nowSlide = e.index;
+        	if(totalSlider - 4 <= nowSlide){
+        		$('.sp-arrow.sp-next-arrow').css('display','none');
+        		if(totalSlider - 4 < nowSlide){
+            		$('#mCustom-slider').sliderPro('gotoSlide',0);
+            	}
+        	}
+        	
+        })
 
 	});
+	function toSearch(code){
+		var form = document.createElement("form");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Post");  
+        form.setAttribute("action", "${contextPath}/searchCenter.do"); //요청 보낼 주소
+
+        var centerCode = document.createElement("input");
+        centerCode.setAttribute("type", "hidden");
+        centerCode.setAttribute("name", "centerCode");
+        centerCode.setAttribute("value", code);
+        form.appendChild(centerCode);
+        
+        document.body.appendChild(form);
+        form.submit();
+	}
 </script>
 </head>
 <body>
@@ -126,15 +153,14 @@
                             </div>
                             <div class="mOnClass_slider" id="mCustom-slider">
                                 <div class="sp-slides">
-                                    <!-- Slide 1 -->
                                 <c:forEach var="center" items="${centerList }" varStatus="status">
-					            <div class="sp-slide">
+					            <div class="sp-slide" onclick="toSearch('${center.centerCode}')">
                                     <div class="slider_cover">
                                         <figure><img class="sp-image" src="${contextPath }${center.centerPhoto}"/></figure>
                                         <div class="txt_wrap">
                                             <p>
                                                 <strong class="centerName">${center.centerName}</strong>
-                                                <span>${center.centerAdd1} ${center.centerAdd1} ${center.centerAdd1}</span>
+                                                <span>${center.centerAdd1} ${center.centerAdd2}</span>
                                             </p>
                                         </div>
                                     </div>

@@ -1,5 +1,8 @@
 package com.myspring.mall.favorite.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,9 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.mall.center.service.CenterService;
+import com.myspring.mall.center.vo.CenterSearchVO;
 import com.myspring.mall.favorite.service.FavoriteService;
+import com.myspring.mall.favorite.vo.FavoriteVO;
 import com.myspring.mall.member.vo.MemberVO;
+import com.myspring.mall.question.vo.QuestionVO;
+import com.myspring.mall.reserve.vo.ReserveVO;
 
 @Controller("favoriteController")
 @EnableAspectJAutoProxy
@@ -21,6 +30,8 @@ import com.myspring.mall.member.vo.MemberVO;
 public class FavoriteControllerImpl implements FavoriteController{
 	@Autowired
 	private FavoriteService favoriteService;
+	@Autowired
+	private CenterService centerService;
 	
 	
 	/* ===========================================================================
@@ -111,5 +122,40 @@ public class FavoriteControllerImpl implements FavoriteController{
 		boolean result = favoriteService.deleteFavorite(userId, centerCode);
 		
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
+	/* ===========================================================================
+	 * 3. 즐겨찾기 목록
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : -
+	 * > 출력 : centerSearch-List
+	 * > 이동 페이지 : 마이페이지 즐겨찾기 창
+	 * > 설명 : 
+	 * 		- 마이 페이지 즐겨찾기 목록 표시
+	 ===========================================================================*/
+	@RequestMapping(value= {"/listFavorite.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView listFavorite(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		
+		// userId 
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("logonId");
+		if(userId == null) {
+			System.out.println("[warning] 로그인 되지 않았습니다.");
+			return mav;
+		}
+		
+		// 즐겨 찾기 센터 리스트
+		List<CenterSearchVO> centerList = new ArrayList<CenterSearchVO>();
+		List<FavoriteVO> favoriteList = favoriteService.listFavoriteById(userId);
+		if(favoriteList != null && favoriteList.size() > 0) {
+			for(FavoriteVO favorite : favoriteList) {
+				CenterSearchVO center = centerService.selectCenterSearch(favorite.getCenterCode());
+				centerList.add(center);
+			}
+		}
+		
+		mav.addObject("centerList", centerList);
+		return mav;
 	}
 }

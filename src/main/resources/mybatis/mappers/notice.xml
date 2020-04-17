@@ -102,4 +102,20 @@
 		]]>
 	</select>
 	
+	<select id="listNewNotice" resultMap="noticeResult">
+		<![CDATA[
+		select * from 
+		(
+			select
+	        ROW_NUMBER() OVER(ORDER BY keyNum desc) as recNum, 
+			keyNum,
+			noticeTitle,
+			noticeContent,
+			noticeWriteDate,
+			noticeTop 
+			from Study_Notice  
+		) 
+		where recNum between 1 and 10
+		]]>
+	</select>
 </mapper>

@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin 회원관리</title>
-
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminMemList.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/dcalendar.picker.css">
 <script src="${contextPath }/resources/js/dcalendar.picker.js"></script>
@@ -178,7 +178,10 @@
 			}	
 			count++;
 		</c:forEach>
-		
+		var result = confirm(mem.userId + '님을 정말로 삭제하시겠습니까 ? ');
+		if(!result){
+			return false;
+		}
 		
 		$.ajax({
 			type:"post",

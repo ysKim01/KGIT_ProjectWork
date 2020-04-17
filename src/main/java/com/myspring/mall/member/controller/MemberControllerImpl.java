@@ -357,6 +357,29 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	}
 	
 	/* ===========================================================================
+	 * 10. 회원 정보 불러오기
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : -
+	 * > 출력 : member
+	 * > 이동 페이지 : -
+	 * > 설명 : 
+	 * 		- 회원 정보 불러오기
+	 ===========================================================================*/
+	@RequestMapping(value= {"/getMember.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Object> getMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("logonId");
+		if(userId == null) {
+			System.out.println("[warning] 로그인 되지 않았습니다.");
+			return new ResponseEntity("로그인 실패", HttpStatus.BAD_REQUEST);
+		}
+		
+		MemberVO member = adminMemberService.getMemberById(userId);
+		
+		return new ResponseEntity<Object>(member, HttpStatus.OK);
+	}
+	
+	/* ===========================================================================
 	 *                                   기타
 	 ===========================================================================*/
 	// JSON to MemberVO for addMember

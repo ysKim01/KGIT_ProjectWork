@@ -51,6 +51,17 @@
 		<put-attribute name="body" value="/WEB-INF/views/board/showNotice.jsp"></put-attribute>
 	</definition>
 	
+	
+	<definition name="/showPrivacyStatement" extends="baseLayout">
+		<put-attribute name="title" value="개인정보취급방침"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/privacy.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/showTermsOfUse" extends="baseLayout">
+		<put-attribute name="title" value="이용약관"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/protection.jsp"></put-attribute>
+	</definition>
+	
 </tiles-definitions>
 
 

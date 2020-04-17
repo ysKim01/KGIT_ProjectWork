@@ -13,6 +13,20 @@
 
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminMemList.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/dcalendar.picker.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
+<style>
+	#searchContent{min-width:250px;}
+	.search_list li:first-child{    width: 18%;}
+	
+	.memberContent thead tr th:first-child{width:5%;}
+	.memberContent thead tr th:nth-child(2){width:5%;}
+	.memberContent thead tr th:nth-child(3){width:55%;}
+	.memberContent thead tr th:nth-child(4){width:15%;}
+	.memberContent thead tr th:nth-child(5){width:10%;}
+	.memberContent thead tr th:last-child{width:5%;}
+	.memberContent td.title{text-align:left;}
+
+</style>
 <script src="${contextPath }/resources/js/dcalendar.picker.js"></script>
 <script>
 	var isEmpty = function(value){
@@ -76,6 +90,9 @@
 	 * > 설명 : 일일클래스 삭제
 	 ===========================================================================*/
 	function delOneDay(keyNum){
+		if(!confirm('정말로 일일 클래스를 삭제하시겠습니까?')){
+			return;
+		}
 		$.ajax({
 			type:"post",
 			async: false,
@@ -257,10 +274,6 @@
 					<legend>일일클래스 검색창</legend>
 					<ul class="search_list clear_both">
 						<li>
-							<label for="searchContent">클래스 제목</label>
-                            <span class="input_wrap "><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
-						</li>
-						<li>
 							<label for="classStatus">모집상태</label>
 							<span class="input_wrap"><select id="classStatus" name="classStatus"> <!-- select name값 설정 -->
 								<option value="9999">전체</option>
@@ -268,6 +281,11 @@
 								<option value="1">모집마감</option>
                   		  	</select></span>
 						</li>
+						<li>
+							<label for="searchContent">클래스 제목</label>
+                            <span class="input_wrap "><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
+						</li>
+						
 						<li>
                             <strong class="btn_cover"><i class="icon icon-search"></i><input class="search_btn" type="button" value="조회" onclick="searchOneDay()"></strong>
                             </span>
@@ -294,7 +312,7 @@
 					<c:choose>
 						<c:when test="${oneDayList eq '' || empty oneDayList  }">
 							<tr>
-								<th colspan="8" style="padding:30px 0;">현재 등록된 일일클래스가 없습니다.</th>
+								<th colspan="6" style="padding:30px 0;">현재 등록된 일일클래스가 없습니다.</th>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -302,14 +320,14 @@
 								<tr>
 									<td><input value="${oneDayTable.keyNum}" type="checkbox" class="memChk" name="memChk${oneDayTable.keyNum}"></td>
 									<td>${oneDayTable.keyNum}</td>
-									<td>${oneDayTable.classTitle}</td>
+									<td class="title">${oneDayTable.classTitle}</td>
 									<td>${oneDayTable.classDate}</td>
 									<c:choose>
 			                     	<c:when test="${oneDayTable.classStatus == 0}">
-			                     		<td>모집중</td>
+			                     		<td class="blue">모집중</td>
 			                     	</c:when>
 			                     	<c:otherwise>
-			                     		<td>모집완료</td>
+			                     		<td class="red">모집완료</td>
 			                     	</c:otherwise>
 				                    </c:choose>
 									<td><button type="button" class="delBtn" onclick="delOneDay('${oneDayTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>

@@ -244,5 +244,13 @@ public class AdminReserveServiceImpl implements AdminReserveService{
 		
 		return result;
 	}
+
+
+	@Override
+	public List<ReserveVO> listReserveByStatus(String status) {
+		List<ReserveVO> list = new ArrayList<ReserveVO>();
+		list = adminReserveDAO.listReserveByStatus(status);
+		return list;
+	}
 	
 }

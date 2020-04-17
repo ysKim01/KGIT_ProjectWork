@@ -6,6 +6,7 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,11 @@
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${contextPath }/resources/js/main.js"></script>
+<c:if test="${logon == '' || empty logon}">
+</c:if>
 <script>
+
+
 $(window).on('load',function(){
 	//test
 	var _isLogOn=document.getElementById("logon");
@@ -83,7 +88,7 @@ function login(){
         <div class="width_wrap">
             <h1 class="logo_wrap">
             	<a href="${contextPath }" style="display:block;">
-                <img src="http://placehold.it/200x80">
+                <img src="${contextPath }/resources/image/main_Logo.png" alt="studying.com 홈페이지 로고">
                 </a>
             </h1>
             <div class="nav_wrap">

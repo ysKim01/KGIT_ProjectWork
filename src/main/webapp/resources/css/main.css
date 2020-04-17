@@ -250,6 +250,7 @@
 .regCompany .bg_cover{
 	position:relative;
 	overflow:hidden;
+	max-height:400px;
 }
 .regCompany .bg_cover:before{
 	content:''; display:block;
@@ -387,9 +388,18 @@
 .qa_wrap .left{
 	float:left; width:50%;
 }
+.qa_wrap .left .txt_wrap{
+	background:url('/mall/resources/image/left_qs.png') center right no-repeat;
+	background-size:cover;
+}
 .qa_wrap .right{
 	float:right; width:50%;
-	padding-left:25px; box-sizing:border-box;
+	box-sizing:border-box;
+}
+.qa_wrap .right .txt_wrap{
+	padding-left:25px;
+	background:url('/mall/resources/image/right_faq.png') center center no-repeat;
+	background-size:cover;
 }
 .qa_wrap > div .txt_wrap{
 	padding:40px 10px 80px;
@@ -458,7 +468,7 @@
 	padding:0 0 150px;
 }
 .notice_wrap .bg_wrap{
-	height:350px;
+	height:250px;
 	background-position:fixed;
 	background:url('/mall/resources/image/books-1163695_1920.jpg') no-repeat center center;
 }
@@ -472,7 +482,7 @@
 }
 .notice_wrap .img_wrap{
 	padding:40px 40px 40px;
-	background-color:rgba(22,22,22,0.8);
+	background:rgba(22,22,22,0.8) url('/mall/resources/image/mNotice_bg.png') no-repeat center right;
 	width:40%;
 }
 .notice_wrap .txt_wrap{
@@ -486,7 +496,15 @@
 	height:260px;
 	box-sizing:border-box;
 }
-
+.notice_wrap .txt_wrap .noticeTitle{
+	overflow:hidden; white-space:nowrap;
+	text-overflow:ellipsis; display:block;
+}
+.notice_wrap .txt_wrap .noticeDate{
+	display:block;margin:5px 0;
+	font-size:13px; color:#777;
+	text-align:right;
+}
 .notice_wrap .img_title{
 	padding:15px 0;
 	font-size:34px; line-height:35px;

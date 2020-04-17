@@ -10,6 +10,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin 공지 관리</title>
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
+<style>
+	.noticeContent thead tr th:first-child{width:5%;}
+	.noticeContent thead tr th:nth-child(2){width:10%;}
+	.noticeContent thead tr th:nth-child(3){width:55%;}
+	.noticeContent thead tr th:nth-child(4){width:15%;}
+	.noticeContent thead tr th:nth-child(5){width:5%;}
+	.noticeContent thead tr th:last-child{width:5%;}
+	.noticeContent td.title{text-align:left;}
+</style>
 <script>
 	var isEmpty = function(value){
 		if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
@@ -112,6 +122,9 @@
 	 * > 설명 : 공지 삭제
 	 ===========================================================================*/
 	function delNotice(keyNum){
+		if(!confirm('정말로 선택하신 공지사항을 삭제하시겠습니까?')){
+			return;
+		}
 		$.ajax({
 			type:"post",
 			async: false,
@@ -289,44 +302,7 @@
 	<div class="width_wrap">
 		<div class="content_wrap">
 			<div class="content">
-				<table class="noticeContent">
-					<thead>	
-						<tr>
-							<th>선택</th>
-							<th>No</th>
-							<th>제목</th>
-							<th>등록일자</th>
-						</tr>
-					</thead>
-					<c:forEach var="topTable" items="${topList}" varStatus="status">
-						<tr>
-							<td><input value="${topTable.keyNum}" type="checkbox" class="ntcChk" name="ntcChk${status.index }"></td>
-							<td>중요</td>
-							<td>${topTable.noticeTitle}</td>
-							<td>${topTable.noticeWriteDate}</td>
-		                    <td><button type="button" class="editBtn" onclick="showNotice('${topTable.keyNum}')" value="보기"><i class="icon icon-checkmark"></i></button></td>
-							<td><button type="button" class="delBtn" onclick="delNotice('${topTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
-						</tr>
-					</c:forEach> 
-					<c:forEach var="noticeTable" items="${noticeList}" varStatus="status">
-						<tr>
-							<td><input value="${noticeTable.keyNum}" type="checkbox" class="ntcChk" name="ntcChk${status.index }"></td>
-							<td>${noticeTable.keyNum}</td>
-							<td>${noticeTable.noticeTitle}</td>
-							<td>${noticeTable.noticeWriteDate}</td>
-		                    <td><button type="button" class="editBtn" onclick="showNotice('${noticeTable.keyNum}')" value="보기"><i class="icon icon-checkmark"></i></button></td>
-							<td><button type="button" class="delBtn" onclick="delNotice('${noticeTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
-						</tr>
-					</c:forEach> 
-					  
-				</table>
-				<p class="editBtn_wrap">
-					<a href="#" onclick="chkDelNotice()" class="ntcDel"><strong>삭제</strong></a>
-					<a href="#" onclick="addNotice()" class="ntcDel"><strong>등록</strong></a>
-				</p>
-				<div id="paginate">
-				</div>
-				<ul class="search_list clear_both">
+			<ul class="search_list clear_both">
 					<li>
 						<span class="input_wrap"><select id="searchFilter" name="searchFilter"> 
 						<option value="noticeTitle">제목</option>
@@ -339,6 +315,55 @@
 	                    </span>
 					</li>
 				</ul>
+				<table class="noticeContent adminTable">
+					<thead>	
+						<tr>
+							<th>선택</th>
+							<th>No</th>
+							<th>제목</th>
+							<th>등록일자</th>
+							<th>수정</th>
+							<th>삭제</th>
+						</tr>
+					</thead>
+					<c:forEach var="topTable" items="${topList}" varStatus="status">
+						<tr>
+							<td><input value="${topTable.keyNum}" type="checkbox" class="ntcChk" name="ntcChk${status.index }"></td>
+							<td>중요</td>
+							<td class="title">${topTable.noticeTitle}</td>
+							<td>${topTable.noticeWriteDate}</td>
+		                    <td><button type="button" class="editBtn" onclick="showNotice('${topTable.keyNum}')" value="보기"><i class="icon icon-checkmark"></i></button></td>
+							<td><button type="button" class="delBtn" onclick="delNotice('${topTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
+						</tr>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${noticeList == '' || empty noticeList }">
+							<tr><th colspan="6">등록된 공지사항이 없습니다.</th>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="noticeTable" items="${noticeList}" varStatus="status">
+								<tr>
+									<td><input value="${noticeTable.keyNum}" type="checkbox" class="ntcChk" name="ntcChk${status.index }"></td>
+									<td>${noticeTable.keyNum}</td>
+									<td class="title">${noticeTable.noticeTitle}</td>
+									<td>${noticeTable.noticeWriteDate}</td>
+				                    <td><button type="button" class="editBtn" onclick="showNotice('${noticeTable.keyNum}')" value="보기"><i class="icon icon-checkmark"></i></button></td>
+									<td><button type="button" class="delBtn" onclick="delNotice('${noticeTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
+								</tr>
+						</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					 
+					  
+				</table>
+				<p class="editBtn_wrap">
+					<a href="#" onclick="addNotice()" class="ntcDel"><strong>등록</strong></a>
+					<a href="#" onclick="chkDelNotice()" class="ntcDel"><strong>삭제</strong></a>
+					
+				</p>
+				<div id="paginate">
+				</div>
+				
 				
 			</div>
 			<!-- content end-->

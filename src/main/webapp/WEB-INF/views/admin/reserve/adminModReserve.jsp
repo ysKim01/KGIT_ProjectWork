@@ -325,30 +325,40 @@ function searchReserve(){
                     <div class="reservFormWrap">
                         <form action="#" method="post" onsubmit="return false;" name="adminReservForm" id="adminReservForm">
                             <fieldset>
-                                <ul>
-                                	<li>
-                                        <p>
-                                        <label>예약자 아이디</label>
+                                <table class="reservWrap">
+                                	<tr>
+                                        
+                                        <th>
+                                       	 <label>예약자 아이디</label>
+                                        </th>
+                                        <td>
                                         <strong><input type="text" value="${reserve.userId}" disabled="disabled"></strong>
-                                        <input type="hidden" readonly name="userId" class="userId" value="${reserve.userId}">
-                                        </p>
-                                    </li>
-                                	<li>
-                                        <p>
+                                        <strong><input type="hidden" readonly name="userId" class="userId" value="${reserve.userId}"></strong>
+                                        </td>
+                                        
+                                    </tr>
+                                	<tr>
+                                        <th>
                                         <label>센터 코드</label>
+                                        </th>
+                                        <td>
                                         <strong><input type="text" value="${reserve.centerCode }" disabled="disabled"></strong>
                                         <input type="hidden" readonly name="centerCode" class="centerCode" value="${centerInfo.centerCode }">
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
                                         <label>날짜</label>
-                                        <strong><input type="text" name="reservDate" class="dcalendar"></strong>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
+                                        </th>
+                                        <td>
+                                        <strong><input type="text" name="reservDate" class="dcalendar" value="${reserve.reserveDate}"></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
                                             <label>방 선택</label>
+                                            </th>
+                                            <td>
                                             <strong>
                                                 <select name="reservRoom" class="reservRoom">
                                                     <!-- ================================================ -->
@@ -360,13 +370,15 @@ function searchReserve(){
                                                     
                                                 </select>
                                             </strong>
-                                            <input type="button" value="시간 확인" onclick="getReservTime()" class="btn_type_02">
+                                            <strong><input type="button" value="시간 확인" onclick="getReservTime()" class="btn_type_02"></strong>
+                                            </td>
+                                            
                                         </p>
-                                    </li>
-                                    <li>
-                                        <dl class="reservTimeWrap">
-                                            <dt><label>시간 선택</label></dt>
-                                            <dd>
+                                    </tr>
+                                    <tr class="reservTimeWrap">
+                                        
+                                            <th><label>시간 선택</label></th>
+                                            <td>
                                                 <div class="float_sec clear_both reservTime">
                                                     <p>
                                                         <b>시작 시간</b>
@@ -377,13 +389,12 @@ function searchReserve(){
                                                         <input type="text" name="endTime" readOnly>
                                                     </p>
                                                 </div>
-                                            </dd>
-                                        </dl>
-                                    </li>
+                                            </td>
+                                    </tr>
 
-                                </ul>
+                                </table>
                                 <p class="btnArea">
-                                    <input type="button" value="예약" onclick="onResorv()">
+                                    <input type="button" class="btn_type_01" value="예약" onclick="onResorv()">
                                 </p>
                             </fieldset>
                         </form>

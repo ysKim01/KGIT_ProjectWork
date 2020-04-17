@@ -20,8 +20,8 @@
 	<div class="footer_lnb">
 		<div class="width_wrap">
 			<ul class="clear_both">
-				<li><a href="#">이용약관</a></li>
-				<li><a href="#">개인정보취급방침</a></li>
+				<li><a href="${contextPath }/member/protection.do">이용약관</a></li>
+				<li><a href="${contextPath}/member/privacy.do ">개인정보취급방침</a></li>
 			</ul>
 		</div>
 	</div>
@@ -47,12 +47,12 @@
 				</div>
 				<div class="box footer_quick">
 					<ul class="clear_both">
-						<li><a href="#">대관예약</a></li>
+						<li><a href="javascript:setSearch()">대관예약</a></li>
 						<li><a href="#">원데이 클래스</a></li>
 						<li><a href="#">비회원 예약조회</a></li>
-						<li><a href="#">공지사항</a></li>
-						<li><a href="#">자주묻는 질문</a></li>
-						<li><a href="#">질문과 답변</a></li>
+						<li><a href="${contextPath }/notice/listNotice.do">공지사항</a></li>
+						<li><a href="${contextPath }/question/showFAQ.do">자주묻는 질문</a></li>
+						<li><a href="${contextPath }/question/listQuestion.do">질문과 답변</a></li>
 					</ul>
 				</div>
 				

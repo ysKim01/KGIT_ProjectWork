@@ -10,6 +10,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin 문의 관리</title>
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
+<style>
+	.adminTable thead tr th:first-child{
+	}
+	.adminTable thead tr th:nth-child(3){
+		width:55%;
+	}
+	.adminTable .qsTitle{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    max-width: 600px;
+	    text-align:left;
+	}
+	
+	#questionClass{min-width:150px;}
+	#searchFilter{min-width:120px;}
+</style>
 <script>
 	var isEmpty = function(value){
 		if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
@@ -125,6 +143,9 @@
 	 * > 설명 : 문의 삭제
 	 ===========================================================================*/
 	function delQuestion(keyNum){
+		if(!confirm('정말로 선택하신 문의를 삭제하시겠습니까?')){
+			return;
+		}
 		$.ajax({
 			type:"post",
 			async: false,
@@ -352,7 +373,7 @@
 		
 		<div class="content_wrap">
 			<div class="content">
-				<table class="questionContent">
+				<table class="questionContent adminTable">
 					<thead>	
 						<tr>
 							<th>선택</th>
@@ -360,20 +381,36 @@
 							<th>제목</th>
 							<th>작성자</th>
 							<th>답변상태</th>
+							<th>답변</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<c:choose>
 						<c:when test="${questionList eq '' || empty questionList  }">
 							<tr>
-								<th colspan="8" style="padding:30px 0;">현재 등록된 문의 정보가 없습니다.</th>
+								<th colspan="7" style="padding:30px 0;">현재 등록된 문의 정보가 없습니다.</th>
 							</tr>
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="questionTable" items="${questionList}" varStatus="status">
 								<tr>
 									<td><input value="${status.index}" type="checkbox" class="qChk" name="qChk${status.index }"></td>
-									<td>${questionTable.questionClass}</td>
-									<td>${questionTable.questionTitle}</td>
+									<c:choose>
+										<c:when test="${questionTable.questionClass == '원데이클레스 문의'}">
+											<td class="green">${questionTable.questionClass}</td>
+										</c:when>
+										<c:when test="${questionTable.questionClass == '예약문의'}">
+											<td class="blue">${questionTable.questionClass}</td>
+										</c:when>
+										<c:when test="${questionTable.questionClass == '환불문의'}">
+											<td class="red">${questionTable.questionClass}</td>
+										</c:when>
+										<c:when test="${questionTable.questionClass == '기타문의'}">
+											<td class="noraml">${questionTable.questionClass}</td>
+										</c:when>
+									</c:choose>
+									
+									<td class="qsTitle">${questionTable.questionTitle}</td>
 									<td>${questionTable.userId}</td>
 									<c:choose>
 			                     	<c:when test="${questionTable.questionAnswer == null}">

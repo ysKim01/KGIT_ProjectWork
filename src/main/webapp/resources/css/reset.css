@@ -21,6 +21,8 @@ h2{font-size:2.2rem;}
 h3{font-size:1.9rem; line-height:1.6em;}
 h4{font-size:1.6rem;}
 
+.logo_wrap img{max-height:80px;}
+.footer_logo img{max-width:150px;}
 legend{display:none;}
 
 a, a:link, a:visited{
@@ -150,12 +152,12 @@ img{max-width:100%; vertical-align:top;}
 	color:#333;
 }
 
-.editBtn, .delBtn, .reservBtn{
+.checkBtn, .coinBtn, .editBtn, .delBtn, .reservBtn{
 	background-color:unset;
 	border:0;
 	cursor:pointer;
 }
-.editBtn i, .delBtn i, .reservBtn i{
+.checkBtn, .coinBtn, .editBtn i, .delBtn i, .reservBtn i{
 	font-size:18px;
 	
 }
@@ -165,6 +167,9 @@ img{max-width:100%; vertical-align:top;}
 .delBtn .icon-cross{
 	font-size:24px;
 	color:#DD0101;
+}
+.checkBtn, .coinBtn i{
+	color:#156BC1;
 }
 
 

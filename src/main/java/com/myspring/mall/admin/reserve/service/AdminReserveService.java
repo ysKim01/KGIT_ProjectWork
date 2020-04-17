@@ -21,4 +21,5 @@ public interface AdminReserveService {
 	AdminReserveSearchVO selectReserveSearch(Integer keyNum);
 	int calReservePrice(ReserveVO reserve, Integer scale, CenterInfoVO center);
 	boolean insertReserve(ReserveVO reserve);
+	List<ReserveVO> listReserveByStatus(String string);
 }

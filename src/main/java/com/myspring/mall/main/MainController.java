@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.mall.admin.member.service.AdminMemberService;
+import com.myspring.mall.admin.notice.vo.NoticeVO;
 import com.myspring.mall.admin.question.service.AdminQuestionService;
 import com.myspring.mall.admin.reserve.service.AdminReserveService;
 import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
@@ -35,6 +36,7 @@ import com.myspring.mall.common.ControllData;
 import com.myspring.mall.favorite.service.FavoriteService;
 import com.myspring.mall.favorite.vo.FavoriteVO;
 import com.myspring.mall.member.vo.MemberVO;
+import com.myspring.mall.notice.service.NoticeService;
 import com.myspring.mall.question.service.QuestionService;
 import com.myspring.mall.question.vo.QuestionVO;
 import com.myspring.mall.reserve.service.ReserveService;
@@ -55,6 +57,8 @@ public class MainController {
 	private QuestionService questionService;
 	@Autowired
 	private FavoriteService favoriteService;
+	@Autowired
+	private NoticeService noticeService;
 	
 	private static ControllData conData = new ControllData();
 
@@ -77,7 +81,20 @@ public class MainController {
 			System.out.println("[warning] CenterList를 불러오지 못했습니다.");
 		}
 		
+		// New Notice
+		List<NoticeVO> noticeNewList = new ArrayList<NoticeVO>();
+		noticeNewList = noticeService.listNewNotice();
+		if(noticeNewList != null) {
+			System.out.println("[New Notice]");
+			for(NoticeVO notice : noticeNewList) {
+				System.out.println(notice.toString());
+			}
+		}else {
+			System.out.println("[warning] noticeNewList를 불러오지 못했습니다.");
+		}
+		
 		mav.addObject("top5Center", top5Center);
+		mav.addObject("noticeNewList", noticeNewList);
 		return mav;
 	}
 	
@@ -259,7 +276,7 @@ public class MainController {
 		searchInfo.setSort(0);
 		searchInfo.setPage(1);
 		searchInfo.setMaxNum(1);
-		Date searchDate = new Date(new java.util.Date().getTime());
+		Date searchDate = new Date(new java.util.Date().getTime()+(1000*60*60*24*+1));
 		searchInfo.setSearchDate(searchDate);
 		
 		// facility
@@ -274,6 +291,23 @@ public class MainController {
 		mav.addObject("searchInfo", searchInfo);
 		mav.addObject("facility", facilityChk);
 		mav.addObject("centerList", centerList);
+		return mav;
+	}
+	
+	// ===========================================================================
+	// 6. 이용약관 페이지
+	// ===========================================================================
+	@RequestMapping(value= {"/showTermsOfUse.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView showTermsOfUse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		return mav;
+	}
+	// ===========================================================================
+	// 7. 개인정보취급방침 페이지
+	// ===========================================================================
+	@RequestMapping(value= {"/showPrivacyStatement.do"}, method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView showPrivacyStatement(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
 		return mav;
 	}
 	

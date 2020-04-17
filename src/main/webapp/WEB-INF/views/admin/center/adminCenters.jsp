@@ -8,10 +8,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin업체관리</title>
-
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/reset.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/adminCompanyList.css">
-
+<style>
+.search_list li .search_btn_wrap{width:auto !important;}
+</style>
 <script>
 	
 	var isEmpty = function(value){
@@ -74,7 +76,7 @@
 	 * > 설명 : 
 		 	- 
 	 ===========================================================================*/
-	 /* function editCenter(userId){
+	 /*function editCenter(centerCode){
 		// form 생성
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
@@ -104,9 +106,8 @@
         
         document.body.appendChild(form);
         form.submit();
-	} */
-	
-	 /* ===========================================================================
+	}*/
+	 /*===========================================================================
 		 * 센터 삭제
 		 * ---------------------------------------------------------------------------
 		 * > 입력 : 
@@ -135,7 +136,9 @@
 			}	
 			count++;
 		</c:forEach>
-			
+		if(!confirm('정말로 선택하신 업체를 삭제하시겠습니까?')){
+			return;
+		}
 			
 			$.ajax({
 				type:"post",
@@ -154,7 +157,7 @@
 			searchCenter();
 		}
 	 
-		 /* ===========================================================================
+		 /*\\ ===========================================================================
 			 * 센터 다중 삭제
 			 * ---------------------------------------------------------------------------
 			 * > 입력 : 
@@ -236,12 +239,12 @@
 	 * > 설명 : 
 		 	- 
 	 ===========================================================================*/
-	 function reservCenter(userId){
+	 function reservCenter(centerCode){
 		// form 생성
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Post");  //Post 방식
-        form.setAttribute("action", "${contextPath}//admin/addReserveForm.do"); //요청 보낼 주소
+        form.setAttribute("action", "${contextPath}/admin/addReserveForm.do"); //요청 보낼 주소
 		
         // 선택된 Center userId
 		var center = document.createElement("input");

@@ -6,6 +6,27 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+<c:if test="${logon == '' || empty logon }">
+<script>
+	
+		console.log('로그인 체크2');
+		document.body.style.display = "none";
+		var isLogOn=document.getElementById("logon").value;
+		
+		if(isLogOn=="false" || isLogOn=='' ){
+			setTimeout(function(){
+				var target = document.getElementById('pageLayer');
+				console.log(target);
+				target.remove();
+				document.body.style.overflow = 'auto';
+			}, 3000);
+			alert('로그인이 필요한 페이지입니다.');
+			window.location.href="/mall/main.do";
+		}
+	
+</script>
+
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +36,13 @@
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/slider-pro.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/mDcalendar.picker.css">
+<style>
 
+	.sort_wrap{padding:10px 5px; box-sizing:border-box;}
+	.sort_wrap a{display:inline-block; color:#777; font-size:14px; padding:3px 10px; position:relative;}
+	.sort_wrap a:after{content:''; display:block; width:1px; height:10px; border-right:2px solid #ccc; position:absolute; top:50%; margin-top:-5px; right:-1px;}
+	.sort_wrap a:last-child:after{display:none;}
+</style>
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -41,7 +68,6 @@
 	    	mouseWheelPixels: 100,
 	    	alwaysShowScrollbar: 2
 		});
-	
 
 		// 검색 초기값 설정
 		$('.searchDate').val('${searchInfo.searchDate}')
@@ -74,7 +100,10 @@
 	
 	
 	
-	
+	function getSort(sort){
+		setSort = sort;
+		getFacility();
+	}
 	
 	
 	// ========================== //
@@ -562,42 +591,7 @@
 	
 	// searchInfo
 	// centerList
-	/*
-	private Date searchDate;
-	private String searchAdd1;
-	private String searchAdd2;
-	private Integer scale;
-	private Integer sort; // 0:이름순, 1: 낮은가격순, 2: 인기순
-	private Integer page;
-	private Integer maxNum;
-	*/
-	
-	/*
-	private String centerCode;
-	private String centerName;
-	private String centerTel;
-	private int unitPrice;
-	private int operTimeStart;
-	private int operTimeEnd;
-	private int unitTime;
-	private float ratingScore;
-	private int ratingNum;
-	private String centerAdd1;
-	private String centerAdd2;
-	private String centerAdd3;
-	private int minTime;
-	private int premiumRate;
-	private int surchageTime;
-	// CenterContents
-	private String centerPhoto;
-	// Facility
-	private Integer locker;
-	private Integer projector;
-	private Integer printer;
-	private Integer noteBook;
-	private Integer whiteBoard;
-	*/
-	
+
 	
 	
 	// ==================================== //
@@ -702,6 +696,11 @@
     <div class="block_wrap">
                
         <div class="searchList_wrap">
+        <p class="sort_wrap">
+        	<a href="javascript:getSort('0')" class="sortName" id="sortName"><span>이름순</span></a>
+        	<a href="javascript:getSort('1')" class="sortName" id="sortName"><span>낮은가격순</span></a>
+        	<a href="javascript:getSort('2')" class="sortName" id="sortName"><span>인기순</span></a>
+        </p> 
             <ul>
             
             <c:choose>
@@ -897,327 +896,6 @@
 				</c:otherwise>
             </c:choose>
             
-                <li class="list_box">
-                    <div class="box_cover">
-                        <div class="img_wrap">
-                            <figure><img src="http://placehold.it/200x200"></figure>
-                        </div>
-                        <div class="txt_wrap">
-                            <div class="box_title">
-                                <h5>르하임 스터디 카페</h5>
-                            </div>
-                            <div class="sub_txt">
-                                <dl class="clear_both">
-                                    <dt>주소</dt>
-                                    <dd><p>서울특별시 종로구 종로동 126-3 3층 302호</p></dd>
-                                </dl>
-                                <dl class="clear_both">
-                                    <dt>평점</dt>
-                                    <dd><p><i class="icon-star yellow"></i></p></dd>
-                                </dl>
-                                <dl class="clear_both">
-                                    <dt>운영시간</dt>
-                                    <dd><p>10:00 ~ 20:00</p></dd>
-                                </dl>
-                                <dl class="equp clear_both">
-                                    <dt>구비물품</dt>
-                                    <dd>
-                                        <p>
-                                            <span class="setPrinter">
-                                                <i class='icon-printer'></i>
-                                                프린터
-                                            </span>
-                                            <span class='setProjecter'>
-                                                <i class='icon-video-camera'></i>
-                                                프로젝터
-                                            </span>
-                                            <span class="setLocker">
-                                                <i class="icon-box-add"></i>
-                                                사물함
-                                            </span>
-                                            <span class="setNotebook">
-                                                <i class="icon-laptop"></i>
-                                                노트북
-                                            </span>
-                                            <span class="setWhiteboard">
-                                                <i class="icon-display"></i>
-                                                화이트보드
-                                            </span>
-                                        </p>
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div class="priceLap">
-                                <h4 class="red align_right">
-                                    <span>\</span><b class="price">89,000</b>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="btn_wrap">
-                            <div class="">
-                                <!-- centerCode ? -->
-                                <button type="button" class="btn_type_03 " onclick="viewDetail()">상세보기</button> 
-                                <!-- centerCode ? -->
-                                <button type="button" class="btn_type_03" onclick="selectCenter()">선택하기</button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                    
-                    <div class="selectArea">
-                        	<div class="selectBorder">
-                        		<ul class="clear_both">
-                        		<li>
-	                        		<dl>
-		                        		<dt><strong>날짜</strong></dt>
-		                        		<dd>
-		                        		<input type="text" readonly class="selectDate" name="selectDate"></table>
-		                        		</dd>
-	                        		</dl>
-                        			
-                        			
-                        		</li>
-                        		<li>
-                        		<dl>
-	                        		<dt><strong>방선택</strong></dt>
-	                        		<dd>
-		                        		<div class="scroll_list">
-		                        			<div class="scrollArea">
-		                        				<ul>
-		                        					<li><button type="button" class="selRoom" data-roomName="" data-roomCode="" data-roomScale="">테스트 룸1 <span class="scale">(4인실)</span></button></li>
-		                        					<li><button type="button" class="selRoom" data-roomName="" data-roomCode="" data-roomScale="">테스트 룸2 <span class="scale">(4인실)</span></button></li>
-		                        					<li><button type="button" class="selRoom" data-roomName="" data-roomCode="" data-roomScale="">테스트 룸3 <span class="scale">(4인실)</span></button></li>
-		                        					<li><button type="button" class="selRoom" data-roomName="" data-roomCode="" data-roomScale="">테스트 룸4 <span class="scale">(4인실)</span></button></li>
-		                        				</ul>
-		                        			</div>
-		                        		</div>
-		                    		</dd>
-                        		</dl>
-                        		</li>
-                        		<li>
-                        			<dl>
-                        				<dt><strong>시간</strong></dt>
-                        				<dd>
-                        					<div class="timeTableLap">
-                        						<div class="timeTable">
-	                        						<ul>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="false">예약 불가</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="false">예약 불가</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="true">예약 가능</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="true">예약 가능</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="true">예약 가능</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="true">예약 가능</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="true">예약 가능</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        							<li class="time_list">
-	                        								<div>	
-	                        									<button type="button" class="table_btn" data-start-hour="" data-start-minute="" data-start-time="" data-end-hour="" data-end-minute="" data-end-time="">
-	                        										<span class="time">
-				                        								<strong title="대관 시작">10:00</strong>
-				                        								<em title="대관 종료">~10:30</em>
-				                        							</span>
-				                        							<span class="title">
-				                        								<strong title="테스트룸">테스트룸</strong>
-				                        								<em title="적정인원">4인</em>
-				                        							</span>
-				                        							<span class="status">
-				                        								<span class="false">예약 불가</span>
-				                        							</span>
-	                        									</button>
-	                        								</div>
-	                        							</li>
-	                        						</ul>
-                        						</div>
-                        					</div>
-                        				</dd>
-                        			</dl>
-                        		</li>
-                        		</ul>
-                        	</div>
-                        </div>
-                        
-                        
-                        
-                </li>
-
-                <li class="list_box">
-                    <div class="box_cover">
-                        <div class="img_wrap">
-                            <figure><img src="http://placehold.it/200x200"></figure>
-                        </div>
-                        <div class="txt_wrap">
-                            <div class="box_title">
-                                <h5>르하임 스터디 카페</h5>
-                            </div>
-                            <div class="sub_txt">
-                                <dl class="clear_both">
-                                    <dt>주소</dt>
-                                    <dd><p>서울특별시 종로구 종로동 126-3 3층 302호</p></dd>
-                                </dl>
-                                <dl class="clear_both">
-                                    <dt>평점</dt>
-                                    <dd><p><i class="icon-star yellow"></i></p></dd>
-                                </dl>
-                                <dl class="clear_both">
-                                    <dt>운영시간</dt>
-                                    <dd><p>10:00 ~ 20:00</p></dd>
-                                </dl>
-                                <dl class="equp clear_both">
-                                    <dt>구비물품</dt>
-                                    <dd>
-                                        <p>
-                                            <span class="setPrinter">
-                                                <i class='icon-printer'></i>
-                                                프린터
-                                            </span>
-                                            <span class='setProjecter'>
-                                                <i class='icon-video-camera'></i>
-                                                프로젝터
-                                            </span>
-                                            <span class="setLocker">
-                                                <i class="icon-box-add"></i>
-                                                사물함
-                                            </span>
-                                            <span class="setNotebook">
-                                                <i class="icon-laptop"></i>
-                                                노트북
-                                            </span>
-                                            <span class="setWhiteboard">
-                                                <i class="icon-display"></i>
-                                                화이트보드
-                                            </span>
-                                        </p>
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div class="priceLap">
-                                <h4 class="red align_right">
-                                    <span>\</span><b class="price">89,000</b>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="btn_wrap">
-                            <div class="">
-                                <!-- centerCode ? -->
-                                <button type="button" class="btn_type_03 " onclick="viewDetail()">상세보기</button> 
-                                <!-- centerCode ? -->
-                                <button type="button" class="btn_type_03" onclick="selectCenter()">선택하기</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
 
 
             </ul>

@@ -134,6 +134,13 @@ public class AdminReserveDAOImpl implements AdminReserveDAO{
 		rsvSearch = (AdminReserveSearchVO)sqlSession.selectOne("mapper.reserve.selectReserveSearch", keyNum);
 		return rsvSearch;
 	}
+
+	@Override
+	public List<ReserveVO> listReserveByStatus(String status) {
+		List<ReserveVO> list = new ArrayList<ReserveVO>();
+		list = sqlSession.selectList("mapper.reserve.listReserveByStatus",status);
+		return null;
+	}
 }
 
 

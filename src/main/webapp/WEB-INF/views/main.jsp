@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/slider-pro.css">
 
 <style>
-	.sp-slide{overflow:hidden;}
+	.sp-slide{overflow:hidden; background-color: #fff;}
 </style>
 
 
@@ -32,7 +32,7 @@
             var getYear = getDate.getFullYear();
             var getMonth = getDate.getMonth()+1;
             var getDate = getDate.getDate()+1;
-            var dayOfWeek = week[new Date().getDay()];
+            var dayOfWeek = week[new Date().getDay()+1];
             if(getMonth < 10) getMonth = '0'+getMonth;
             if(getDate < 10) getDate = '0'+getDate;
 
@@ -64,6 +64,18 @@
                 slideDistance:20,
                 autoScaleLayers: true
             });
+            $('#mCustom-slider').on('gotoSlide',function(e){
+            	var totalSlider = $( '#mCustom-slider' ).data( 'sliderPro' ).getTotalSlides();
+            	var nowSlide = e.index;
+            	if(totalSlider - 3 <= nowSlide){
+            		$('.sp-arrow.sp-next-arrow').css('display','none');
+            		if(totalSlider - 3 < nowSlide){
+                		$('#mCustom-slider').sliderPro('gotoSlide',0);
+                	}
+            	}
+            	
+            	
+            })
             
             let scrollH = (parseInt($('.regCompany .caption p').css('height')) + 15) * -1;
             console.log(scrollH);
@@ -81,8 +93,42 @@
             $('#mSearchBtn').on('click',function(){
                 setSearch();
             })
+            
+            
         })
 		
+        function viewNotice(keyNum){
+        	// form 생성
+        	var form = document.createElement("form");
+            form.setAttribute("charset", "UTF-8");
+            form.setAttribute("method", "Post");  //Post 방식
+            form.setAttribute("action", "${contextPath}/notice/showNotice.do "); //요청 보낼 주소
+        	
+            // keyNum
+        	var key = document.createElement("input");
+        	key.setAttribute("type", "hidden");
+        	key.setAttribute("name", "keyNum");
+        	key.setAttribute("value", keyNum);
+            form.appendChild(key);
+               
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        
+     
+        function centerAction(centerCode){
+        	var setForm = document.createElement('form');
+        	setForm.setAttribute('action','${contextPath}/searchCenter.do');
+        	setForm.setAttribute('method','post');
+        	
+        	var setCode =document.createElement('input');
+        	setCode.setAttribute('name','centerCode');
+        	setCode.setAttribute('value',centerCode);
+        	setForm.appendChild(setCode);
+        	document.body.appendChild(setForm);
+        	setForm.submit();
+        }
         
         
         
@@ -202,7 +248,6 @@
             
             document.body.appendChild(setForm);
             setForm.submit();
-            
         }
     </script>
 </head>
@@ -238,7 +283,7 @@
                             </p>
                             <p class="align_right">
                                 <select name="gu" id="gu"  class="addr2">
-                                    <option value="종로구" selected>종로구</option>
+                                    
                                 </select>
                             </p>
                         </div>
@@ -496,29 +541,55 @@
                 <!-- title end-->
 
                 <div class="clear_both float_sec">
-                    <div class="left">
-                        <div class="bg_cover">
-                            <figure><img src="${contextPath }/resources/image/regCompany.jpg" alt="강남 스터피 카페"></figure>
-                            <div class="caption">
-                                <h4 class="caption_title">
-                                    <span>서울특별시 강남구</span>
-                                    <strong>강남 스터디 카페</strong>
-                                </h4>
-                                <p>
-                                    강남역 10분 거리에 위치한 스터디 카페
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- left end-->
-                    <div class="right">
-                        <div class="clear_both float_sec">
-                            <div class="left small_box">
+                <c:forEach var="item" items="${top5Center }" varStatus="status" >
+                	<c:if test="${status.index == 0}">
+                		<div class="left">
+	                        <div class="bg_cover" onclick="centerAction('${item.centerCode}')">
+	                            <figure><img src="${contextPath }/${item.centerPhoto}" alt="${item.centerName }"></figure>
+	                            <div class="caption" data-centerCode="${item.centerCode }" data-centerName="${item.centerName }">
+	                                <h4 class="caption_title">
+	                                    <span>${item.centerAdd1 } ${item.centerAdd2 }</span>
+	                                    <strong>${item.centerName }</strong>
+	                                </h4>
+	                                <p>
+	                                    강남역 10분 거리에 위치한 스터디 카페
+	                                </p>
+	                            </div>
+	                        </div>
+                    	</div>
+                    	<!-- left end-->
+                	</c:if>
+                	<c:if test="${status.index != 0 }">
+                		<c:if test="${status.index == '1' }">
+	                		<div class="right">
+                       			<div class="clear_both float_sec">
+                		</c:if>
+                		<c:choose>
+	                		<c:when test="${status.index % 2 != 0 }">
+	                            <div class="left small_box">
+	                                <div class="box_border" onclick="centerAction('${item.centerCode}')">
+	                                    <dl data-centerCode="${item.centerCode }" data-centerName="${item.centerName }">
+	                                        <dt>
+	                                            <i>${item.centerAdd1 } ${item.centerAdd2 }</i>
+	                                            <strong>${item.centerName }</strong>
+	                                        </dt>
+	                                        <dd>
+	                                            <p>
+	                                                강북역에 위치한 신규 리모델링 스터피 카페
+	                                            </p>
+	                                        </dd>
+	                                    </dl>
+	
+	                                </div>
+	                            </div>
+	                		</c:when>
+                		<c:otherwise>
+                			<div class="right small_box">
                                 <div class="box_border">
-                                    <dl>
+                                    <dl data-centerCode="${item.centerCode }" data-centerName="${item.centerName }">
                                         <dt>
-                                            <i>서울특별시 강북구</i>
-                                            <strong>강북 스터디 카페</strong>
+                                            <i>${item.centerAdd1 } ${item.centerAdd2 }</i>
+                                            <strong>${item.centerName }</strong>
                                         </dt>
                                         <dd>
                                             <p>
@@ -529,62 +600,17 @@
 
                                 </div>
                             </div>
-                            <div class="right small_box">
-                                <div class="box_border">
-                                    <dl>
-                                        <dt>
-                                            <i>서울특별시 강북구</i>
-                                            <strong>강북 스터디 카페</strong>
-                                        </dt>
-                                        <dd>
-                                            <p>
-                                                강북역에 위치한 신규 리모델링 스터피 카페
-                                            </p>
-                                        </dd>
-                                    </dl>
-
-                                </div>
-                            </div>
-
-
-                            <div class="left small_box">
-                                <div class="box_border">
-                                    <dl>
-                                        <dt>
-                                            <i>서울특별시 강북구</i>
-                                            <strong>강북 스터디 카페</strong>
-                                        </dt>
-                                        <dd>
-                                            <p>
-                                                강북역에 위치한 신규 리모델링 스터피 카페
-                                            </p>
-                                        </dd>
-                                    </dl>
-
-                                </div>
-                            </div>
-                            <div class="right small_box">
-                                <div class="box_border">
-                                    <dl>
-                                        <dt>
-                                            <i>서울특별시 강북구</i>
-                                            <strong>강북 스터디 카페</strong>
-                                        </dt>
-                                        <dd>
-                                            <p>
-                                                강북역에 위치한 신규 리모델링 스터피 카페
-                                            </p>
-                                        </dd>
-                                    </dl>
-
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+                			
+                		</c:otherwise>
+                	</c:choose>
+                		
+                	
+                	</c:if>
+                </c:forEach>
+                			</div>
+               			</div>
+                   	</div>
                 </div>
-
             </div>
         </section>
         
@@ -600,18 +626,18 @@
 								<strong>자주묻는 질문</strong>
 							</h3>
 							<p class="btn_wrap">
-								<a href="#"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
+								<a href="${contextPath }/question/showFAQ.do"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
 							</p>
 						</div>				
 					</div>
 					<div class="right">
 						<div class="txt_wrap">
 							<h3 class="qa_title">
-								<i>자주묻는 질문을 한번에 !</i>
-								<strong>자주묻는 질문</strong>
+								<i>궁금하신 사항을 문의해주세요 !</i>
+								<strong>질문과 답변</strong>
 							</h3>
 							<p class="btn_wrap">
-								<a href="#"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
+								<a href="${contextPath }/question/listQuestion.do"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
 							</p>
 						</div>				
 					</div>	        
@@ -638,27 +664,17 @@
         					<strong>공지사항</strong>
         				</h4>
         				<p class="btn_wrap">
-        					<a href="#"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
+        					<a href="${contextPath }/notice/listNotice.do"><span>자세히 보기<i class="icon-rarr icon_arrow"></i></span></a>
         				</p>
         			</div>
         			<div class="txt_wrap">
         				<div class="vertical_slide_wrap">
 	        				<ul>
-	        					<li><a href="#"><strong class="cate">Notice</strong>
-	        						<p><b>1대관 시스템 종합 관리 프로그램 홈페이지가 개설되었습니다.</b></p>
+	        				<c:forEach var="item" items="${noticeNewList }">
+	        					<li><a href="javascript:viewNotice('${item.keyNum }')" class="viewNotice" data-keyNum="${item.keyNum }"><strong class="cate">Notice</strong>
+	        						<p><b class="noticeTitle">${item.noticeTitle }</b><span class="noticeDate">${item.noticeWriteDate }</span></p>
         						</a></li>
-        						<li><a href="#"><strong class="cate">Notice</strong>
-	        						<p><b>2대관 시스템 종합 관리 프로그램 홈페이지가 개설되었습니다.</b></p>
-        						</a></li>
-        						<li><a href="#"><strong class="cate">Notice</strong>
-	        						<p><b>3대관 시스템 종합 관리 프로그램 홈페이지가 개설되었습니다.</b></p>
-        						</a></li>
-        						<li><a href="#"><strong class="cate">Notice</strong>
-	        						<p><b>4대관 시스템 종합 관리 프로그램 홈페이지가 개설되었습니다.</b></p>
-        						</a></li>
-        						<li><a href="#"><strong class="cate">Notice</strong>
-	        						<p><b>5대관 시스템 종합 관리 프로그램 홈페이지가 개설되었습니다.</b></p>
-        						</a></li>
+	        				</c:forEach>
 	        				</ul>
 	        				<p class="slide_btn">
 	        					<a href="#" class="notice_larr"><span></span></a>

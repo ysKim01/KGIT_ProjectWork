@@ -71,7 +71,16 @@
             return false ;
        }
   }
-   
+   function listBack(){
+	   var backURL = document.referrer;
+	   console.log(backURL);
+	   if(backURL.indexOf('notice') != -1){
+		   history.back();
+	   }else{
+		   location.href="${contextPath}/notice/listNotice.do";
+	   }
+	   return;
+   }
     </script>
 </head>
 <body>
@@ -103,7 +112,7 @@
 						</div>
 					</div>	  
 					<div class="btn_area">
-							<a href="javascript:history.back()">목록</a>
+							<a href="javascript:listBack()">목록</a>
 						</div>          
 	        	</div>
 	    	</div>

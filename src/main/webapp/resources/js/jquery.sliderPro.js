@@ -4374,6 +4374,7 @@
 					
 					if ( link.length !== 0 ) {
 						link[0].click();
+						
 					}
 				}
 			});

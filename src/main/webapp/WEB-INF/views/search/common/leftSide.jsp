@@ -33,19 +33,26 @@ $(function(){
 		}
 	})
 	$('.facility li input[type=checkbox]').on('click',function(){
-		var facilityObj = new Object();
-		$('.facility li').each(function(e){
-			
-			if($(this).children('input').prop('checked')){
-				facilityObj[$(this).children('input').attr('name')] = '1';
-			}else{
-				facilityObj[$(this).children('input').attr('name')] = '0';
-			}
-		});	
-		
-		setSearch('1',facilityObj);
+		getFacility();
 	})
 })
+
+
+let setSort = '0';
+function getFacility(){
+	var facilityObj = new Object();
+	$('.facility li').each(function(e){
+		
+		if($(this).children('input').prop('checked')){
+			facilityObj[$(this).children('input').attr('name')] = '1';
+		}else{
+			facilityObj[$(this).children('input').attr('name')] = '0';
+		}
+	});	
+	
+	setSearch('1',facilityObj);
+	
+}
 $(window).on('load',function(){
 	var setAddr1 = '${searchInfo.searchAdd1}';
 	var setAddr2 = '${searchInfo.searchAdd2}';
@@ -95,7 +102,7 @@ function setSearch(page ,facilityObj){
         'searchAdd1' :  getAddCity, 
         'searchAdd2' : getAddGu,
         'scale' :  roomScale,
-        'sort' : '0',
+        'sort' : setSort,
         'page' : page
     }
     var setDate = document.createElement('input');

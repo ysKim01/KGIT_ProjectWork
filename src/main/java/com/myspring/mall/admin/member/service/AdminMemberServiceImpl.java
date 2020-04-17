@@ -1,6 +1,7 @@
 package com.myspring.mall.admin.member.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -202,7 +203,14 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 
 	@Override
 	public MemberVO getMemberById(String userId) {
-		MemberVO member = (MemberVO) adminMemberDAO.selectMemberById(userId).get(0);
+		MemberVO member = null;
+		
+		List<MemberVO> memList = new ArrayList<MemberVO>();
+		memList = adminMemberDAO.selectMemberById(userId);
+		if(memList != null & memList.size() != 0) {
+			member = memList.get(0);
+		}
+		
 		return member;
 	}
 	

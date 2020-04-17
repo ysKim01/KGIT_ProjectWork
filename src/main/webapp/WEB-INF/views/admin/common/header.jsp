@@ -6,6 +6,27 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+<c:if test="${logon == '' || empty logon }">
+<script>
+	
+		console.log('로그인 체크2');
+		document.body.style.display = "none";
+		var isLogOn=document.getElementById("logon").value;
+		
+		if(isLogOn=="false" || isLogOn=='' ){
+			setTimeout(function(){
+				var target = document.getElementById('pageLayer');
+				console.log(target);
+				target.remove();
+				document.body.style.overflow = 'auto';
+			}, 3000);
+			alert('로그인이 필요한 페이지입니다.');
+			window.location.href="/mall/main.do";
+		}
+	
+</script>
+
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>

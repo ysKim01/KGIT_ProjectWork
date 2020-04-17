@@ -10,6 +10,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin 예약관리</title>
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/board/adminBoard.css">
+
+<style>
+
+	#questionClass{min-width:120px;}
+	#searchFilter{min-width:120px;}
+	#searchContent{min-width: 350px;}
+</style>
 <script>
 	var isEmpty = function(value){
 		if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
@@ -77,6 +85,9 @@
 	 * > 설명 : 
 	 ===========================================================================*/
 	function delReserve(keyNum){
+		if(!confirm('정말로 선택하신 예약을 취소하시겠습니까?')){
+			return;
+		}
 		$.ajax({
 			type:"post",
 			async: false,
@@ -362,7 +373,7 @@
 		
 		<div class="content_wrap">
 			<div class="content">
-				<table class="memberContent">
+				<table class="memberContent adminTable">
 					<thead>	
 						<tr>
 							<th>선택</th>
@@ -375,12 +386,15 @@
 							<th>방규모</th>
 							<th>결재금액</th>
 							<th>예약상태</th>
+							<th>결제확인</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<c:choose>
 						<c:when test="${reserveList eq '' || empty reserveList  }">
 							<tr>
-								<th colspan="8" style="padding:30px 0;">현재 등록된 회원 정보가 없습니다.</th>
+								<th colspan="13" style="padding:30px 0;">현재 등록된 회원 정보가 없습니다.</th>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -396,8 +410,8 @@
 									<td>${reserveTable.scale }</td>
 									<td>${reserveTable.reservePrice }</td>
 									<td>${reserveTable.reserveStatus }</td>
-									<td><button type="button" class="" onclick="payment('${reserveTable.keyNum}')" value="결재확인"></button></td>
-									<td><button type="button" class="editBtn" onclick="editReserve('${reserveTable.keyNum}')" value="수정"><i class="icon icon-checkmark"></i></button></td>
+									<td><button type="button" class="checkBtn" onclick="payment('${reserveTable.keyNum}')" value="결재확인"><i class="icon icon-checkmark"></i></button></td>
+									<td><button type="button" class="editBtn" onclick="editReserve('${reserveTable.keyNum}')" value="수정"><i class="icon icon-pencil"></i></button></td>
 									<td><button type="button" class="delBtn" onclick="delReserve('${reserveTable.keyNum}')" value="삭제"><i class="icon icon-cross"></i></button></td>
 								</tr>
 							</c:forEach> 

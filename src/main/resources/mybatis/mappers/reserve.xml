@@ -437,6 +437,11 @@
 		]]>
 	</select>
 	
+	<select id="listReserveByStatus" parameterType="String" resultMap="reserveResult">
+		<![CDATA[
+			select * from Study_Reserve where reserveStatus = #{status}
+		]]>
+	</select>
 </mapper>
 
 

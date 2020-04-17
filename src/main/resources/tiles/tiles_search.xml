@@ -6,11 +6,11 @@
 <tiles-definitions>
 	<definition name="baseLayoutSearchPage" template="/WEB-INF/views/search/common/layout.jsp">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="header" value="/WEB-INF/views/search/common/header.jsp"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
 		<put-attribute name="leftSide" value="/WEB-INF/views/search/common/leftSide.jsp"></put-attribute>
 		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
-		<put-attribute name="footer" value="/WEB-INF/views/search/common/footer.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"></put-attribute>
 	</definition>
 	
 	<definition name="/listSearch" extends="baseLayoutSearchPage">

@@ -14,8 +14,32 @@
    
    <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/member/showQuestionForm.css">
    <style>
-   	.block_wrap{margin:0;}
-   	#reply{ display: none; }
+   	.block_wrap{margin:0 auto;}
+   	#onReply{margin:15px 0;}
+   	#reply{ display: none; margin-top:40px;}
+   	#reply button{margin:15px 0;}
+   	#reply textarea{
+   	    width: 100%;
+    	min-height: 350px;
+	    border: 1px solid #f5f5f5;
+	    box-sizing: border-box;
+	    padding: 10px;
+	    background-color: #fafafa;
+   	}
+   	.questionList li dd,
+   	.questionList li dt{
+	   	position: relative;
+	    /* height: 100%; */
+	    /* width: 100px; */
+	    padding: 8px 15px;
+	    box-sizing: border-box;
+	    /* line-height: 29px; */
+	    float: left;
+   	}
+   	.questionList li dd a{
+   	display: block;
+    line-height: 29px;
+   	}
    </style>
    <script src="http://code.jquery.com/jquery-latest.js"></script>
    <script>
@@ -129,13 +153,13 @@
 	        <fieldset>
 	            <ul class="questionList clear_both">
 	                <li>
-	                    <dl>
+	                    <dl class="clear_both">
 	                    	<dt>제목</dt>
 	                    	<dd><p>${question.questionTitle }</p></dd>
 	                    </dl>
 	                </li>
 	                <li>
-	                    <dl>
+	                    <dl class="clear_both">
 	                    	<dt>문의유형</dt>
 	                    	<dd>
 	                    		<div>
@@ -175,11 +199,11 @@
 	    </c:when>
 	    <c:otherwise>
 	    	<div id="onReply">
-	            <button type="button" onclick="onReply()" value="답변하기" id="onReply" />
+	            <button type="button" onclick="onReply()" value="답변하기" class="btn_type_01" id="onReply" >답변하기</button>
             </div>
             <div id="reply">
-	            <textarea id="replyText" cols="40" rows="10"></textarea>
-				<button type="button" onclick="reply()" value="답변완료" >
+	            <textarea id="replyText" cols="40" rows="10" placeholder="답변하기"></textarea>
+				<button type="button" onclick="reply()" value="답변완료" class="btn_type_01">답변완료</button>
             </div>
 	    </c:otherwise>
 	    </c:choose>

@@ -29,4 +29,5 @@ public interface AdminReserveDAO {
 	ReserveVO selectReserve(Integer keyNum);
 	int updateReserve_ApplyToPayment(Integer keyNum);
 	AdminReserveSearchVO selectReserveSearch(Integer keyNum);
+	List<ReserveVO> listReserveByStatus(String status);
 }

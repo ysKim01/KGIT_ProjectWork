@@ -48,6 +48,18 @@
     
     
     function submitAction(){
+    	  console.log($('#tos_chk').prop('checked'));
+   	  if(!$('#tos_chk').prop('checked')){
+   		  alert("모든 약관에 동의해 주세요.")
+   		  $('#tos_chk').focus();
+   		  return;
+   	  
+   	  }
+   	if(!$('#privacy_chk').prop('checked')){
+ 		  alert("모든 약관에 동의해 주세요.")
+ 		  $('#privacy_chk').focus();
+ 		  return;
+ 	  }
      	var reserveDate = $('.priceInfo .pdt_info').eq(0).text();
      	var reserveInfo = $('.priceInfo .pdt_info').eq(1).text();
  		var priceDate = '${reserve.reservePrice}';
