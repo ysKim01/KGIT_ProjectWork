@@ -157,4 +157,12 @@ public class AdminOneDayServiceImpl implements AdminOneDayService{
 	}
 
 
+	@Override
+	public Integer countOneDay() {
+		Integer cnt = 0;
+		cnt = adminOneDayDAO.countOneDay();
+		return cnt;
+	}
+
+
 }

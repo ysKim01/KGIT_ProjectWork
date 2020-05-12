@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.mall.admin.member.service.AdminMemberService;
 import com.myspring.mall.admin.notice.vo.NoticeVO;
+import com.myspring.mall.admin.oneday.vo.OneDayVO;
 import com.myspring.mall.admin.question.service.AdminQuestionService;
 import com.myspring.mall.admin.reserve.service.AdminReserveService;
 import com.myspring.mall.admin.reserve.vo.AdminReserveSearchVO;
@@ -37,6 +38,7 @@ import com.myspring.mall.favorite.service.FavoriteService;
 import com.myspring.mall.favorite.vo.FavoriteVO;
 import com.myspring.mall.member.vo.MemberVO;
 import com.myspring.mall.notice.service.NoticeService;
+import com.myspring.mall.oneday.service.OneDayService;
 import com.myspring.mall.question.service.QuestionService;
 import com.myspring.mall.question.vo.QuestionVO;
 import com.myspring.mall.reserve.service.ReserveService;
@@ -59,6 +61,8 @@ public class MainController {
 	private FavoriteService favoriteService;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private OneDayService oneDayService;
 	
 	private static ControllData conData = new ControllData();
 
@@ -93,8 +97,21 @@ public class MainController {
 			System.out.println("[warning] noticeNewList를 불러오지 못했습니다.");
 		}
 		
+		// New OneDay
+		List<OneDayVO> oneDayNewList = new ArrayList<OneDayVO>();
+		oneDayNewList = oneDayService.listNew5OneDay();
+		if(oneDayNewList != null) {
+			System.out.println("[New OneDay]");
+			for(OneDayVO oneDay : oneDayNewList) {
+				System.out.println(oneDay.toString());
+			}
+		}else {
+			System.out.println("[warning] oneDayNewList를 불러오지 못했습니다.");
+		}
+		
 		mav.addObject("top5Center", top5Center);
 		mav.addObject("noticeNewList", noticeNewList);
+		mav.addObject("oneDayNewList", oneDayNewList);
 		return mav;
 	}
 	

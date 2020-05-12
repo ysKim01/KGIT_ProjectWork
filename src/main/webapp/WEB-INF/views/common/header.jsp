@@ -102,7 +102,7 @@ function login(){
                     		<li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 	                        <li><a href="${contextPath }/mypage.do">마이페이지</a></li>
                     	</c:if>
-                        <li class="oneDayClass_wrap"><a href="#"><strong>OneDayClass</strong></a></li>
+                        <li class="oneDayClass_wrap"><a href="${contextPath }/oneDay/searchOneDay.do"><strong>OneDayClass</strong></a></li>
                     </ul>
                 </nav>
             </div>

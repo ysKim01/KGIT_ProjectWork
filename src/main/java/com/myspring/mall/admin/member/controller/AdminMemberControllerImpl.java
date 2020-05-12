@@ -39,8 +39,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.myspring.mall.common.ControllData;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
+import com.myspring.mall.admin.center.service.AdminCenterService;
 import com.myspring.mall.admin.member.service.AdminMemberService;
 import com.myspring.mall.admin.member.vo.MemberFilterVO;
+import com.myspring.mall.admin.oneday.service.AdminOneDayService;
 import com.myspring.mall.member.vo.MemberVO;
 
 import net.sf.ezmorph.MorpherRegistry;
@@ -61,6 +63,10 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	private AdminMemberService adminMemberService;
 	@Autowired
 	private MemberVO memberVO;
+	@Autowired
+	private AdminCenterService adminCenterService;
+	@Autowired
+	private AdminOneDayService adminOneDayService;
 	
 	private static ControllData conData = new ControllData();
 	
@@ -69,9 +75,17 @@ public class AdminMemberControllerImpl extends MultiActionController implements 
 	// ===========================================================================
 	@RequestMapping(value= {"", "/main.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String)request.getAttribute("viewName");
-		System.out.println("[info] viewName : " + viewName);
-		ModelAndView mav = new ModelAndView(viewName);
+		ModelAndView mav = new ModelAndView((String)request.getAttribute("viewName"));
+		
+		Integer adminMemCnt = adminMemberService.countAdminMember();
+		Integer normalMemCnt = adminMemberService.countMember() - adminMemCnt;
+		Integer centerCnt = adminCenterService.countCenter();
+		Integer oneDayCnt = adminOneDayService.countOneDay();
+		
+		mav.addObject("adminMemCnt", adminMemCnt);
+		mav.addObject("normalMemCnt", normalMemCnt);
+		mav.addObject("centerCnt", centerCnt);
+		mav.addObject("oneDayCnt", oneDayCnt);
 		return mav;
 	}
 	

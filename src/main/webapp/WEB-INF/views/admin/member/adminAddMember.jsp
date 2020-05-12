@@ -449,7 +449,7 @@
                 </li>
                 <li>
                     <p>
-                        <strong><label for="addAdminChk">관리자 계정</label></strong>
+                        <strong><label for="addAdminChk">관리자 계정(*관리자 계정일 경우 선택)</label></strong>
                         <input type="checkbox" name="adminMode" id="adminMode">
                     </p>
                 </li>

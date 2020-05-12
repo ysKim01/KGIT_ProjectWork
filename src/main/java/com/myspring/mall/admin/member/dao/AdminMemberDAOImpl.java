@@ -114,6 +114,20 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
 		return result;
 	}
 
+	@Override
+	public Integer countAdminMember() {
+		Integer cnt = 0;
+		cnt = sqlSession.selectOne("mapper.member.countAdminMember");
+		return cnt;
+	}
+
+	@Override
+	public Integer countMember() {
+		Integer cnt = 0;
+		cnt = sqlSession.selectOne("mapper.member.countMember");
+		return cnt;
+	}
+
 
 }
 

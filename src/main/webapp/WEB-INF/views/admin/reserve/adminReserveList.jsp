@@ -394,7 +394,7 @@
 					<c:choose>
 						<c:when test="${reserveList eq '' || empty reserveList  }">
 							<tr>
-								<th colspan="13" style="padding:30px 0;">현재 등록된 회원 정보가 없습니다.</th>
+								<th colspan="13" style="padding:30px 0;">현재 등록된 예약 정보가 없습니다.</th>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -420,7 +420,8 @@
 					  
 				</table>
 				<p class="editBtn_wrap">
-					<a href="#" onclick="chkDelReserve()" class="memDel"><strong>삭제</strong></a>
+					<a href="${contextPath }/admin/addReserveForm.do" class="memAdd"><strong>등록</strong></a>
+					<a href="#" onclick="chkDelOneDay()" class="memDel"><strong>삭제</strong></a>
 				</p>
 				<div id="paginate">
 				</div>

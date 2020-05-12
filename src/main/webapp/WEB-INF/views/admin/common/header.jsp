@@ -55,7 +55,7 @@ $(window).on('load',function(){
 	<div id="top">
 		<nav id="top_logo">
 		<a href="${contextPath }/admin" style="display:block;">
-			<img src="${contextPath }/resources/image/Admin_logo.png"></img>
+			<img src="${contextPath }/resources/image/admLogo.png"></img>
 			</a>
 		</nav>
 	</div>

@@ -143,7 +143,7 @@ public class AdminOneDayControllerImpl implements AdminOneDayController{
 	@RequestMapping(value={"/addOneDay.do"}, method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView addOneDay(MultipartHttpServletRequest mtfRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView("/admin/main");
+		ModelAndView mav = new ModelAndView("redirect:/admin/main.do");
 		
 		// OneDay 데이터
 		OneDayVO oneDay = new OneDayVO();

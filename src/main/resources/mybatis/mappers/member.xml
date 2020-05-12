@@ -20,6 +20,18 @@
 		<result property="adminMode" column="adminMode"></result>
 	</resultMap>
 
+
+	<select id="countMember" resultType="Integer">
+		<![CDATA[
+			select count(*) from Study_Member 
+		]]>
+	</select>
+	
+	<select id="countAdminMember" resultType="Integer">
+		<![CDATA[
+			select count(*) from Study_Member where adminMode = 1
+		]]>
+	</select>
 	
 	<select id="selectMemberById" parameterType="String" resultMap="memResult">
 		<![CDATA[

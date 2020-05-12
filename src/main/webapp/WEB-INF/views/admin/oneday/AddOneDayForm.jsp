@@ -185,6 +185,11 @@
         };
        
     </script>
+<style>
+	textarea {
+	resize: none;
+}
+</style>
 </head>
 <body>
     <div class="adminaddMemberWrap">
@@ -203,7 +208,7 @@
                 <li>
                     <p>
                         <strong>강의 내용</strong>
-                        <textarea name="classContent" id="classContent"></textarea>
+                        <textarea cols="60" rows="20" name="classContent" id="classContent"></textarea>
                     </p>
                 </li>
                 <li>
@@ -275,16 +280,18 @@
                 <li>
                     <p>
                         <strong>강의 사진</strong>
-                        <input type="file" class="classPhoto" name="file" id="classPhoto1"/>
-                        <input type="file" class="classPhoto" name="file" id="classPhoto2"/>
-                        <input type="file" class="classPhoto" name="file" id="classPhoto3"/>
-                        <input type="file" class="classPhoto" name="file" id="classPhoto4"/>
-                        <input type="file" class="classPhoto" name="file" id="classPhoto5"/>
+	                        <ul>
+	                      	<li><input type="file" class="classPhoto" name="file" id="classPhoto1"/>
+	                        	<li><input type="file" class="classPhoto" name="file" id="classPhoto2"/>
+	                        	<li><input type="file" class="classPhoto" name="file" id="classPhoto3"/>
+	                        	<li><input type="file" class="classPhoto" name="file" id="classPhoto4"/>
+	                        	<li><input type="file" class="classPhoto" name="file" id="classPhoto5"/>
+	                        </ul>
                     </p>
                 </li>
                 <li>
                     <p>
-                        <input class="btn_type_01" type="button" onclick="submitAction()" value="가입하기">
+                        <input class="btn_type_01" type="button" onclick="submitAction()" value="등록하기">
                         <input class="btn_type_01" type="button" value="취소" onclick="windowClose()">
                     </p>
                 </li>

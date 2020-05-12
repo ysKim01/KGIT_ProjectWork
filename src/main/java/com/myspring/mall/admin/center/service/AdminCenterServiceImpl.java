@@ -173,6 +173,13 @@ public class AdminCenterServiceImpl implements AdminCenterService {
 		
 		return result;
 	}
+
+	@Override
+	public Integer countCenter() {
+		Integer cnt = 0;
+		cnt = centerDAO.countCenter();
+		return cnt;
+	}
 	
 	
 }

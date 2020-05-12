@@ -22,6 +22,13 @@
 		<result property="classPhoto5" column="classPhoto5"/>
 	</resultMap>
 
+
+	<select id="countOneDay" resultType="Integer">
+		<![CDATA[
+			select count(*) from Study_OneDay   
+		]]>
+	</select>
+
 	<select id="getMaxKeyNum" resultType="Integer">
 		<![CDATA[
 			select max(keyNum) from Study_OneDay   
@@ -142,5 +149,30 @@
 			 and classStatus = #{classStatus} 
 			]]>
 		</if>
+	</select>
+	
+	<select id="listNew5OneDay" resultMap="onedayResult">
+		<![CDATA[
+		select  * from (
+		select 
+		ROW_NUMBER() OVER (ORDER BY keyNum desc) as recNum,   
+		keyNum, 
+		classTitle, 
+		lector, 
+		lectorTel, 
+		classContent, 
+		classStatus, 
+		classTime, 
+		classDate, 
+		classWriteDate, 
+		classPhoto1, 
+		classPhoto2, 
+		classPhoto3, 
+		classPhoto4, 
+		classPhoto5 
+		from Study_OneDay 
+		) 
+		where recNum between 1 and 5
+		]]>
 	</select>
 </mapper>

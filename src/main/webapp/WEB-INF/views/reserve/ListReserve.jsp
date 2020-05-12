@@ -175,7 +175,7 @@
 <div class="block_wrap">
     <div class="adminaddMemberWrap">
         <div class="block_title">
-        	<h3>회원 수정</h3>
+        	<h3>예약 현황</h3>
            	 
         </div>
 	    <div class="content_block">

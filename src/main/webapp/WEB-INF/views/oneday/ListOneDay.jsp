@@ -11,9 +11,46 @@
 <meta charset="UTF-8">
 <title>원데이 클래스 목록</title>
 
-<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/ListOnedayClass.css">
+<link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/oneday/ListOnedayClass.css">
+<style>
+   
+   	.block_wrap{margin:0;}
+   	.oneday_list > ul{display:table; width:100%;}
+   	.oneday_list > ul > li{display:table-cell;}
+	
+	.oneday_list .list_list{
+		margin-bottom: 8px;
+	    background-color: #fff;
+	    border-radius: 0;
+	    box-shadow: 2px 2px 3px rgba(22,22,22,0.1);
+	}
+	.oneday_list .list_list.important{
+		background-color:#fafafa;
+	}
+	.important .Impt{
+		display:inline-block;
+		padding:0px 10px; box-sizing:border-box;
+		border:1px solid #FF0040;background-color:#FFEDED;
+		font-style:normal;    line-height: 20px;
+	}
+	.important .Impt span{
+		font-size:11px; font-weight:500; 
+	}  
+	.notFound{background-color:#fff;}
+	.notFound p{font-size:15px; text-align:center;     
+	padding: 25px 0;
+	}
+	
+	.ter img {
+    max-width: 300px;
+    max-height: 200px;
+    min-width: 200px;
+    min-height: 100px;
+	}
+	
+   </style>
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 <script src="${contextPath }/resources/js/loginRequired.js"></script>
 <script>
 	var isEmpty = function(value){
@@ -30,19 +67,31 @@
 		}
 	})
 	
- 	// 검색
+ 	/* ===========================================================================
+	 * 원데이클래스 검색
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : page
+	 * > 출력 : page
+	 * > 이동 페이지 : /notice/searchOneDay.do
+	 * > 설명 : 
+		 	- 검색필터 전달 후 문의 검색창으로
+	 ===========================================================================*/
 	function searchOneDay(paginate){
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Get");  //Get 방식
         form.setAttribute("action", "${contextPath}/oneDay/searchOneDay.do"); //요청 보낼 주소
 		if(paginate == null || paginate == '' || paginate == 'undefined'){
-			paginate = '1';
+			paginate = $('#paginate .pageCover a.select').text();
+			if(isEmpty(paginate)){
+				paginate = '1';
+			}
 		}
         
         // searchInfo
         var searchInfo = new Object();
         searchInfo['searchContent'] = document.getElementById("searchContent").value;
+        searchInfo['classStatus'] = document.getElementById("classStatus").value;
         searchInfo['page'] = paginate;
         
         var hiddenField = document.createElement("input");
@@ -54,6 +103,43 @@
         document.body.appendChild(form);
         form.submit();
 	}
+	
+	/* ===========================================================================
+	 * 원데이클래스 조회
+	 * ---------------------------------------------------------------------------
+	 * > 입력 : keyNum
+	 * > 출력 : - 
+	 * > 이동 페이지 : /notice/showOneday.do 
+	 * > 설명 : 문의 내용 조회
+	 ===========================================================================*/
+	 function showOneDay(keyNum){
+		// form 생성
+		var form = document.createElement("form");
+       form.setAttribute("charset", "UTF-8");
+       form.setAttribute("method", "Post");  //Post 방식
+       form.setAttribute("action", "${contextPath}/oneDay/showOneDay.do"); //요청 보낼 주소
+		
+       // keyNum
+		var key = document.createElement("input");
+		key.setAttribute("type", "hidden");
+		key.setAttribute("name", "keyNum");
+		key.setAttribute("value", keyNum);
+       	form.appendChild(key);
+       
+    	// searchInfo
+       var searchObj = new Object();
+       searchObj['searchContent'] = document.getElementById("searchContent").value;
+       searchObj['classStatus'] = document.getElementById("classStatus").value;
+       searchObj['page'] = $('#paginate .pageCover a.select').text();
+       var searchInfo = document.createElement("input");
+       searchInfo.setAttribute("type", "hidden");
+       searchInfo.setAttribute("name", "searchInfo");
+       searchInfo.setAttribute("value", encodeURI(JSON.stringify(searchObj)));
+       form.appendChild(searchInfo);
+       
+       document.body.appendChild(form);
+       form.submit();
+	 }
 	
     // ==================================== //
 	// ========== pagination ============== //
@@ -163,74 +249,86 @@
 </script>
 </head>
 <body>
-
-<div id="container">
+<div id="mContent_wrap">
+	<section class='content_top'>
+		<div class="img_wrap">
+			<div class="width_wrap">
+				<h2>
+                    <span>OneDay Class</span>
+                </h2>
+            </div>
+		</div>
+	</section>
+<div class="onedayListWrap">
 	<div class="width_wrap">
-		<div class="search_wrap">
-			<form method="post" action="#" id='frmMembersList' onsubmit="return false;">
-				<fieldset>
-					<legend>OneDay Class</legend>
-					<ul class="search_list clear_both">
-						<li>
-							<label for="status">모집상태</label>
-							<span class="input_wrap"><select id="classStatus" name="classStatus"> <!-- select name값 설정 -->
-								<option value="2">전체</option>
-								<option value="0">모집중</option>
-								<option value="1">모집완료</option>
-                  		  	</select></span>
-                  		 </li>
+		<div class="content_block">
+		
+				<div class="oneday_list">
+					<div class="content">
+					<div></div>
+						<c:choose>
+						<c:when test="${oneDayList eq '' || empty oneDayList  }">
+							<tr>
+								<th colspan="8" style="padding:30px 0;">현재 등록된 일일클래스가 없습니다.</th>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<ul class ="clear_both">
+							<c:forEach var="oneDayTable" items="${oneDayList}" varStatus="status">
+								<li class="cen">
+									<div class="ter">
+									<figure>
+										<%-- <img src= '${contextPath}${oneDayTable.classPhoto1}' alt="${oneDayTable.classTitle }"></a> --%>
+										<img src= '${contextPath}${oneDayTable.classPhoto1}' alt="${oneDayTable.classTitle }" onclick="showOneDay('${oneDayTable.keyNum}')">
+									</figure>
+									<div onclick="showOneDay('${oneDayTable.keyNum}')" >
+									<div>
+										<span class="oneday-subject">강의명 : ${oneDayTable.classTitle}</span>
+									</div>
+									<div>
+										<span class="oneday-subject"> 등록일 : ${oneDayTable.classWriteDate}</span>
+									</div>
+									<div>
+										<span class="oneday-subject">개강일 : ${oneDayTable.classDate}</span>
+									</div>
+									<c:choose>
+			                     	<c:when test="${oneDayTable.classStatus == 0}">
+			                     		<div>모집 상태 : 모집중</div>
+			                     	</c:when>
+			                     	<c:otherwise>
+			                     		<div>모집 상태 : 모집완료</div>
+			                     	</c:otherwise>
+				                    </c:choose>
+									</div>
+									</div>
+								</li>
+							</c:forEach>
+							</ul> 
+						</c:otherwise>
+					</c:choose> 
+					<ul class="fliter clear_both">
 						<li>
 							<label for="searchContent">클래스 제목</label>
                             <span class="input_wrap "><input type="text" name="searchContent" id="searchContent" value="${searchInfo.searchContent}"><input type="hidden"></span> <!-- text name값 설정 -->
 						</li>
 						<li>
-                            <span class="search_btn_wrap">
+							<label for="classStatus">모집상태</label>
+							<span class="input_wrap"><select id="classStatus" name="classStatus"> <!-- select name값 설정 -->
+								<option value="2">전체</option>
+								<option value="0">모집중</option>
+								<option value="1">모집마감</option>
+                  		  	</select></span>
+						</li>
+						<li>
                             <strong class="btn_cover"><i class="icon icon-search"></i><input class="search_btn" type="button" value="조회" onclick="searchOneDay()"></strong>
-                            </span>
 						</li>
 					</ul>
-				</fieldset>
-			</form>
-		</div>
-		<!--  search_wrap end -->
-
-			<div class="content_wrap">
-				<div class="content">
-					<table class="onedayContent">
-						<c:choose>
-							<c:when test="${oneDayList eq '' || empty oneDayList  }">
-								<tr>
-									<th colspan="8" style="padding: 30px 0;">현재 등록된 클래스 정보가 없습니다.</th>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach var="oneday" items="${oneDayList }" varStatus="status">
-									<ul>
-										<li>
-											<figure>
-												<a href=""> 
-												<img src= '${contextPath}${oneday.classPhoto1}' alt="${oneday.classTitle }"></a>
-											</figure>
-											<div>
-												<span class="oneday-subject">"${oneday.classTitle}"</span>
-											</div>
-											<div>
-												<span class="oneday-subject"> 등록일 : "${oneday.classWriteDate}"</span>
-											</div>
-											<div>
-												<span class="oneday-subject">개강일 : "${oneday.classDate}"</span>
-											</div>
-										</li>
-									</ul>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</table>
 				<div id="paginate"></div>
+				</div>
+				</div>
+				</div>
 			</div>
-			<!-- content end-->
 		</div>
 	</div>
-</div>
 </body>
 </html>

@@ -23,4 +23,6 @@ public interface AdminOneDayDAO {
 
 	OneDayVO selectOneDay(Integer keyNum);
 
+	Integer countOneDay();
+
 }

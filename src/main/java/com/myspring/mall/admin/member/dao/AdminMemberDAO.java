@@ -24,4 +24,6 @@ public interface AdminMemberDAO {
 	public int countMemberByFilter_Name(Map searchMap);
 	public int countMemberByFilter_Tel(Map searchMap);
 	public int countMemberByFilter_None(Map searchMap);
+	public Integer countAdminMember();
+	public Integer countMember();
 }

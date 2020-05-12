@@ -213,5 +213,19 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		
 		return member;
 	}
+
+	@Override
+	public Integer countAdminMember() {
+		Integer cnt = 0;
+		cnt = adminMemberDAO.countAdminMember();
+		return cnt;
+	}
+
+	@Override
+	public Integer countMember() {
+		Integer cnt = 0;
+		cnt = adminMemberDAO.countMember();
+		return cnt;
+	}
 	
 }

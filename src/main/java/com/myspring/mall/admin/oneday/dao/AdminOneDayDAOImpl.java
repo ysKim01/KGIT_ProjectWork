@@ -83,4 +83,12 @@ public class AdminOneDayDAOImpl implements AdminOneDayDAO{
 		return oneDay;
 	}
 
+
+	@Override
+	public Integer countOneDay() {
+		Integer cnt = 0;
+		cnt = sqlSession.selectOne("mapper.oneday.countOneDay");
+		return cnt;
+	}
+
 }

@@ -28,5 +28,6 @@ public interface AdminCenterDAO {
 	public int insertContents(CenterContentsVO contents) throws DataAccessException;
 	public int insertFacility(CenterFacilityVO facility) throws DataAccessException;
 	public int insertRoom(RoomInfoVO room) throws DataAccessException;
+	Integer countCenter();
 	
 }

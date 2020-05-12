@@ -132,5 +132,12 @@ public class AdminCenterDAOImpl implements AdminCenterDAO {
 		return result;
 	}
 
+	@Override
+	public Integer countCenter() {
+		Integer cnt = 0;
+		cnt = sqlSession.selectOne("mapper.center.countCenter");
+		return cnt;
+	}
+
 
 }

@@ -17,6 +17,30 @@
 
 <style>
 	.sp-slide{overflow:hidden; background-color: #fff;}
+	.ondContent{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    box-sizing: border-box;
+    line-height: 1.2em;
+    height: 1.2em;
+
+	/* webkit 엔진을 사용하지 않는 브라우저를 위한 속성. */
+	/* height = line-height * line = 1.2em * 3 = 3.6em  */
+	}
+	.sp-image-container{
+		max-height:230px;
+	}
+	#mCustom-slider dl{
+		padding:5px;
+	}
+	#mCustom-slider dd {
+    	padding-right: 30px;
+    	font-size:14px;
+    }
 </style>
 
 
@@ -27,6 +51,10 @@
 <script src="${contextPath }/resources/js/jquery.sliderPro.js"></script>
 <script>
         $(function(){
+        	
+        	
+        	
+        	
             var week = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
             var getDate = new Date();
             var getYear = getDate.getFullYear();
@@ -91,10 +119,57 @@
             
             
             $('#mSearchBtn').on('click',function(){
+            	$(function(){
+            		var _isLogOn=document.getElementById("logon");
+            		var isLogOn=_isLogOn.value;
+            		var pageCover = document.createElement('div');
+            		pageCover.setAttribute('id','pageCover');
+            		pageCover.style.position ='absolute';
+            		pageCover.style.width = '100%';
+            		pageCover.style.height = '100%';
+            		pageCover.style.background = '#fff';
+            		pageCover.style.top = 0;
+            		pageCover.style.left = 0;
+            		pageCover.style.zIndex = 99999999999;
+            		if(isLogOn=="false" || isLogOn=='' ){
+            			document.body.appendChild(pageCover);
+            			document.body.style.overflow = 'hidden';
+            			window.location.href="/mall/main.do"
+            			alert('로그인이 필요한 페이지입니다.');
+            			
+            			
+            			setTimeout(function(){
+            				var target = document.getElementById('pageCover');
+            				console.log(target);
+            				target.remove();
+            				document.style.overflow = 'auto';
+            			}, 3000);
+            			
+            			return;
+            		}
                 setSearch();
+            		
+            	})
+            	
+            	
+            	function clearCover(){
+            		
+            	}
             })
             
-            
+            /* $('.sp-slide').each(function(){
+        		var div = $(this).children('.sp-image-container');
+        		var img = $(this).children('.sp-image-container').children('.sp-image');
+        		var divAspect = div.css('height');
+        		var imgAspect = img.css('height');
+        		console.log(parseInt(imgAspect));
+        		if(parseInt(divAspect)*2 < parseInt(imgAspect)){
+        			
+        			console.log(parseInt(imgAspect)/2);
+        			img.css({marginTop:-parseInt(imgAspect)/4});
+        			
+        		}
+        	}) */
         })
 		
         function viewNotice(keyNum){
@@ -316,24 +391,27 @@
                 <div class="mOnClass_slider" id="mCustom-slider">
                     <div class="sp-slides">
                         <!-- Slide 1 -->
-                        <div class="sp-slide">
+                        <c:forEach var="oneDayTable" items="${oneDayNewList }">
+                        	<div class="sp-slide" data-keyNum="${oneDayTable.keyNum}"
+                        	onclick="location.href='${contextPath}/oneDay/showOneDay.do?keyNum=${oneDayTable.keyNum}';">
                             <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
+                                <figure><img class="sp-image" src="${contextPath }${oneDayTable.classPhoto1}" alt="${oneDayTable.classTitle }" /></figure>
                                 <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
+                                    <div>
+                                        <strong class="txt_title">${oneDayTable.classTitle}</strong>
                                         <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
+                                        	<dt>내용 : </dt>
+                                        	<dd>
+                                        	<p class="ondContent">${oneDayTable.classContent}</p>
+                                        	</dd>
                                         </dl>
+                                        
                                         <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
+                                            <dt>개강일 : </dt>
+                                            <dd>${oneDayTable.classDate}</dd>
                                         </dl>
-                                    </p>
+                                        
+                                    </div>
                                 </div>
                                 <a class="more_btn">
                                     <span class="">
@@ -346,149 +424,11 @@
                             
 
                         </div>
-                        
-                        <!-- Slide 2 -->
-                        <div class="sp-slide">
-                            <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
-                                        <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
-                                        </dl>
-                                    </p>
-                                </div>
-                                <a class="more_btn">
-                                    <span class="">
-                                        More
-                                    </span>
-                                </a>
-                                
-                            </div>
-                        </div>
-                        
-                        <!-- Slide 3 -->
-                        <div class="sp-slide">
-                            <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
-                                        <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
-                                        </dl>
-                                    </p>
-                                </div>
-                                <a class="more_btn">
-                                    <span class="">
-                                        More
-                                    </span>
-                                </a>
-                                
-                            </div>
-                        </div>
-                        <div class="sp-slide">
-                            <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
-                                        <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
-                                        </dl>
-                                    </p>
-                                </div>
-                                <a class="more_btn">
-                                    <span class="">
-                                        More
-                                    </span>
-                                </a>
-                                
-                            </div>
-                        </div>
-                        <div class="sp-slide">
-                            <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
-                                        <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
-                                        </dl>
-                                    </p>
-                                </div>
-                                <a class="more_btn">
-                                    <span class="">
-                                        More
-                                    </span>
-                                </a>
-                                
-                            </div>
-                        </div>
-                        <div class="sp-slide">
-                            <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
-                                <div class="txt_wrap">
-                                    <p>
-                                        <strong class="txt_title">반응형 자바 웹 개발자</strong>
-                                        <dl>
-                                            <dt>모집 기간 : </dt>
-                                            <dd>2020년 03월 20일 ~ 2020년 04월 13일</dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>정원 : </dt>
-                                            <dd>
-                                                <span class="block">최소 인원 : 10명</span>
-                                                <span class="block">최대 인원 : 20명</span>
-                                            </dd>
-                                        </dl>
-                                    </p>
-                                </div>
-                                <a class="more_btn">
-                                    <span class="">
-                                        More
-                                    </span>
-                                </a>
-                                
-                            </div>
-                        </div>
+                        </c:forEach>
 
-                        <div class="sp-slide slide_add_more">
+                        <div class="sp-slide slide_add_more" onclick="location.href='${contextPath}/oneDay/listOneDay.do';">
                             <div class="slider_cover">
-                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg"/></figure>
+                                <figure><img class="sp-image" src="${contextPath }/resources/image/onedayclass_01.jpg" alt="${oneDayTable.classTitle }"/></figure>
                                 <div class="txt_wrap">
                                     <p>
                                         <strong class="txt_title">반응형 자바 웹 개발자</strong>

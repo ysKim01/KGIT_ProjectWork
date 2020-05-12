@@ -23,4 +23,6 @@ public interface AdminOneDayService {
 
 	OneDayVO selectOneDay(Integer keyNum);
 
+	Integer countOneDay();
+
 }

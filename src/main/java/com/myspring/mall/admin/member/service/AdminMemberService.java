@@ -19,4 +19,6 @@ public interface AdminMemberService {
 	public int delMembersList(MemberVO member);
 	public int getMaxPageByBiltered(MemberFilterVO searchInfo);
 	public MemberVO getMemberById(String userId);
+	public Integer countAdminMember();
+	public Integer countMember();
 }

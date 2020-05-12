@@ -77,6 +77,13 @@
 		<result property="whiteBoard" column="whiteBoard" />
 	</resultMap>
 
+
+	<select id="countCenter" resultType="Integer">
+		<![CDATA[
+			select count(*) from STUDY_CENTERINFO 
+		]]>
+	</select>
+
 	<delete id="delCenterByCode" parameterType="String">
 		<![CDATA[
 		delete from STUDY_CENTERINFO where centerCode = #{centerCode}
